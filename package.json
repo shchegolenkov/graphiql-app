@@ -42,5 +42,14 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
     "vitest": "^1.0.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,css,md}": ["eslint --fix", "prettier --write"]
   }
 }
