@@ -46,7 +46,7 @@
     "vitest": "^1.0.4"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,css,md}": [
+    "*.{js,jsx,ts,tsx,json,css}": [
       "npm run prettier-fix",
       "npm run lint-fix",
       "git add"

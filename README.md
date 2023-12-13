@@ -28,31 +28,36 @@
 
 ## React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project was initialized using Vite with the [react-ts template](https://stackblitz.com/edit/vitejs-vite-sr7j1i?file=index.html&terminal=dev).
 
-Currently, two official plugins are available:
+Development Productivity Tools: **TypeScript**, **ESLint**, **Prettier**, **Husky**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technology Stack:
 
-## Expanding the ESLint configuration
+**React** : A JavaScript library for building user interfaces
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**React Router DOM** : A routing library for React applications that enables navigation and URL handling.
 
-- Configure the top-level `parserOptions` property like this:
+**Redux Toolkit** : The official, opinionated toolkit for Redux state management.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+**Vitest** : A testing library for JavaScript and TypeScript applications.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+**SCSS (Sass)** : SCSS, or Sassy CSS, is a popular extension of CSS
+
+## Available Scripts
+
+`npm run dev` : Start the project in development mode using Vite.
+
+`npm run build` : Build the project using TypeScript (TSC) and Vite.
+
+`npm run test` : Run tests using Vitest and generate a code coverage report (c8).
+
+`npm run lint` : Perform linting on the project using ESLint.
+
+`npm run lint-fix` : Automatically fix detected linting issues.
+
+`npm run preview` : Launch a preview of the project using Vite.
+
+`npm run prettier-fix` : Apply Prettier to format code in the project.
+
+`npm run prepare` : Install Git hooks using Husky to automatically run linting before commit.
