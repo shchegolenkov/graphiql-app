@@ -7,9 +7,9 @@ import { Welcome } from '../pages/Welcome';
 import { NotFound } from '../pages/404';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
+import { RouteLinks } from '../utils/types';
 
 import './App.scss';
-import { RouteLinks } from '../utils/types';
 
 function App() {
   return (
