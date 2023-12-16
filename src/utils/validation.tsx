@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import * as yup from 'yup';
 
 const RULES = {
@@ -10,12 +11,12 @@ const RULES = {
 
 const MESSAGES = {
   required: 'Required field!',
-  email: 'Incorrect email! (e.g. example@yahoo.com)',
-  password_uppercase: 'Must contain at least one uppercase letter!',
-  password_lowercase: 'Must contain at least one lowercase letter!',
-  password_digit: 'Must contain at least one digit!',
-  password_specials: 'Must contain at least 1 special character!',
-  password_length: 'Must be at least 8 characters long!',
+  email: 'Incorrect email format!',
+  password_uppercase: 'Add uppercase letters',
+  password_lowercase: 'Add lowercase letters',
+  password_digit: 'Please, add digits',
+  password_specials: 'Add special characters',
+  password_length: 'Password is too short!',
 };
 
 export const schema = yup.object().shape({
@@ -43,7 +44,7 @@ export const schema = yup.object().shape({
   confirmPassword: yup
     .string()
     .required('Retype your password!')
-    .oneOf([yup.ref('password')], 'Your passwords do not match.'),
+    .oneOf([yup.ref('password')], 'Passwords do not match.'),
 });
 
 export type SchemaType = yup.InferType<typeof schema>;
