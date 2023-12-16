@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { RouteLinks } from '../../utils/types';
@@ -35,10 +35,10 @@ export const SignUp = () => {
           autoComplete="current-password"
         />
         <Button type="submit" className={styles.button} variant="contained">
-          Sign up
+          <Typography>Sign up</Typography>
         </Button>
       </form>
-      <p>Already have an account?</p>
+      <Typography>Already have an account?</Typography>
       <Link to={RouteLinks.SignIn}>Log in</Link>
     </div>
   );

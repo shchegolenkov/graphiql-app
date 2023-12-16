@@ -32,3 +32,28 @@
   height: 60px;
   font-size: 42px;
 }
+
+@media (max-width: 680px) {
+  .wrapper {
+    width: 100%;
+    margin: 0;
+
+    h2 {
+      font-size: 32px;
+    }
+  }
+
+  .formWrapper {
+    gap: 10px;
+  }
+
+  .input {
+    width: 80%;
+  }
+
+  .button {
+    width: 120px;
+    height: 40px;
+    font-size: 14px;
+  }
+}
