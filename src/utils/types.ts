@@ -5,3 +5,9 @@ export enum RouteLinks {
   Main = '/main',
   NotFound = '/*',
 }
+
+export interface IFormData {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
