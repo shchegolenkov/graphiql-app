@@ -1,34 +1,53 @@
 import { Button, TextField, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { schema } from '../../utils/validation';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-import { RouteLinks } from '../../utils/types';
+import { IFormData, RouteLinks } from '../../utils/types';
 
 import styles from './SignUp.module.scss';
 
 export const SignUp = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema), mode: 'all' });
+
+  const onSubmitHandler = (formData: IFormData) => {
+    console.log(formData);
+  };
+
   return (
     <div className={styles.wrapper}>
       <h2>Sign Up</h2>
-      <form className={styles.formWrapper}>
+      <form
+        onSubmit={handleSubmit(onSubmitHandler)}
+        className={styles.formWrapper}
+      >
         <TextField
-          // error
-          helperText=" "
+          error={!!errors.email}
+          {...register('email')}
+          helperText={errors.email?.message || ' '}
           className={styles.input}
           label="Email"
           type="email"
           autoComplete="current-password"
         />
         <TextField
-          // error
-          helperText=" "
+          error={!!errors.password}
+          {...register('password')}
+          helperText={errors.password?.message || ' '}
           className={styles.input}
           label="Password"
           type="password"
           autoComplete="current-password"
         />
         <TextField
-          // error
-          helperText=" "
+          error={!!errors.confirmPassword}
+          {...register('confirmPassword')}
+          helperText={errors.confirmPassword?.message || ' '}
           className={styles.input}
           label="Confirm Password"
           type="password"
