@@ -1,3 +1,7 @@
 export const Welcome = () => {
-  return <h1>Welcome</h1>;
+  return (
+    <main>
+      <h1>Welcome</h1>
+    </main>
+  );
 };
