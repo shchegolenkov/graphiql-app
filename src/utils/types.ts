@@ -8,6 +8,6 @@ export enum RouteLinks {
 
 export interface IFormData {
   email: string;
-  password: string;
-  confirmPassword: string;
+  password?: string;
+  confirmPassword?: string;
 }

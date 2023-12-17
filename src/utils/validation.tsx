@@ -19,7 +19,7 @@ const MESSAGES = {
   password_length: 'Password is too short!',
 };
 
-export const schema = yup.object().shape({
+export const signupSchema = yup.object().shape({
   email: yup
     .string()
     .required(MESSAGES.required)
@@ -47,4 +47,14 @@ export const schema = yup.object().shape({
     .oneOf([yup.ref('password')], 'Passwords do not match.'),
 });
 
-export type SchemaType = yup.InferType<typeof schema>;
+export const signinSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required(MESSAGES.required)
+    .email(MESSAGES.email)
+    .matches(RULES.email, MESSAGES.email),
+  password: yup.string(),
+});
+
+export type signupSchemaType = yup.InferType<typeof signupSchema>;
+export type signinSchemaType = yup.InferType<typeof signinSchema>;
