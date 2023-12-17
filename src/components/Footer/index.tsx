@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 import s from './Footer.module.scss';
 import Logo from '../../assets/svg/rsLogo.svg?react';
+import EgorAvatar from '../../assets/images/egorAvatar.jpg';
+import DenisAvatar from '../../assets/images/denisAvatar.jpg';
+import PavelAvatar from '../../assets/images/pavelAvatar.jpg';
 
 export const Footer = () => {
   return (
@@ -16,11 +19,7 @@ export const Footer = () => {
               target="_blank"
               className={s.link}
             >
-              <img
-                src="src/assets/images/egorAvatar.jpg"
-                alt="Egor's Github"
-                className={s.img}
-              />
+              <img src={EgorAvatar} alt="Egor's Github" className={s.img} />
             </Link>
           </div>
         </li>
@@ -31,11 +30,7 @@ export const Footer = () => {
               target="_blank"
               className={s.link}
             >
-              <img
-                src="src/assets/images/denisAvatar.jpg"
-                alt="Denis' Github"
-                className={s.img}
-              />
+              <img src={DenisAvatar} alt="Denis' Github" className={s.img} />
             </Link>
           </div>
         </li>
@@ -46,11 +41,7 @@ export const Footer = () => {
               target="_blank"
               className={s.link}
             >
-              <img
-                src="src/assets/images/pavelAvatar.jpg"
-                alt="Pavel's Github"
-                className={s.img}
-              />
+              <img src={PavelAvatar} alt="Pavel's Github" className={s.img} />
             </Link>
           </div>
         </li>
