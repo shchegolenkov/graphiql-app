@@ -1,8 +1,9 @@
 import { Button, TextField, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { signinSchema } from '../../utils/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
+
+import { signinSchema } from '../../utils/validation';
 
 import { IFormData, RouteLinks } from '../../utils/types';
 
@@ -49,7 +50,7 @@ export const SignIn = () => {
         </Button>
       </form>
       <Typography>Don&apos;t have an account?</Typography>
-      <Link to={RouteLinks.SignUp}>Sign up</Link>
+      <Link to={RouteLinks.SignUp}>Sign in</Link>
     </div>
   );
 };

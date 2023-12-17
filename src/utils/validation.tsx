@@ -53,7 +53,7 @@ export const signinSchema = yup.object().shape({
     .required(MESSAGES.required)
     .email(MESSAGES.email)
     .matches(RULES.email, MESSAGES.email),
-  password: yup.string(),
+  password: yup.string().required(MESSAGES.required),
 });
 
 export type signupSchemaType = yup.InferType<typeof signupSchema>;
