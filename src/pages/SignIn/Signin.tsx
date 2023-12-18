@@ -46,11 +46,11 @@ export const SignIn = () => {
           autoComplete="current-password"
         />
         <Button type="submit" className={styles.button} variant="contained">
-          <Typography>Sign up</Typography>
+          <Typography>Sign in</Typography>
         </Button>
       </form>
       <Typography>Don&apos;t have an account?</Typography>
-      <Link to={RouteLinks.SignUp}>Sign in</Link>
+      <Link to={RouteLinks.SignUp}>Sign up</Link>
     </div>
   );
 };
