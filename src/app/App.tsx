@@ -4,8 +4,6 @@ import { Header } from '../components/Header';
 import { RouteLinks } from '../utils/types';
 import { Welcome, SignIn, SignUp, Main, NotFound } from '../pages';
 
-import './App.scss';
-
 function App() {
   return (
     <>

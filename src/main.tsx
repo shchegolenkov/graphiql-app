@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { themeOptions } from './utils/theme';
 
-import './index.scss';
+import './styles/index.scss';
 import App from './app/App';
 
 const theme = createTheme(themeOptions);
