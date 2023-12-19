@@ -1,7 +1,7 @@
 import { Button, TextField, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { schema } from '../../utils/validation';
+import { signupSchema } from '../../utils/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { IFormData, RouteLinks } from '../../utils/types';
@@ -13,7 +13,7 @@ export const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema), mode: 'all' });
+  } = useForm({ resolver: yupResolver(signupSchema), mode: 'all' });
 
   const onSubmitHandler = (formData: IFormData) => {
     console.log(formData);
@@ -33,7 +33,7 @@ export const SignUp = () => {
           className={styles.input}
           label="Email"
           type="email"
-          autoComplete="current-password"
+          autoComplete="email"
         />
         <TextField
           error={!!errors.password}
@@ -42,7 +42,7 @@ export const SignUp = () => {
           className={styles.input}
           label="Password"
           type="password"
-          autoComplete="current-password"
+          autoComplete="new-password"
         />
         <TextField
           error={!!errors.confirmPassword}
@@ -51,7 +51,7 @@ export const SignUp = () => {
           className={styles.input}
           label="Confirm Password"
           type="password"
-          autoComplete="current-password"
+          autoComplete="new-password"
         />
         <Button type="submit" className={styles.button} variant="contained">
           <Typography>Sign up</Typography>
