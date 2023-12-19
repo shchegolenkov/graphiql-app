@@ -21,36 +21,38 @@ export const SignIn = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <h2>Sign In</h2>
-      <form
-        onSubmit={handleSubmit(onSubmitHandler)}
-        className={styles.formWrapper}
-      >
-        <TextField
-          error={!!errors.email}
-          {...register('email')}
-          helperText={errors.email?.message || ' '}
-          className={styles.input}
-          label="Email"
-          type="email"
-          autoComplete="email"
-        />
-        <TextField
-          error={!!errors.password}
-          {...register('password')}
-          helperText={errors.password?.message || ' '}
-          className={styles.input}
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-        />
-        <Button type="submit" className={styles.button} variant="contained">
-          <Typography>Sign in</Typography>
-        </Button>
-      </form>
-      <Typography>Don&apos;t have an account?</Typography>
-      <Link to={RouteLinks.SignUp}>Sign up</Link>
-    </div>
+    <main>
+      <div className={styles.wrapper}>
+        <h2>Sign In</h2>
+        <form
+          onSubmit={handleSubmit(onSubmitHandler)}
+          className={styles.formWrapper}
+        >
+          <TextField
+            error={!!errors.email}
+            {...register('email')}
+            helperText={errors.email?.message || ' '}
+            className={styles.input}
+            label="Email"
+            type="email"
+            autoComplete="email"
+          />
+          <TextField
+            error={!!errors.password}
+            {...register('password')}
+            helperText={errors.password?.message || ' '}
+            className={styles.input}
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+          />
+          <Button type="submit" className={styles.button} variant="contained">
+            <Typography>Sign in</Typography>
+          </Button>
+        </form>
+        <Typography>Don&apos;t have an account?</Typography>
+        <Link to={RouteLinks.SignUp}>Sign up</Link>
+      </div>
+    </main>
   );
 };
