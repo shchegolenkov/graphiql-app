@@ -6,57 +6,37 @@ import PavelAvatar from '../../assets/images/pavelAvatar.jpg';
 import styles from './Footer.module.scss';
 
 export const Footer = () => {
+  const team = [
+    { name: 'Egor', github: 'https://github.com/ygrcore', image: EgorAvatar },
+    {
+      name: 'Denis',
+      github: 'https://github.com/shchegolenkov',
+      image: DenisAvatar,
+    },
+    {
+      name: 'Pavel',
+      github: 'https://github.com/Svygzhryr',
+      image: PavelAvatar,
+    },
+  ];
+
   return (
     <footer className={styles.footer}>
       <ul className={styles.linksList}>
         <li>
           <h2>2023</h2>
         </li>
-        <li>
-          <div className={styles.imageBlock}>
-            <Link
-              to="https://github.com/ygrcore"
-              target="_blank"
-              className={styles.link}
-            >
+        {team.map((member) => (
+          <li key={member.name} className={styles.imageBlock}>
+            <Link to={member.github} target="_blank" className={styles.link}>
               <img
-                src={EgorAvatar}
-                alt="Egor's Github"
+                src={member.image}
+                alt={member.name}
                 className={styles.img}
               />
             </Link>
-          </div>
-        </li>
-        <li>
-          <div className={styles.imageBlock}>
-            <Link
-              to="https://github.com/shchegolenkov"
-              target="_blank"
-              className={styles.link}
-            >
-              <img
-                src={DenisAvatar}
-                alt="Denis' Github"
-                className={styles.img}
-              />
-            </Link>
-          </div>
-        </li>
-        <li>
-          <div className={styles.imageBlock}>
-            <Link
-              to="https://github.com/Svygzhryr"
-              target="_blank"
-              className={styles.link}
-            >
-              <img
-                src={PavelAvatar}
-                alt="Pavel's Github"
-                className={styles.img}
-              />
-            </Link>
-          </div>
-        </li>
+          </li>
+        ))}
         <li>
           <Link to="https://rs.school/react" target="_blank">
             <Logo className={styles.logo} />
