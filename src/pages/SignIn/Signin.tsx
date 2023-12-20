@@ -7,6 +7,8 @@ import { signinSchema } from '../../utils/validation';
 
 import { IFormData, RouteLinks } from '../../utils/types';
 
+import { logInWithEmailAndPassword } from '../../firebase';
+
 import styles from './SignIn.module.scss';
 
 export const SignIn = () => {
@@ -17,7 +19,8 @@ export const SignIn = () => {
   } = useForm({ resolver: yupResolver(signinSchema), mode: 'all' });
 
   const onSubmitHandler = (formData: IFormData) => {
-    console.log(formData);
+    const { email, password } = formData;
+    logInWithEmailAndPassword(email, password);
   };
 
   return (
