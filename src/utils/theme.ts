@@ -2,6 +2,13 @@ import { ThemeOptions } from '@mui/material';
 
 export const themeOptions: ThemeOptions = {
   components: {
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          minWidth: 0,
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -9,6 +16,7 @@ export const themeOptions: ThemeOptions = {
           color: '#f9c9d2',
           fontWeight: '400',
           fontSize: '24px',
+          fontFamily: "'Ubuntu', sans-serif",
           borderRadius: '10px',
           boxShadow: 'none',
 

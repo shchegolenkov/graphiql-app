@@ -54,7 +54,7 @@ export const SignUp = () => {
           autoComplete="new-password"
         />
         <Button type="submit" className={styles.button} variant="contained">
-          <Typography>Sign up</Typography>
+          Sign up
         </Button>
       </form>
       <Typography>Already have an account?</Typography>

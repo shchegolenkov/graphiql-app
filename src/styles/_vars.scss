@@ -3,7 +3,7 @@ $color-bg-editor: #261818;
 $color-bg-secondary: #3c2222;
 $color-disabled: #331f23;
 $color-text-disabled: #ab9090;
-$color-lines: #7A6161;
+$color-lines: #7a6161;
 
 $color-endpoint-bg: #440914;
 $color-element-bg: #6d0f20;
@@ -24,10 +24,6 @@ $color-bg-gradient: linear-gradient(
   rgba(60, 34, 34, 0.5) 100%
 );
 
-$color-bg-gradient-alt: linear-gradient(
-  100deg,
-  #6D0F3C,
-  #D01C3C,
-);
+$color-bg-gradient-alt: linear-gradient(100deg, #6d0f3c, #d01c3c);
 
-$transition: all .2s cubic-bezier(0.215, 0.610, 0.355, 1);
+$transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
