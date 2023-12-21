@@ -11,6 +11,11 @@ export const themeOptions: ThemeOptions = {
           fontSize: '24px',
           borderRadius: '10px',
           boxShadow: 'none',
+
+          '&.Mui-disabled': {
+            color: '#ab9090',
+            background: '#331f23',
+          },
         },
       },
     },

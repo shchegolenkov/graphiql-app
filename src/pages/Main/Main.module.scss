@@ -1,0 +1,180 @@
+.wrapper {
+
+}
+
+.editorWrapper {
+  width: 100dvw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.inputWrapper {
+  display: flex;
+  grid-area: inputWrapper;
+  width: 100%;
+}
+
+.editor {
+
+  * {
+    font-family: 'Source Code Pro', monospace;
+  }
+
+  .lines {
+    width: 50px;
+    padding: 10px;
+
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1;
+    text-align: right;
+
+    border-right: 2px solid $color-lines;
+    background-color: $color-bg-editor;
+
+    p {
+    color: $color-lines;
+    }
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #3c2222 #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #3c2222;
+    border-radius: 10px;
+    border: 0px solid #ffffff;
+  }
+}
+
+textarea {
+  padding: 10px;
+
+  font-size: 20px;
+  line-height: 1;
+  color: $color-text-editor;
+
+  background-color: $color-bg-editor;
+  resize: none;
+  outline: none;
+  border: none;
+  overflow: auto;
+
+}
+
+.editorControls {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  button {
+    padding: 0;
+    height: 50px;
+
+    font-size: 18px;
+
+    background-color: $color-element-bg;
+  }
+
+  .endpoint {
+    width: 150px;
+    height: 50px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+
+    overflow: auto;    
+    font-size: 18px;
+    text-overflow: clip;
+    
+    border-radius: 10px;
+    background-color: $color-endpoint-bg;
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: $color-element-active;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: $color-element-bg;
+    border-radius: 10px;
+  }
+
+  .prettify {
+    width: 100px;
+  }
+}
+
+.editorUtils {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  textarea {
+    width: 200px;
+  }
+}
+
+.run {
+  height: 80px;
+  width: 80px;
+  background: $color-bg-gradient-alt;
+
+  img {
+    width: 40px;
+    height: 40px;
+    transition: $transition;
+  }
+
+  &:hover {
+
+    img {
+      filter: contrast(200%);
+      transform: scale(1.12);
+    }
+  }
+}
+
+.inputViewer {
+  background: $color-bg-gradient;   
+}
+
+@keyframes endpoint {
+  from {
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  to {
+    -moz-transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+}

@@ -3,6 +3,7 @@ $color-bg-editor: #261818;
 $color-bg-secondary: #3c2222;
 $color-disabled: #331f23;
 $color-text-disabled: #ab9090;
+$color-lines: #7A6161;
 
 $color-endpoint-bg: #440914;
 $color-element-bg: #6d0f20;
@@ -22,3 +23,11 @@ $color-bg-gradient: linear-gradient(
   rgba(109, 15, 32, 0.5) 0%,
   rgba(60, 34, 34, 0.5) 100%
 );
+
+$color-bg-gradient-alt: linear-gradient(
+  100deg,
+  #6D0F3C,
+  #D01C3C,
+);
+
+$transition: all .2s cubic-bezier(0.215, 0.610, 0.355, 1);
