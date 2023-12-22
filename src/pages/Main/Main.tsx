@@ -1,12 +1,26 @@
+import { useState } from 'react';
+
 import { Button } from '@mui/material';
 
 import run from '../../assets/svg/run.svg';
 import docs from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
+import fold from '../../assets/svg/fold.svg';
 
 import styles from './Main.module.scss';
 
 export const Main = () => {
+  const [isHeadersActive, setIsHeadersActive] = useState(false);
+  const [isVariablesActive, setIsVariablesActive] = useState(false);
+
+  const handleHeadersClick = () => {
+    setIsHeadersActive(!isHeadersActive);
+  };
+
+  const handleVariablesClick = () => {
+    setIsVariablesActive(!isVariablesActive);
+  };
+
   return (
     <main>
       <div className={styles.wrapper}>
@@ -28,25 +42,50 @@ export const Main = () => {
               />
             </div>
 
-            <div className={styles.editorControls}>
-              <div className={styles.endpoint}>someendpoint.here</div>
-              <Button variant="contained" className={styles.endpointChange}>
-                <img src={edit} alt="" />
-              </Button>
-              <Button disabled variant="contained" className={styles.docs}>
-                <img src={docs} alt="" />
-              </Button>
-              <Button variant="contained" className={styles.prettify}>
-                Prettify!
-              </Button>
-            </div>
-
-            <div className={styles.editorUtils}>
-              <div className={styles.headers}>
-                <textarea name="" id="" cols={30} rows={10}></textarea>
+            <div className={styles.utilitiesWrapper}>
+              <div className={styles.headersWrapper}>
+                <div className={styles.endpointWrapper}>
+                  <div className={styles.endpoint}>someendpoint.here</div>
+                  <Button variant="contained" className={styles.endpointChange}>
+                    <img src={edit} alt="" />
+                  </Button>
+                </div>
+                <div
+                  className={`${styles.headers} ${
+                    isHeadersActive ? styles.folded : null
+                  }`}
+                >
+                  <button onClick={handleHeadersClick} className={styles.fold}>
+                    Headers&nbsp;
+                    <img src={fold} alt="" />
+                  </button>
+                  <textarea name="" id="" cols={30} rows={10} />
+                </div>
               </div>
-              <div className={styles.variables}>
-                <textarea name="" id="" cols={30} rows={10}></textarea>
+
+              <div className={styles.variablesWrapper}>
+                <div className={styles.otherUtilsWrapper}>
+                  <Button disabled variant="contained" className={styles.docs}>
+                    <img src={docs} alt="" />
+                  </Button>
+                  <Button variant="contained" className={styles.prettify}>
+                    Prettify!
+                  </Button>
+                </div>
+                <div
+                  className={`${styles.variables} ${
+                    isVariablesActive ? styles.folded : null
+                  }`}
+                >
+                  <button
+                    onClick={handleVariablesClick}
+                    className={styles.fold}
+                  >
+                    Variables&nbsp;
+                    <img src={fold} alt="" />
+                  </button>
+                  <textarea name="" id="" cols={30} rows={10} />
+                </div>
               </div>
             </div>
           </div>
@@ -63,7 +102,7 @@ export const Main = () => {
               cols={30}
               rows={10}
               disabled
-            ></textarea>
+            />
           </div>
         </div>
       </div>
