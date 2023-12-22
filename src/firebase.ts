@@ -7,13 +7,22 @@ import {
 } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
+const {
+  VITE_API_KEY,
+  VITE_AUTH_DOMAIN,
+  VITE_PROJECT_ID,
+  VITE_STORAGE_BUCKET,
+  VITE_MESSAGING_SENDER_ID,
+  VITE_APP_ID,
+} = import.meta.env;
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyB3ejl3Cm9ylzT59aajg7Qpdt6d8eW3r8U',
-  authDomain: 'planb-graphiql.firebaseapp.com',
-  projectId: 'planb-graphiql',
-  storageBucket: 'planb-graphiql.appspot.com',
-  messagingSenderId: '1051406424238',
-  appId: '1:1051406424238:web:336b2c3e91844eb517b53f',
+  apiKey: VITE_API_KEY,
+  authDomain: VITE_AUTH_DOMAIN,
+  projectId: VITE_PROJECT_ID,
+  storageBucket: VITE_STORAGE_BUCKET,
+  messagingSenderId: VITE_MESSAGING_SENDER_ID,
+  appId: VITE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
