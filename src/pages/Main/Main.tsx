@@ -59,7 +59,13 @@ export const Main = () => {
                     Headers&nbsp;
                     <img src={fold} alt="" />
                   </button>
-                  <textarea name="" id="" cols={30} rows={10} />
+                  <textarea
+                    disabled={isHeadersActive}
+                    name=""
+                    id=""
+                    cols={30}
+                    rows={10}
+                  />
                 </div>
               </div>
 
@@ -84,7 +90,13 @@ export const Main = () => {
                     Variables&nbsp;
                     <img src={fold} alt="" />
                   </button>
-                  <textarea name="" id="" cols={30} rows={10} />
+                  <textarea
+                    disabled={isVariablesActive}
+                    name=""
+                    id=""
+                    cols={30}
+                    rows={10}
+                  />
                 </div>
               </div>
             </div>
