@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { signupSchema } from '../../utils/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { registerWithEmailAndPassword } from '../../firebase';
+
 import { IFormData, RouteLinks } from '../../utils/types';
 
 import styles from './SignUp.module.scss';
@@ -16,7 +18,8 @@ export const SignUp = () => {
   } = useForm({ resolver: yupResolver(signupSchema), mode: 'all' });
 
   const onSubmitHandler = (formData: IFormData) => {
-    console.log(formData);
+    const { email, password } = formData;
+    registerWithEmailAndPassword(email, password);
   };
 
   return (
