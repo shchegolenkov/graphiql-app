@@ -45,14 +45,14 @@ export const Main = () => {
             <div className={styles.utilitiesWrapper}>
               <div className={styles.headersWrapper}>
                 <div className={styles.endpointWrapper}>
-                  <div className={styles.endpoint}>someendpoint.here</div>
+                  <div className={styles.endpoint}>dasdsadasdasdasasdsad</div>
                   <Button variant="contained" className={styles.endpointChange}>
                     <img src={edit} alt="" />
                   </Button>
                 </div>
                 <div
                   className={`${styles.headers} ${
-                    isHeadersActive ? styles.folded : null
+                    isHeadersActive ? styles.folded : ''
                   }`}
                 >
                   <button onClick={handleHeadersClick} className={styles.fold}>
@@ -80,7 +80,7 @@ export const Main = () => {
                 </div>
                 <div
                   className={`${styles.variables} ${
-                    isVariablesActive ? styles.folded : null
+                    isVariablesActive ? styles.folded : ''
                   }`}
                 >
                   <button

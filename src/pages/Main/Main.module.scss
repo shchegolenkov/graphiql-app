@@ -105,10 +105,19 @@ textarea {
 }
 
 .headersWrapper {
-  width: 60%;
+  width: 50%;
 }
 
 .variabledWrapper {
+  width: 50%;
+}
+
+.headers {
+  margin-bottom: -4px;
+}
+
+.variables {
+  margin-bottom: -4px;
 }
 
 .fold {
@@ -137,12 +146,6 @@ textarea {
   }
 }
 
-.headers {
-}
-
-.variables {
-}
-
 .folded {
   button {
     transition: $transition;
@@ -154,7 +157,7 @@ textarea {
 
   textarea {
     height: 23px;
-    padding: 0;
+    color: transparent;
     overflow: hidden;
   }
 }
@@ -165,6 +168,8 @@ textarea {
   align-items: center;
   margin: 10px 0;
   gap: 10px;
+
+  text-align: center;
 
   /* Firefox */
   * {
@@ -191,7 +196,6 @@ textarea {
     height: 60px;
     display: flex;
     align-items: center;
-    justify-content: center;
     padding: 5px;
 
     overflow: auto;
@@ -256,6 +260,12 @@ textarea {
 }
 
 @media (max-width: 1550px) {
+  // .endpointWrapper {
+  //   .endpoint {
+  //     width: 50%;
+  //   }
+  // }
+
   .editor {
     width: 40dvw;
   }
@@ -341,7 +351,6 @@ textarea {
 
     textarea {
       width: 100%;
-      height: 20dvh;
       border-radius: 0 0 10px 10px;
       transition: $transition;
     }
@@ -383,26 +392,17 @@ textarea {
 }
 
 @media (max-width: 470px) {
-  .editorWrapper {
-    width: 100%;
-  }
-
   .utilitiesWrapper {
-    display: flex;
     flex-direction: column;
-    width: 100%;
     gap: 0px;
-
-    textarea {
-      width: 100%;
-      height: 20dvh;
-      border-radius: 0 0 10px 10px;
-      transition: $transition;
-    }
 
     .headersWrapper,
     .variablesWrapper {
       width: 100%;
+    }
+
+    .otherUtilsWrapper {
+      flex-direction: row-reverse;
     }
 
     .endpointWrapper > button,
@@ -432,12 +432,27 @@ textarea {
     }
   }
 
-  .run {
-    width: 120px;
-    height: 70px;
+  .folded {
+    button {
+      transition: $transition;
+    }
+
+    img {
+      transform: rotate(0deg);
+    }
+
+    textarea {
+      color: transparent;
+      overflow: hidden;
+    }
   }
 
   .fold {
     font-size: 14px;
+  }
+
+  .run {
+    width: 120px;
+    height: 70px;
   }
 }
