@@ -1,5 +1,5 @@
 import { Button, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -12,6 +12,7 @@ import { logInWithEmailAndPassword } from '../../firebase';
 import styles from './SignIn.module.scss';
 
 export const SignIn = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -21,6 +22,7 @@ export const SignIn = () => {
   const onSubmitHandler = (formData: IFormData) => {
     const { email, password } = formData;
     logInWithEmailAndPassword(email, password);
+    navigate('/main');
   };
 
   return (

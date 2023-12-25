@@ -1,5 +1,5 @@
 import { Button, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { signupSchema } from '../../utils/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,6 +11,7 @@ import { IFormData, RouteLinks } from '../../utils/types';
 import styles from './SignUp.module.scss';
 
 export const SignUp = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -21,6 +22,7 @@ export const SignUp = () => {
     try {
       const { email, password } = formData;
       await registerWithEmailAndPassword(email, password);
+      navigate('/main');
     } catch (error) {
       console.error(error);
     }
