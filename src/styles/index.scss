@@ -1,8 +1,7 @@
-@import './utils/vars';
-
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-family: 'Ubuntu', sans-serif;
   color: $color-text;
 }
@@ -11,11 +10,31 @@ a {
   color: $color-link;
 }
 
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 32px;
+}
+
 body {
+  min-width: 320px;
   background-color: $color-bg;
 }
 
-body > #root {
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  text-align: center;
+}
+
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
   padding: 20px;
 }
 
