@@ -1,4 +1,4 @@
-import { KeyboardEventHandler, useState } from 'react';
+import { ChangeEventHandler, useRef, useState } from 'react';
 
 import { Button } from '@mui/material';
 
@@ -12,7 +12,13 @@ import styles from './Main.module.scss';
 export const Main = () => {
   const [isHeadersActive, setIsHeadersActive] = useState(false);
   const [isVariablesActive, setIsVariablesActive] = useState(false);
-  const [lineNumber, setLineNumber] = useState([<span key="one"></span>]);
+  const [lineNumber, setLineNumber] = useState([<span key="first"></span>]);
+  const [graphQLParams, setGraphQLParams] = useState('');
+  const [output, setOutput] = useState(
+    '{ \n  message: {  \n    Output goes here \n  } \n}'
+  );
+
+  const editor = useRef<HTMLTextAreaElement>(null);
 
   const handleHeadersClick = () => {
     setIsHeadersActive(!isHeadersActive);
@@ -22,16 +28,37 @@ export const Main = () => {
     setIsVariablesActive(!isVariablesActive);
   };
 
-  const handleEditorKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = async (
+  const handleEditorChange: ChangeEventHandler<HTMLTextAreaElement> = (
     event
   ) => {
+    event.preventDefault();
     const textarea = event.target as HTMLTextAreaElement;
     const lines = textarea.value.split('\n').length;
 
+    setGraphQLParams(textarea.value);
+    console.log(graphQLParams);
     setLineNumber(Array(lines).fill(<span></span>));
   };
 
-  const handleEditorKeyUp: KeyboardEventHandler<HTMLTextAreaElement> = () => {};
+  const graphQLFetch = (
+    graphQLParams: string,
+    endpoint = 'https://swapi-graphql.netlify.app/.netlify/functions/index',
+    headers = { 'Content-Type': 'application/json' }
+  ) => {
+    console.log(JSON.stringify(graphQLParams));
+    return fetch(endpoint, {
+      method: 'POST',
+      credentials: 'omit',
+      headers,
+      body: JSON.stringify(graphQLParams || {}),
+    }).then(async (res) => {
+      setOutput(await res.json());
+    });
+  };
+
+  const handleRun = () => {
+    console.log(graphQLFetch(graphQLParams));
+  };
 
   return (
     <main>
@@ -45,8 +72,8 @@ export const Main = () => {
                 ))}
               </div>
               <textarea
-                onKeyDown={handleEditorKeyDown}
-                onKeyUp={handleEditorKeyUp}
+                ref={editor}
+                onChange={handleEditorChange}
                 className={styles.editorInput}
                 name="editor"
                 cols={30}
@@ -114,12 +141,13 @@ export const Main = () => {
             </div>
           </div>
 
-          <Button className={styles.run}>
+          <Button onClick={handleRun} className={styles.run}>
             <img src={run} alt="Run" />
           </Button>
 
           <div className={styles.viewerWrapper}>
             <textarea
+              value={output}
               className={styles.inputViewer}
               name="viewer"
               id=""
