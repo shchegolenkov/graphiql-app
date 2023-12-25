@@ -1,0 +1,54 @@
+.header {
+  height: 60px;
+  display: flex;
+  background-color: $color-bg-secondary;
+}
+
+.nav {
+  width: 80%;
+  max-width: 1550px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navBlock {
+  display: flex;
+  gap: 60px;
+
+  @media (max-width: 576px) {
+    gap: 15px;
+  }
+}
+
+.iconBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover .icon * {
+    fill: $color-element-active;
+  }
+
+  &:hover .authIcon * {
+    stroke: $color-element-active;
+  }
+}
+
+.icon * {
+  transition: fill 0.2s;
+}
+
+.authIcon * {
+  transition: stroke 0.2s;
+}
