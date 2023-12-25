@@ -17,9 +17,13 @@ export const SignUp = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(signupSchema), mode: 'all' });
 
-  const onSubmitHandler = (formData: IFormData) => {
-    const { email, password } = formData;
-    registerWithEmailAndPassword(email, password);
+  const onSubmitHandler = async (formData: IFormData) => {
+    try {
+      const { email, password } = formData;
+      await registerWithEmailAndPassword(email, password);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
