@@ -38,8 +38,15 @@
     border-right: 2px solid $color-lines;
     background-color: $color-bg-editor;
 
-    p {
+    span {
+      counter-increment: linenumber;
       color: $color-lines;
+
+      &::before {
+        content: counter(linenumber);
+        display: block;
+        color: $color-lines;
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { KeyboardEventHandler, useState } from 'react';
 
 import { Button } from '@mui/material';
 
@@ -12,6 +12,7 @@ import styles from './Main.module.scss';
 export const Main = () => {
   const [isHeadersActive, setIsHeadersActive] = useState(false);
   const [isVariablesActive, setIsVariablesActive] = useState(false);
+  const [lineNumber, setLineNumber] = useState([<span key="one"></span>]);
 
   const handleHeadersClick = () => {
     setIsHeadersActive(!isHeadersActive);
@@ -21,6 +22,17 @@ export const Main = () => {
     setIsVariablesActive(!isVariablesActive);
   };
 
+  const handleEditorKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = async (
+    event
+  ) => {
+    const textarea = event.target as HTMLTextAreaElement;
+    const lines = textarea.value.split('\n').length;
+
+    setLineNumber(Array(lines).fill(<span></span>));
+  };
+
+  const handleEditorKeyUp: KeyboardEventHandler<HTMLTextAreaElement> = () => {};
+
   return (
     <main>
       <div className={styles.wrapper}>
@@ -28,13 +40,13 @@ export const Main = () => {
           <div className={styles.editor}>
             <div className={styles.inputWrapper}>
               <div className={styles.lines}>
-                <p>1</p>
-                <p>2</p>
-                <p>3</p>
-                <p>4</p>
-                <p>5</p>
+                {lineNumber.map((item, index) => (
+                  <span key={`${index}${item.type}`}></span>
+                ))}
               </div>
               <textarea
+                onKeyDown={handleEditorKeyDown}
+                onKeyUp={handleEditorKeyUp}
                 className={styles.editorInput}
                 name="editor"
                 cols={30}
