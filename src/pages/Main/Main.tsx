@@ -9,6 +9,7 @@ import edit from '../../assets/svg/edit.svg';
 import fold from '../../assets/svg/fold.svg';
 
 import styles from './Main.module.scss';
+import { EndpointEditor } from '../../components/EndpointEditor';
 
 export const Main = () => {
   const [isHeadersActive, setIsHeadersActive] = useState(false);
@@ -19,6 +20,7 @@ export const Main = () => {
     '{ \n  message: {  \n    Output goes here \n  } \n}'
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [isEndpointOpen, setIsEndpointOpen] = useState(false);
 
   const editor = useRef<HTMLTextAreaElement>(null);
 
@@ -69,8 +71,13 @@ export const Main = () => {
     graphQLFetch(graphQLParams);
   };
 
+  const handleEndpointOpen = () => {
+    setIsEndpointOpen(true);
+  };
+
   return (
     <main className={styles.wrapper}>
+      <EndpointEditor open={isEndpointOpen} setOpen={setIsEndpointOpen} />
       <div className={styles.editorWrapper}>
         <div className={styles.editor}>
           <div className={styles.inputWrapper}>
@@ -96,7 +103,11 @@ export const Main = () => {
                 <div className={styles.endpoint}>
                   https://countries.trevorblades.com/
                 </div>
-                <Button variant="contained" className={styles.endpointChange}>
+                <Button
+                  onClick={handleEndpointOpen}
+                  variant="contained"
+                  className={styles.endpointChange}
+                >
                   <img src={edit} alt="" />
                 </Button>
               </div>

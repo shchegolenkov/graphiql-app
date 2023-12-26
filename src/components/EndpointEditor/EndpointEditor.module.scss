@@ -1,0 +1,22 @@
+.dialog {
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+  transition: $transition;
+
+  &:hover {
+    img {
+      filter: brightness(150%);
+    }
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
