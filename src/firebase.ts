@@ -33,13 +33,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// onAuthStateChanged(auth, (user: User | null) => {
-//   if (user) {
-//     store.dispatch(setUser({ email: user.email, id: user.uid }));
-//   } else {
-//     store.dispatch(removeUser());
-//   }
-// });
 export const fetchUser = async () => {
   onAuthStateChanged(auth, (user: User | null) => {
     if (user) {
@@ -50,15 +43,6 @@ export const fetchUser = async () => {
   });
 };
 
-// const logInWithEmailAndPassword = (email: string, password: string) => {
-//   signInWithEmailAndPassword(auth, email, password)
-//     .then(() => {
-//       alert('Logged in!');
-//     })
-//     .catch((err) => {
-//       alert(err);
-//     });
-// };
 const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
@@ -68,22 +52,6 @@ const logInWithEmailAndPassword = async (email: string, password: string) => {
   }
 };
 
-// const registerWithEmailAndPassword = (email: string, password: string) => {
-//   createUserWithEmailAndPassword(auth, email, password)
-//     .then((res) => {
-//       const user = res.user;
-//       addDoc(collection(db, 'users'), {
-//         uid: user.uid,
-//         authProvider: 'local',
-//         email,
-//       }).then(() => {
-//         alert('Registered successfully!');
-//       });
-//     })
-//     .catch((err) => {
-//       alert(err);
-//     });
-// };
 const registerWithEmailAndPassword = async (
   email: string,
   password: string
