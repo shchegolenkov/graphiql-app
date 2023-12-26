@@ -33,13 +33,22 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-onAuthStateChanged(auth, (user: User | null) => {
-  if (user) {
-    store.dispatch(setUser({ email: user.email, id: user.uid }));
-  } else {
-    store.dispatch(removeUser());
-  }
-});
+// onAuthStateChanged(auth, (user: User | null) => {
+//   if (user) {
+//     store.dispatch(setUser({ email: user.email, id: user.uid }));
+//   } else {
+//     store.dispatch(removeUser());
+//   }
+// });
+export const fetchUser = async () => {
+  onAuthStateChanged(auth, (user: User | null) => {
+    if (user) {
+      store.dispatch(setUser({ email: user.email, id: user.uid }));
+    } else {
+      store.dispatch(removeUser());
+    }
+  });
+};
 
 // const logInWithEmailAndPassword = (email: string, password: string) => {
 //   signInWithEmailAndPassword(auth, email, password)
