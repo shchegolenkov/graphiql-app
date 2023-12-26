@@ -269,6 +269,27 @@ textarea {
 .viewerWrapper {
   width: 30dvw;
   height: 100% !important;
+
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: $color-element-active;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 8px
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: $color-element-bg;
+    border-radius: 10px;
+  }
+
 }
 
 .inputViewer {
@@ -278,6 +299,25 @@ textarea {
   font-family: 'Source Code Pro', monospace;
 
   background: $color-bg-gradient;
+}
+
+.loader {
+
+  &::after {
+    content: '';
+    width: 40px;
+    height: 40px;
+    display: block;
+
+    border-radius: 50%;
+    border: 8px dotted $color-text;
+
+    animation: loader 4s linear infinite;
+  }
+
+  img {
+    display: none;
+  }
 }
 
 @media (max-width: 1550px) {
@@ -476,5 +516,15 @@ textarea {
   .run {
     width: 120px;
     height: 70px;
+  }
+}
+
+@keyframes loader {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }

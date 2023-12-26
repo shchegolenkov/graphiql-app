@@ -18,6 +18,7 @@ export const Main = () => {
   const [output, setOutput] = useState(
     '{ \n  message: {  \n    Output goes here \n  } \n}'
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   const editor = useRef<HTMLTextAreaElement>(null);
 
@@ -49,6 +50,7 @@ export const Main = () => {
       Accept: 'application/json',
     }
   ) => {
+    setIsLoading(true);
     fetch(endpoint, {
       method: 'POST',
       headers,
@@ -57,6 +59,7 @@ export const Main = () => {
         // variables: variables
       }),
     }).then(async (res) => {
+      setIsLoading(false);
       const response = await res.json();
       setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''));
     });
@@ -67,104 +70,102 @@ export const Main = () => {
   };
 
   return (
-    <main>
-      <div className={styles.wrapper}>
-        <div className={styles.editorWrapper}>
-          <div className={styles.editor}>
-            <div className={styles.inputWrapper}>
-              <div className={styles.lines}>
-                {lineNumber.map((item, index) => (
-                  <span key={`${index}${item.type}`}></span>
-                ))}
-              </div>
-              <textarea
-                defaultValue={defaultQuery}
-                ref={editor}
-                onChange={handleEditorChange}
-                className={styles.editorInput}
-                name="editor"
-                cols={30}
-                rows={10}
-              />
+    <main className={styles.wrapper}>
+      <div className={styles.editorWrapper}>
+        <div className={styles.editor}>
+          <div className={styles.inputWrapper}>
+            <div className={styles.lines}>
+              {lineNumber.map((item, index) => (
+                <span key={`${index}${item.type}`}></span>
+              ))}
             </div>
-
-            <div className={styles.utilitiesWrapper}>
-              <div className={styles.headersWrapper}>
-                <div className={styles.endpointWrapper}>
-                  <div className={styles.endpoint}>
-                    https://countries.trevorblades.com/
-                  </div>
-                  <Button variant="contained" className={styles.endpointChange}>
-                    <img src={edit} alt="" />
-                  </Button>
-                </div>
-                <div
-                  className={`${styles.headers} ${
-                    isHeadersActive ? styles.folded : ''
-                  }`}
-                >
-                  <button onClick={handleHeadersClick} className={styles.fold}>
-                    Headers&nbsp;
-                    <img src={fold} alt="" />
-                  </button>
-                  <textarea
-                    disabled={isHeadersActive}
-                    name=""
-                    id=""
-                    cols={30}
-                    rows={10}
-                  />
-                </div>
-              </div>
-
-              <div className={styles.variablesWrapper}>
-                <div className={styles.otherUtilsWrapper}>
-                  <Button disabled variant="contained" className={styles.docs}>
-                    <img src={docs} alt="" />
-                  </Button>
-                  <Button variant="contained" className={styles.prettify}>
-                    Prettify!
-                  </Button>
-                </div>
-                <div
-                  className={`${styles.variables} ${
-                    isVariablesActive ? styles.folded : ''
-                  }`}
-                >
-                  <button
-                    onClick={handleVariablesClick}
-                    className={styles.fold}
-                  >
-                    Variables&nbsp;
-                    <img src={fold} alt="" />
-                  </button>
-                  <textarea
-                    disabled={isVariablesActive}
-                    name=""
-                    id=""
-                    cols={30}
-                    rows={10}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <Button onClick={handleRun} className={styles.run}>
-            <img src={run} alt="Run" />
-          </Button>
-
-          <div className={styles.viewerWrapper}>
             <textarea
-              value={output}
-              className={styles.inputViewer}
-              name="viewer"
-              id=""
+              defaultValue={defaultQuery}
+              ref={editor}
+              onChange={handleEditorChange}
+              className={styles.editorInput}
+              name="editor"
               cols={30}
               rows={10}
-              disabled
             />
           </div>
+
+          <div className={styles.utilitiesWrapper}>
+            <div className={styles.headersWrapper}>
+              <div className={styles.endpointWrapper}>
+                <div className={styles.endpoint}>
+                  https://countries.trevorblades.com/
+                </div>
+                <Button variant="contained" className={styles.endpointChange}>
+                  <img src={edit} alt="" />
+                </Button>
+              </div>
+              <div
+                className={`${styles.headers} ${
+                  isHeadersActive ? styles.folded : ''
+                }`}
+              >
+                <button onClick={handleHeadersClick} className={styles.fold}>
+                  Headers&nbsp;
+                  <img src={fold} alt="" />
+                </button>
+                <textarea
+                  disabled={isHeadersActive}
+                  name=""
+                  id=""
+                  cols={30}
+                  rows={10}
+                />
+              </div>
+            </div>
+
+            <div className={styles.variablesWrapper}>
+              <div className={styles.otherUtilsWrapper}>
+                <Button disabled variant="contained" className={styles.docs}>
+                  <img src={docs} alt="" />
+                </Button>
+                <Button variant="contained" className={styles.prettify}>
+                  Prettify!
+                </Button>
+              </div>
+              <div
+                className={`${styles.variables} ${
+                  isVariablesActive ? styles.folded : ''
+                }`}
+              >
+                <button onClick={handleVariablesClick} className={styles.fold}>
+                  Variables&nbsp;
+                  <img src={fold} alt="" />
+                </button>
+                <textarea
+                  disabled={isVariablesActive}
+                  name=""
+                  id=""
+                  cols={30}
+                  rows={10}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <Button
+          onClick={handleRun}
+          className={`${styles.run} ${isLoading ? styles.loader : ''}`}
+        >
+          <img src={run} alt="Run" />
+        </Button>
+
+        <div className={styles.viewerWrapper}>
+          <textarea
+            value={output}
+            className={styles.inputViewer}
+            name="viewer"
+            id=""
+            cols={30}
+            rows={10}
+            disabled
+          />
         </div>
       </div>
     </main>
