@@ -2,6 +2,7 @@ import { ChangeEventHandler, useRef, useState } from 'react';
 
 import { Button } from '@mui/material';
 
+import { defaultQuery } from '../../utils/utils';
 import run from '../../assets/svg/run.svg';
 import docs from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
@@ -12,8 +13,8 @@ import styles from './Main.module.scss';
 export const Main = () => {
   const [isHeadersActive, setIsHeadersActive] = useState(false);
   const [isVariablesActive, setIsVariablesActive] = useState(false);
-  const [lineNumber, setLineNumber] = useState([<span key="first"></span>]);
-  const [graphQLParams, setGraphQLParams] = useState('');
+  const [lineNumber, setLineNumber] = useState(Array(13).fill(<span></span>));
+  const [graphQLParams, setGraphQLParams] = useState(defaultQuery);
   const [output, setOutput] = useState(
     '{ \n  message: {  \n    Output goes here \n  } \n}'
   );
@@ -42,22 +43,27 @@ export const Main = () => {
 
   const graphQLFetch = (
     graphQLParams: string,
-    endpoint = 'https://swapi-graphql.netlify.app/.netlify/functions/index',
-    headers = { 'Content-Type': 'application/json' }
+    endpoint = 'https://countries.trevorblades.com/',
+    headers = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
   ) => {
-    console.log(JSON.stringify(graphQLParams));
-    return fetch(endpoint, {
+    fetch(endpoint, {
       method: 'POST',
-      credentials: 'omit',
       headers,
-      body: JSON.stringify(graphQLParams || {}),
+      body: JSON.stringify({
+        query: graphQLParams,
+        // variables: variables
+      }),
     }).then(async (res) => {
-      setOutput(await res.json());
+      const response = await res.json();
+      setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''));
     });
   };
 
   const handleRun = () => {
-    console.log(graphQLFetch(graphQLParams));
+    graphQLFetch(graphQLParams);
   };
 
   return (
@@ -72,6 +78,7 @@ export const Main = () => {
                 ))}
               </div>
               <textarea
+                defaultValue={defaultQuery}
                 ref={editor}
                 onChange={handleEditorChange}
                 className={styles.editorInput}
@@ -84,7 +91,9 @@ export const Main = () => {
             <div className={styles.utilitiesWrapper}>
               <div className={styles.headersWrapper}>
                 <div className={styles.endpointWrapper}>
-                  <div className={styles.endpoint}>dasdsadasdasdasasdsad</div>
+                  <div className={styles.endpoint}>
+                    https://countries.trevorblades.com/
+                  </div>
                   <Button variant="contained" className={styles.endpointChange}>
                     <img src={edit} alt="" />
                   </Button>
