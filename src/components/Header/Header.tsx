@@ -4,13 +4,13 @@ import WelcomeIcon from '../../assets/svg/welcomeIcon.svg?react';
 import SignUpIcon from '../../assets/svg/signUpIcon.svg?react';
 import SignInIcon from '../../assets/svg/signInIcon.svg?react';
 import LogoutIcon from '../../assets/svg/logout.svg?react';
-import { selectUserEmail } from '../../store/user/user.slice';
-import { useAppSelector } from '../../hooks/redux-hook';
+import { useAuth } from '../../hooks/useAuth';
 import { logout } from '../../firebase';
+import { Tooltip } from '@mui/material';
 import styles from './Header.module.scss';
 
 export const Header = () => {
-  const email = useAppSelector(selectUserEmail);
+  const { isAuth, email } = useAuth();
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
@@ -29,11 +29,13 @@ export const Header = () => {
             <SignUpIcon className={styles.authIcon} />
             <p>Sign Up</p>
           </Link>
-          {email ? (
-            <button className={styles.iconBlock} onClick={logout}>
-              <LogoutIcon className={styles.authIcon} />
-              <p>Logout</p>
-            </button>
+          {isAuth ? (
+            <Tooltip title={`Logout from ${email}`}>
+              <button className={styles.iconBlock} onClick={logout}>
+                <LogoutIcon className={styles.authIcon} />
+                <p>Logout</p>
+              </button>
+            </Tooltip>
           ) : (
             <Link to="/signin" className={styles.iconBlock}>
               <SignInIcon className={styles.authIcon} />
