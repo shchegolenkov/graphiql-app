@@ -19,10 +19,18 @@ export const SignIn = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(signinSchema), mode: 'all' });
 
-  const onSubmitHandler = (formData: IFormData) => {
+  const onSubmitHandler = async (formData: IFormData) => {
     const { email, password } = formData;
-    logInWithEmailAndPassword(email, password);
-    navigate('/main');
+    try {
+      const loginResult = await logInWithEmailAndPassword(email, password);
+      if (loginResult) {
+        navigate('/main');
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
   };
 
   return (
