@@ -37,8 +37,6 @@ export const fetchUser = async () => {
   onAuthStateChanged(auth, (user: User | null) => {
     if (user) {
       store.dispatch(setUser({ email: user.email, id: user.uid }));
-    } else {
-      store.dispatch(removeUser());
     }
   });
 };
@@ -74,6 +72,7 @@ const registerWithEmailAndPassword = async (
 
 const logout = async () => {
   await signOut(auth);
+  store.dispatch(removeUser());
 };
 
 export {

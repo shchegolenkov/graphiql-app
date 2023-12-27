@@ -13,9 +13,11 @@ import { Header } from '../components/Header';
 
 function App() {
   const { isAuth } = useAuth();
+
   useEffect(() => {
     fetchUser();
-  }, [isAuth]);
+  }, []);
+
   return (
     <>
       <Header />
