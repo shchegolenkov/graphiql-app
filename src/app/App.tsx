@@ -8,8 +8,8 @@ import { RouteLinks } from '../utils/types';
 
 import { ProtectedRoute } from '../components/ProtectedRoute/ProtectedRoute';
 import { Welcome, SignIn, SignUp, Main, NotFound } from '../pages';
-import { Footer } from '../components/Footer/Footer';
-import { Header } from '../components/Header/Header';
+import { Footer } from '../components/Footer';
+import { Header } from '../components/Header';
 
 function App() {
   const { isAuth } = useAuth();
