@@ -10,8 +10,7 @@ export const Welcome = () => {
   return (
     <main>
       <div className={styles.welcome}>
-        <h1>Welcome</h1>
-        {isAuth && (
+        {(isAuth && (
           <div className={styles.welcome__container}>
             <h2 className={styles.welcome__title}>You`re logged in!</h2>
             <Link to="/main">
@@ -29,7 +28,7 @@ export const Welcome = () => {
               </Button>
             </Link>
           </div>
-        )}
+        )) || <h1>Welcome</h1>}
       </div>
     </main>
   );

@@ -7,7 +7,7 @@ import store from '../store/store';
 import App from './App';
 
 describe('App', () => {
-  it('Renders Welcome', () => {
+  it('Renders Welcome link and Translate button', () => {
     //Arrange
     render(
       <BrowserRouter>
@@ -20,9 +20,15 @@ describe('App', () => {
     //Act
     //Expect
     expect(
-      screen.getByRole('heading', {
-        level: 1,
+      screen.getByRole('link', {
+        name: /Welcome/i,
       })
-    ).toHaveTextContent('Welcome');
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('button', {
+        name: /Translate/i,
+      })
+    ).toBeInTheDocument();
   });
 });
