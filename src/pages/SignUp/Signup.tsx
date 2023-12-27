@@ -22,7 +22,7 @@ export const SignUp = () => {
     try {
       const { email, password } = formData;
       await registerWithEmailAndPassword(email, password);
-      navigate('/main');
+      navigate(RouteLinks.Main);
     } catch (error) {
       console.error(error);
     }

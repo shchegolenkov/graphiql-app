@@ -24,7 +24,7 @@ export const SignIn = () => {
     try {
       const loginResult = await logInWithEmailAndPassword(email, password);
       if (loginResult) {
-        navigate('/main');
+        navigate(RouteLinks.Main);
       } else {
         return;
       }
