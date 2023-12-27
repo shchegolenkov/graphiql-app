@@ -1,12 +1,15 @@
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Footer } from '../components/Footer/Footer';
-import { Header } from '../components/Header/Header';
-import { RouteLinks } from '../utils/types';
-import { Welcome, SignIn, SignUp, Main, NotFound } from '../pages';
-import { ProtectedRoute } from '../components/ProtectedRoute/ProtectedRoute';
+
 import { useAuth } from '../hooks/useAuth';
 import { fetchUser } from '../firebase';
-import { useEffect } from 'react';
+
+import { RouteLinks } from '../utils/types';
+
+import { ProtectedRoute } from '../components/ProtectedRoute/ProtectedRoute';
+import { Welcome, SignIn, SignUp, Main, NotFound } from '../pages';
+import { Footer } from '../components/Footer/Footer';
+import { Header } from '../components/Header/Header';
 
 function App() {
   const { isAuth } = useAuth();

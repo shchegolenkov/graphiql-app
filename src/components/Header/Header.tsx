@@ -1,12 +1,14 @@
+import { Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
+
+import { useAuth } from '../../hooks/useAuth';
+import { logout } from '../../firebase';
+
 import TranslateIcon from '../../assets/svg/translateIcon.svg?react';
 import WelcomeIcon from '../../assets/svg/welcomeIcon.svg?react';
 import SignUpIcon from '../../assets/svg/signUpIcon.svg?react';
 import SignInIcon from '../../assets/svg/signInIcon.svg?react';
 import LogoutIcon from '../../assets/svg/logout.svg?react';
-import { useAuth } from '../../hooks/useAuth';
-import { logout } from '../../firebase';
-import { Tooltip } from '@mui/material';
 import styles from './Header.module.scss';
 
 export const Header = () => {
