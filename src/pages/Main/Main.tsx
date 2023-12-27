@@ -1,5 +1,6 @@
-import { ChangeEventHandler, useRef, useState } from 'react';
+import { ChangeEventHandler, useCallback, useState } from 'react';
 
+import clsx from 'clsx';
 import { Button } from '@mui/material';
 
 import { defaultQuery } from '../../utils/utils';
@@ -22,15 +23,13 @@ export const Main = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEndpointOpen, setIsEndpointOpen] = useState(false);
 
-  const editor = useRef<HTMLTextAreaElement>(null);
-
-  const handleHeadersClick = () => {
+  const handleHeadersClick = useCallback(() => {
     setIsHeadersActive(!isHeadersActive);
-  };
+  }, [isHeadersActive]);
 
-  const handleVariablesClick = () => {
+  const handleVariablesClick = useCallback(() => {
     setIsVariablesActive(!isVariablesActive);
-  };
+  }, [isVariablesActive]);
 
   const handleEditorChange: ChangeEventHandler<HTMLTextAreaElement> = (
     event
@@ -60,11 +59,18 @@ export const Main = () => {
         query: graphQLParams,
         // variables: variables
       }),
-    }).then(async (res) => {
-      setIsLoading(false);
-      const response = await res.json();
-      setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''));
-    });
+    })
+      .then(async (res) => {
+        const response = (await res.json()) as Response;
+        setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''));
+      })
+      .catch((err) => {
+        // error toast goes here,
+        console.error(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const handleRun = () => {
@@ -88,7 +94,6 @@ export const Main = () => {
             </div>
             <textarea
               defaultValue={defaultQuery}
-              ref={editor}
               onChange={handleEditorChange}
               className={styles.editorInput}
               name="editor"
@@ -112,9 +117,9 @@ export const Main = () => {
                 </Button>
               </div>
               <div
-                className={`${styles.headers} ${
-                  isHeadersActive ? styles.folded : ''
-                }`}
+                className={clsx(styles.headers, {
+                  [styles.folded]: isHeadersActive,
+                })}
               >
                 <button onClick={handleHeadersClick} className={styles.fold}>
                   Headers&nbsp;
@@ -140,9 +145,9 @@ export const Main = () => {
                 </Button>
               </div>
               <div
-                className={`${styles.variables} ${
-                  isVariablesActive ? styles.folded : ''
-                }`}
+                className={clsx(styles.variables, {
+                  [styles.folded]: isVariablesActive,
+                })}
               >
                 <button onClick={handleVariablesClick} className={styles.fold}>
                   Variables&nbsp;
@@ -162,7 +167,7 @@ export const Main = () => {
 
         <Button
           onClick={handleRun}
-          className={`${styles.run} ${isLoading ? styles.loader : ''}`}
+          className={clsx(styles.run, { [styles.loader]: isLoading })}
         >
           <img src={run} alt="Run" />
         </Button>
