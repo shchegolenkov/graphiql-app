@@ -63,7 +63,7 @@ export const Main = () => {
         setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''));
       })
       .catch((err) => {
-        // error toast goes here
+        // error toast goes here,
         console.error(err);
       })
       .finally(() => {

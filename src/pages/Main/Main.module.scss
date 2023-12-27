@@ -278,7 +278,7 @@ textarea {
 
   /* Chrome, Edge, and Safari */
   *::-webkit-scrollbar {
-    width: 8px
+    width: 8px;
   }
 
   *::-webkit-scrollbar-track {
@@ -289,7 +289,6 @@ textarea {
     background-color: $color-element-bg;
     border-radius: 10px;
   }
-
 }
 
 .inputViewer {
@@ -302,7 +301,6 @@ textarea {
 }
 
 .loader {
-
   &::after {
     content: '';
     width: 40px;
