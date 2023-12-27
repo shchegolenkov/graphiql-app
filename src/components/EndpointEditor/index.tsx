@@ -1,12 +1,10 @@
-import React, { FC } from 'react';
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  TextField,
-} from '@mui/material';
+import React, {
+  ChangeEventHandler,
+  FC,
+  FormEventHandler,
+  useState,
+} from 'react';
+import { Button, Dialog, DialogContent, TextField } from '@mui/material';
 import close from '../../assets/svg/close.svg';
 
 import styles from './EndpointEditor.module.scss';
@@ -14,25 +12,57 @@ import styles from './EndpointEditor.module.scss';
 interface IEndpointProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setEndpoint: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const EndpointEditor: FC<IEndpointProps> = ({ open, setOpen }) => {
+export const EndpointEditor: FC<IEndpointProps> = ({
+  open,
+  setOpen,
+  setEndpoint,
+}) => {
+  const [inputValue, setInputvalue] = useState('');
   const handleClose = () => {
     setOpen(false);
   };
 
+  const handleInputChange: ChangeEventHandler<
+    HTMLTextAreaElement | HTMLInputElement
+  > = (event) => {
+    const target = event.target as HTMLInputElement;
+    setInputvalue(target.value);
+  };
+
+  const handleEndpointSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    if (inputValue) {
+      setEndpoint(inputValue);
+    }
+    handleClose();
+  };
+
   return (
     <Dialog className={styles.dialog} onClose={handleClose} open={open}>
-      <IconButton className={styles.close} onClick={handleClose}>
-        <img src={close} alt="Close" />
-      </IconButton>
-      <DialogTitle>Change endpoint</DialogTitle>
-      <DialogContent>
-        <form autoComplete="off">
-          <TextField type="text"></TextField>
-          <Button variant="contained">Change endpoint</Button>
-        </form>
-      </DialogContent>
+      <form
+        onSubmit={handleEndpointSubmit}
+        className={styles.gradient}
+        autoComplete="off"
+      >
+        <button className={styles.close} onClick={handleClose}>
+          <img src={close} alt="Close" />
+        </button>
+        <DialogContent className={styles.wrapper}>
+          <TextField
+            onChange={handleInputChange}
+            className={styles.input}
+            placeholder="Your endpoint here.."
+            type="text"
+          ></TextField>
+        </DialogContent>
+
+        <Button type="submit" variant="contained">
+          Change endpoint
+        </Button>
+      </form>
     </Dialog>
   );
 };

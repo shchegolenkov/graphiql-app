@@ -452,6 +452,13 @@ textarea {
 }
 
 @media (max-width: 470px) {
+
+  .editor {
+    .editorInput, .lines {
+      font-size: 14px;
+    }
+  }
+
   .utilitiesWrapper {
     flex-direction: column;
     gap: 0px;
@@ -514,6 +521,10 @@ textarea {
   .run {
     width: 120px;
     height: 70px;
+  }
+
+  .inputViewer {
+    font-size: 14px;
   }
 }
 

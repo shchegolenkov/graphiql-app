@@ -3,6 +3,7 @@ import { ChangeEventHandler, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { Button } from '@mui/material';
 
+import { EndpointEditor } from '../../components/EndpointEditor';
 import { defaultQuery } from '../../utils/utils';
 import run from '../../assets/svg/run.svg';
 import docs from '../../assets/svg/docs.svg';
@@ -10,7 +11,6 @@ import edit from '../../assets/svg/edit.svg';
 import fold from '../../assets/svg/fold.svg';
 
 import styles from './Main.module.scss';
-import { EndpointEditor } from '../../components/EndpointEditor';
 
 export const Main = () => {
   const [isHeadersActive, setIsHeadersActive] = useState(false);
@@ -22,6 +22,9 @@ export const Main = () => {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [isEndpointOpen, setIsEndpointOpen] = useState(false);
+  const [endpointState, setEndpointState] = useState(
+    'https://countries.trevorblades.com/'
+  );
 
   const handleHeadersClick = useCallback(() => {
     setIsHeadersActive(!isHeadersActive);
@@ -39,13 +42,12 @@ export const Main = () => {
     const lines = textarea.value.split('\n').length;
 
     setGraphQLParams(textarea.value);
-    console.log(graphQLParams);
     setLineNumber(Array(lines).fill(<span></span>));
   };
 
   const graphQLFetch = (
     graphQLParams: string,
-    endpoint = 'https://countries.trevorblades.com/',
+    endpoint = endpointState,
     headers = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -83,7 +85,11 @@ export const Main = () => {
 
   return (
     <main className={styles.wrapper}>
-      <EndpointEditor open={isEndpointOpen} setOpen={setIsEndpointOpen} />
+      <EndpointEditor
+        open={isEndpointOpen}
+        setOpen={setIsEndpointOpen}
+        setEndpoint={setEndpointState}
+      />
       <div className={styles.editorWrapper}>
         <div className={styles.editor}>
           <div className={styles.inputWrapper}>
@@ -105,9 +111,7 @@ export const Main = () => {
           <div className={styles.utilitiesWrapper}>
             <div className={styles.headersWrapper}>
               <div className={styles.endpointWrapper}>
-                <div className={styles.endpoint}>
-                  https://countries.trevorblades.com/
-                </div>
+                <div className={styles.endpoint}>{endpointState}</div>
                 <Button
                   onClick={handleEndpointOpen}
                   variant="contained"
