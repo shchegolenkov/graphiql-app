@@ -452,9 +452,9 @@ textarea {
 }
 
 @media (max-width: 470px) {
-
   .editor {
-    .editorInput, .lines {
+    .editorInput,
+    .lines {
       font-size: 14px;
     }
   }

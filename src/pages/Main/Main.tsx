@@ -15,7 +15,7 @@ import styles from './Main.module.scss';
 export const Main = () => {
   const [isHeadersActive, setIsHeadersActive] = useState(false);
   const [isVariablesActive, setIsVariablesActive] = useState(false);
-  const [lineNumber, setLineNumber] = useState(Array(13).fill(<span></span>));
+  const [lineNumber, setLineNumber] = useState(Array(11).fill(<span></span>));
   const [graphQLParams, setGraphQLParams] = useState(defaultQuery);
   const [output, setOutput] = useState(
     '{ \n  message: {  \n    Output goes here \n  } \n}'
@@ -23,7 +23,7 @@ export const Main = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEndpointOpen, setIsEndpointOpen] = useState(false);
   const [endpointState, setEndpointState] = useState(
-    'https://countries.trevorblades.com/'
+    'https://rickandmortyapi.com/graphql'
   );
 
   const handleHeadersClick = useCallback(() => {
