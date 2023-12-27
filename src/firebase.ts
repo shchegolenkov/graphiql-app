@@ -33,7 +33,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-export const fetchUser = async () => {
+export const fetchUser = () => {
   onAuthStateChanged(auth, (user: User | null) => {
     if (user) {
       store.dispatch(setUser({ email: user.email, id: user.uid }));
