@@ -23,12 +23,26 @@ function App() {
       <Header />
       <Routes>
         <Route path={RouteLinks.Welcome} element={<Welcome />} />
-        <Route path={RouteLinks.SignIn} element={<SignIn />} />
-        <Route path={RouteLinks.SignUp} element={<SignUp />} />
+        <Route
+          path={RouteLinks.SignIn}
+          element={
+            <ProtectedRoute user={!isAuth} route="main">
+              <SignIn />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={RouteLinks.SignUp}
+          element={
+            <ProtectedRoute user={!isAuth} route="main">
+              <SignUp />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path={RouteLinks.Main}
           element={
-            <ProtectedRoute user={isAuth}>
+            <ProtectedRoute user={isAuth} route="welcome">
               <Main />
             </ProtectedRoute>
           }
