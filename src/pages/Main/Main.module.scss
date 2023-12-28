@@ -218,6 +218,12 @@ textarea {
     overflow: auto;
     border-radius: 10px;
     background-color: $color-endpoint-bg;
+
+    transition: all 0.5s cubic-bezier(0.255, 0.95, 0.58, 0.73);
+
+    &.updated {
+      background-color: $color-element-bg !important;
+    }
   }
 
   .edit {
@@ -317,6 +323,8 @@ textarea {
     display: none;
   }
 }
+
+
 
 @media (max-width: 1550px) {
   // .endpointWrapper {

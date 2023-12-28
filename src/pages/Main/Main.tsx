@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useCallback, useState } from 'react';
+import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import { Button } from '@mui/material';
@@ -25,6 +25,7 @@ export const Main = () => {
   const [endpointState, setEndpointState] = useState(
     'https://rickandmortyapi.com/graphql'
   );
+  const [isUpdated, setIsUpdated] = useState(false);
 
   const handleHeadersClick = useCallback(() => {
     setIsHeadersActive(!isHeadersActive);
@@ -83,6 +84,13 @@ export const Main = () => {
     setIsEndpointOpen(true);
   };
 
+  useEffect(() => {
+    setIsUpdated(true);
+    setTimeout(() => {
+      setIsUpdated(false);
+    }, 1000);
+  }, [endpointState]);
+
   return (
     <main className={styles.wrapper}>
       <EndpointEditor
@@ -111,7 +119,13 @@ export const Main = () => {
           <div className={styles.utilitiesWrapper}>
             <div className={styles.headersWrapper}>
               <div className={styles.endpointWrapper}>
-                <div className={styles.endpoint}>{endpointState}</div>
+                <div
+                  className={clsx(styles.endpoint, {
+                    [styles.updated]: isUpdated,
+                  })}
+                >
+                  {endpointState}
+                </div>
                 <Button
                   onClick={handleEndpointOpen}
                   variant="contained"

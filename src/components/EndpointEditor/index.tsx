@@ -1,10 +1,10 @@
-import React, {
-  ChangeEventHandler,
-  FC,
-  FormEventHandler,
-  useState,
-} from 'react';
+import React, { FC } from 'react';
+
+import { useForm } from 'react-hook-form';
 import { Button, Dialog, DialogContent, TextField } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { endpointSchema } from '../../utils/validation';
 import close from '../../assets/svg/close.svg';
 
 import styles from './EndpointEditor.module.scss';
@@ -15,30 +15,31 @@ interface IEndpointProps {
   setEndpoint: React.Dispatch<React.SetStateAction<string>>;
 }
 
+interface IEndpointData {
+  endpoint?: string;
+}
+
 export const EndpointEditor: FC<IEndpointProps> = ({
   open,
   setOpen,
   setEndpoint,
 }) => {
-  const [inputValue, setInputvalue] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(endpointSchema), mode: 'all' });
+
+  const onSubmitHandler = (formData: IEndpointData) => {
+    const { endpoint } = formData;
+    if (endpoint) {
+      setEndpoint(endpoint);
+    }
+    handleClose();
+  };
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleInputChange: ChangeEventHandler<
-    HTMLTextAreaElement | HTMLInputElement
-  > = (event) => {
-    const target = event.target as HTMLInputElement;
-    setInputvalue(target.value);
-  };
-
-  const handleEndpointSubmit: FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
-    if (inputValue) {
-      setEndpoint(inputValue);
-    }
-    handleClose();
   };
 
   return (
@@ -52,14 +53,16 @@ export const EndpointEditor: FC<IEndpointProps> = ({
         <img src={close} alt="Close" />
       </button>
       <form
-        onSubmit={handleEndpointSubmit}
+        onSubmit={handleSubmit(onSubmitHandler)}
         className={styles.gradient}
         autoComplete="off"
       >
         <DialogContent className={styles.wrapper}>
           <TextField
+            error={!!errors.endpoint}
+            helperText={errors.endpoint?.message || ' '}
+            {...register('endpoint')}
             autoFocus
-            onChange={handleInputChange}
             className={styles.input}
             placeholder="Your endpoint here.."
             type="text"

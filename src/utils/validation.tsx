@@ -3,6 +3,7 @@ import * as yup from 'yup';
 
 const RULES = {
   email: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
+  endpoint: /^((https?|ftp):\/\/[.a-z-]+)/,
   password_uppercase: /(?=.*[A-Z])/,
   password_lowercase: /(?=.*[a-z])/,
   password_digit: /\d/,
@@ -12,6 +13,7 @@ const RULES = {
 const MESSAGES = {
   required: 'Required field!',
   email: 'Incorrect email format!',
+  endpoint: 'Incorrect url format!',
   password_uppercase: 'Add uppercase letters',
   password_lowercase: 'Add lowercase letters',
   password_digit: 'Please, add digits',
@@ -54,6 +56,10 @@ export const signinSchema = yup.object().shape({
     .email(MESSAGES.email)
     .matches(RULES.email, MESSAGES.email),
   password: yup.string().required(MESSAGES.required),
+});
+
+export const endpointSchema = yup.object().shape({
+  endpoint: yup.string().matches(RULES.endpoint, MESSAGES.endpoint),
 });
 
 export type signupSchemaType = yup.InferType<typeof signupSchema>;
