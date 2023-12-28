@@ -6,8 +6,8 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  email: null,
-  id: null,
+  email: localStorage.getItem('email') || null,
+  id: localStorage.getItem('id') || null,
 };
 
 const userSlice = createSlice({

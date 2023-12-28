@@ -36,6 +36,8 @@ const db = getFirestore(app);
 export const fetchUser = () => {
   onAuthStateChanged(auth, (user: User | null) => {
     if (user) {
+      localStorage.setItem('email', user.email!);
+      localStorage.setItem('id', user.uid!);
       store.dispatch(setUser({ email: user.email, id: user.uid }));
     }
   });
@@ -72,6 +74,8 @@ const registerWithEmailAndPassword = async (
 
 const logout = async () => {
   await signOut(auth);
+  localStorage.removeItem('email');
+  localStorage.removeItem('id');
   store.dispatch(removeUser());
 };
 
