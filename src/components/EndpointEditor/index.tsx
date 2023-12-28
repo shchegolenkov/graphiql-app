@@ -35,7 +35,6 @@ export const EndpointEditor: FC<IEndpointProps> = ({
 
   const handleEndpointSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    console.log('fired');
     if (inputValue) {
       setEndpoint(inputValue);
     }
@@ -43,7 +42,12 @@ export const EndpointEditor: FC<IEndpointProps> = ({
   };
 
   return (
-    <Dialog className={styles.dialog} onClose={handleClose} open={open}>
+    <Dialog
+      disableRestoreFocus
+      className={styles.dialog}
+      onClose={handleClose}
+      open={open}
+    >
       <button className={styles.close} onClick={handleClose}>
         <img src={close} alt="Close" />
       </button>
@@ -54,6 +58,7 @@ export const EndpointEditor: FC<IEndpointProps> = ({
       >
         <DialogContent className={styles.wrapper}>
           <TextField
+            autoFocus
             onChange={handleInputChange}
             className={styles.input}
             placeholder="Your endpoint here.."
