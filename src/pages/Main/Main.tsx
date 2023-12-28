@@ -1,4 +1,10 @@
-import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
+import {
+  ChangeEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import clsx from 'clsx';
 import { Button } from '@mui/material';
@@ -13,6 +19,7 @@ import fold from '../../assets/svg/fold.svg';
 import styles from './Main.module.scss';
 
 export const Main = () => {
+  const inputRef = useRef(null);
   const [isHeadersActive, setIsHeadersActive] = useState(false);
   const [isVariablesActive, setIsVariablesActive] = useState(false);
   const [lineNumber, setLineNumber] = useState(Array(11).fill(<span></span>));
@@ -84,6 +91,17 @@ export const Main = () => {
     setIsEndpointOpen(true);
   };
 
+  const prettify = () => {
+    let lines = graphQLParams.split(/[\n]/g);
+    lines = lines.map((item) => item.trim());
+    console.log(lines.join('\n'));
+    // const formatted = graphQLParams.replace(/{/g, '{\n');
+    // const editor = inputRef.current as unknown as HTMLTextAreaElement;
+    // if (editor) {
+    //   editor.value = formatted;
+    // }
+  };
+
   useEffect(() => {
     setIsUpdated(true);
     setTimeout(() => {
@@ -107,6 +125,7 @@ export const Main = () => {
               ))}
             </div>
             <textarea
+              ref={inputRef}
               defaultValue={defaultQuery}
               onChange={handleEditorChange}
               className={styles.editorInput}
@@ -158,7 +177,11 @@ export const Main = () => {
                 <Button disabled variant="contained" className={styles.docs}>
                   <img src={docs} alt="" />
                 </Button>
-                <Button variant="contained" className={styles.prettify}>
+                <Button
+                  onClick={prettify}
+                  variant="contained"
+                  className={styles.prettify}
+                >
                   Prettify!
                 </Button>
               </div>
