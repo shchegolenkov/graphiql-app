@@ -67,8 +67,10 @@ const registerWithEmailAndPassword = async (
       email,
     });
     alert('Registered successfully!');
+    return true;
   } catch (err) {
     alert(err);
+    return false;
   }
 };
 
