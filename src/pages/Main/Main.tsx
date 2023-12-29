@@ -2,7 +2,22 @@ import { ChangeEventHandler, useCallback, useState } from 'react';
 
 import clsx from 'clsx';
 import { Button } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hook';
 
+import {
+  headersState,
+  inputState,
+  loadingState,
+  outputState,
+  variablesState,
+} from '../../store/editor/selectors';
+import {
+  setGraphQLParams,
+  setIsHeadersActive,
+  setIsLoading,
+  setIsVariablesActive,
+  setOutput,
+} from '../../store/editor/editor.slice';
 import { defaultQuery } from '../../utils/utils';
 import run from '../../assets/svg/run.svg';
 import docs from '../../assets/svg/docs.svg';
@@ -12,22 +27,22 @@ import fold from '../../assets/svg/fold.svg';
 import styles from './Main.module.scss';
 
 export const Main = () => {
-  const [isHeadersActive, setIsHeadersActive] = useState(false);
-  const [isVariablesActive, setIsVariablesActive] = useState(false);
+  const dispatch = useAppDispatch();
+
   const [lineNumber, setLineNumber] = useState(Array(13).fill(<span></span>));
-  const [graphQLParams, setGraphQLParams] = useState(defaultQuery);
-  const [output, setOutput] = useState(
-    '{ \n  message: {  \n    Output goes here \n  } \n}'
-  );
-  const [isLoading, setIsLoading] = useState(false);
+  const output = useAppSelector(outputState);
+  const isHeadersActive = useAppSelector(headersState);
+  const isVariablesActive = useAppSelector(variablesState);
+  const isLoading = useAppSelector(loadingState);
+  const graphQLParams = useAppSelector(inputState);
 
   const handleHeadersClick = useCallback(() => {
-    setIsHeadersActive(!isHeadersActive);
-  }, [isHeadersActive]);
+    dispatch(setIsHeadersActive());
+  }, [dispatch]);
 
   const handleVariablesClick = useCallback(() => {
-    setIsVariablesActive(!isVariablesActive);
-  }, [isVariablesActive]);
+    dispatch(setIsVariablesActive());
+  }, [dispatch]);
 
   const handleEditorChange: ChangeEventHandler<HTMLTextAreaElement> = (
     event
@@ -36,7 +51,7 @@ export const Main = () => {
     const textarea = event.target as HTMLTextAreaElement;
     const lines = textarea.value.split('\n').length;
 
-    setGraphQLParams(textarea.value);
+    dispatch(setGraphQLParams(textarea.value));
     console.log(graphQLParams);
     setLineNumber(Array(lines).fill(<span></span>));
   };
@@ -49,7 +64,7 @@ export const Main = () => {
       Accept: 'application/json',
     }
   ) => {
-    setIsLoading(true);
+    dispatch(setIsLoading());
     fetch(endpoint, {
       method: 'POST',
       headers,
@@ -60,14 +75,16 @@ export const Main = () => {
     })
       .then(async (res) => {
         const response = (await res.json()) as Response;
-        setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''));
+        dispatch(
+          setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''))
+        );
       })
       .catch((err) => {
         // error toast goes here,
         console.error(err);
       })
       .finally(() => {
-        setIsLoading(false);
+        dispatch(setIsLoading());
       });
   };
 
