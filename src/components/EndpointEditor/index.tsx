@@ -63,7 +63,7 @@ export const EndpointEditor = () => {
             className={styles.input}
             placeholder="Your endpoint here.."
             type="text"
-          ></TextField>
+          />
         </DialogContent>
 
         <Button type="submit" variant="contained">
