@@ -6,11 +6,12 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux-hook';
 
 import {
   endpointState,
-  headersState,
+  isFoldedHeadersState,
   inputState,
   loadingState,
   outputState,
-  variablesState,
+  isFoldedVariablesState,
+  headersState,
 } from '../../store/editor/selectors';
 
 import {
@@ -20,6 +21,7 @@ import {
   setIsVariablesActive,
   setIsEndpointOpen,
   setOutput,
+  setHeaders,
 } from '../../store/editor/editor.slice';
 
 import { EndpointEditor } from '../../components/EndpointEditor';
@@ -34,14 +36,15 @@ import styles from './Main.module.scss';
 export const Main = () => {
   const dispatch = useAppDispatch();
 
-  const [lineNumber, setLineNumber] = useState(Array(13).fill(<span></span>));
+  const [lineNumber, setLineNumber] = useState(Array(11).fill(<span></span>));
   const [isUpdated, setIsUpdated] = useState(false);
   const output = useAppSelector(outputState);
-  const isHeadersActive = useAppSelector(headersState);
-  const isVariablesActive = useAppSelector(variablesState);
+  const isHeadersActive = useAppSelector(isFoldedHeadersState);
+  const isVariablesActive = useAppSelector(isFoldedVariablesState);
   const isLoading = useAppSelector(loadingState);
   const graphQLParams = useAppSelector(inputState);
   const endpoint = useAppSelector(endpointState);
+  const header = useAppSelector(headersState);
 
   const handleHeadersClick = useCallback(() => {
     dispatch(setIsHeadersActive());
@@ -62,18 +65,11 @@ export const Main = () => {
     setLineNumber(Array(lines).fill(<span></span>));
   };
 
-  const graphQLFetch = (
-    graphQLParams: string,
-    endpoint = graphQLParams,
-    headers = {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    }
-  ) => {
+  const graphQLFetch = (graphQLParams: string) => {
     dispatch(setIsLoading());
     fetch(endpoint, {
       method: 'POST',
-      headers,
+      headers: header,
       body: JSON.stringify({
         query: graphQLParams,
         // variables: variables
@@ -81,12 +77,13 @@ export const Main = () => {
     })
       .then(async (res) => {
         const response = (await res.json()) as Response;
+
         dispatch(
           setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''))
         );
       })
       .catch((err) => {
-        // error toast goes here,
+        // error toast goes here
         console.error(err);
       })
       .finally(() => {
@@ -100,6 +97,17 @@ export const Main = () => {
 
   const handleEndpointOpen = () => {
     dispatch(setIsEndpointOpen());
+  };
+
+  const handleHeadersChange: ChangeEventHandler<HTMLTextAreaElement> = (
+    event
+  ) => {
+    const textarea = event.target as HTMLTextAreaElement;
+    try {
+      dispatch(setHeaders(JSON.parse(textarea.value)));
+    } catch {
+      return;
+    }
   };
 
   useEffect(() => {
@@ -158,6 +166,8 @@ export const Main = () => {
                   <img src={fold} alt="" />
                 </button>
                 <textarea
+                  onChange={handleHeadersChange}
+                  defaultValue={JSON.stringify(header, null, 2)}
                   disabled={isHeadersActive}
                   name=""
                   id=""
