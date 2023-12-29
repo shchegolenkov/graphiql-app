@@ -2,6 +2,25 @@ import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import { Button } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hook';
+
+import {
+  endpointState,
+  headersState,
+  inputState,
+  loadingState,
+  outputState,
+  variablesState,
+} from '../../store/editor/selectors';
+
+import {
+  setGraphQLParams,
+  setIsHeadersActive,
+  setIsLoading,
+  setIsVariablesActive,
+  setIsEndpointOpen,
+  setOutput,
+} from '../../store/editor/editor.slice';
 
 import { EndpointEditor } from '../../components/EndpointEditor';
 import { defaultQuery } from '../../utils/utils';
@@ -13,27 +32,24 @@ import fold from '../../assets/svg/fold.svg';
 import styles from './Main.module.scss';
 
 export const Main = () => {
-  const [isHeadersActive, setIsHeadersActive] = useState(false);
-  const [isVariablesActive, setIsVariablesActive] = useState(false);
-  const [lineNumber, setLineNumber] = useState(Array(11).fill(<span></span>));
-  const [graphQLParams, setGraphQLParams] = useState(defaultQuery);
-  const [output, setOutput] = useState(
-    '{ \n  message: {  \n    Output goes here \n  } \n}'
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  const [isEndpointOpen, setIsEndpointOpen] = useState(false);
-  const [endpointState, setEndpointState] = useState(
-    'https://rickandmortyapi.com/graphql'
-  );
+  const dispatch = useAppDispatch();
+
+  const [lineNumber, setLineNumber] = useState(Array(13).fill(<span></span>));
   const [isUpdated, setIsUpdated] = useState(false);
+  const output = useAppSelector(outputState);
+  const isHeadersActive = useAppSelector(headersState);
+  const isVariablesActive = useAppSelector(variablesState);
+  const isLoading = useAppSelector(loadingState);
+  const graphQLParams = useAppSelector(inputState);
+  const endpoint = useAppSelector(endpointState);
 
   const handleHeadersClick = useCallback(() => {
-    setIsHeadersActive(!isHeadersActive);
-  }, [isHeadersActive]);
+    dispatch(setIsHeadersActive());
+  }, [dispatch]);
 
   const handleVariablesClick = useCallback(() => {
-    setIsVariablesActive(!isVariablesActive);
-  }, [isVariablesActive]);
+    dispatch(setIsVariablesActive());
+  }, [dispatch]);
 
   const handleEditorChange: ChangeEventHandler<HTMLTextAreaElement> = (
     event
@@ -42,19 +58,19 @@ export const Main = () => {
     const textarea = event.target as HTMLTextAreaElement;
     const lines = textarea.value.split('\n').length;
 
-    setGraphQLParams(textarea.value);
+    dispatch(setGraphQLParams(textarea.value));
     setLineNumber(Array(lines).fill(<span></span>));
   };
 
   const graphQLFetch = (
     graphQLParams: string,
-    endpoint = endpointState,
+    endpoint = graphQLParams,
     headers = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     }
   ) => {
-    setIsLoading(true);
+    dispatch(setIsLoading());
     fetch(endpoint, {
       method: 'POST',
       headers,
@@ -65,14 +81,16 @@ export const Main = () => {
     })
       .then(async (res) => {
         const response = (await res.json()) as Response;
-        setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''));
+        dispatch(
+          setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''))
+        );
       })
       .catch((err) => {
         // error toast goes here,
         console.error(err);
       })
       .finally(() => {
-        setIsLoading(false);
+        dispatch(setIsLoading());
       });
   };
 
@@ -81,7 +99,7 @@ export const Main = () => {
   };
 
   const handleEndpointOpen = () => {
-    setIsEndpointOpen(true);
+    dispatch(setIsEndpointOpen());
   };
 
   useEffect(() => {
@@ -89,15 +107,11 @@ export const Main = () => {
     setTimeout(() => {
       setIsUpdated(false);
     }, 1000);
-  }, [endpointState]);
+  }, [endpoint]);
 
   return (
     <main className={styles.wrapper}>
-      <EndpointEditor
-        open={isEndpointOpen}
-        setOpen={setIsEndpointOpen}
-        setEndpoint={setEndpointState}
-      />
+      <EndpointEditor />
       <div className={styles.editorWrapper}>
         <div className={styles.editor}>
           <div className={styles.inputWrapper}>
@@ -124,7 +138,7 @@ export const Main = () => {
                     [styles.updated]: isUpdated,
                   })}
                 >
-                  {endpointState}
+                  {endpoint}
                 </div>
                 <Button
                   onClick={handleEndpointOpen}

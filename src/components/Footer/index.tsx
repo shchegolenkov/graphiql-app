@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 import Logo from '../../assets/svg/rsLogo.svg?react';
 import EgorAvatar from '../../assets/images/egorAvatar.jpg';
 import DenisAvatar from '../../assets/images/denisAvatar.jpg';
