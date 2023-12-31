@@ -95,15 +95,18 @@ export const Main = () => {
     let lines = graphQLParams.split(/[\n]/g);
     let indent = 0;
     lines = lines.map((item) => {
-      item.trim();
+      item = item.trim();
+
+      if (item.match(/}/g)) {
+        indent = indent - item.match(/}/g)!.length;
+      }
+
       item = '  '.repeat(indent) + item;
-      console.log(item);
-      if (item.includes('{')) {
-        indent++;
+
+      if (item.match(/{/g)) {
+        indent = indent + item.match(/{/g)!.length;
       }
-      if (item.includes('}')) {
-        indent--;
-      }
+
       return item;
     });
     const formatted = lines.join('\n');
