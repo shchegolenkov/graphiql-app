@@ -93,13 +93,24 @@ export const Main = () => {
 
   const prettify = () => {
     let lines = graphQLParams.split(/[\n]/g);
-    lines = lines.map((item) => item.trim());
-    console.log(lines.join('\n'));
-    // const formatted = graphQLParams.replace(/{/g, '{\n');
-    // const editor = inputRef.current as unknown as HTMLTextAreaElement;
-    // if (editor) {
-    //   editor.value = formatted;
-    // }
+    let indent = 0;
+    lines = lines.map((item) => {
+      item.trim();
+      item = '  '.repeat(indent) + item;
+      console.log(item);
+      if (item.includes('{')) {
+        indent++;
+      }
+      if (item.includes('}')) {
+        indent--;
+      }
+      return item;
+    });
+    const formatted = lines.join('\n');
+    const editor = inputRef.current as unknown as HTMLTextAreaElement;
+    if (editor) {
+      editor.value = formatted;
+    }
   };
 
   useEffect(() => {
