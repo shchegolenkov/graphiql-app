@@ -1,14 +1,20 @@
 import { Link } from 'react-router-dom';
-
 import clsx from 'clsx';
+
+import { selectModalActive } from '../../store/modal/selectors';
+import { useAppSelector } from '../../hooks/redux-hook';
 
 import EgorImage from '../../assets/images/egorImage.jpg';
 import DenisImage from '../../assets/images/denisImage.jpg';
 import PavelImage from '../../assets/images/pavelImage.jpg';
 
+import Modal from '../../components/Modal/Modal';
+
 import styles from './Welcome.module.scss';
 
 export const Welcome = () => {
+  const { isModalActive } = useAppSelector(selectModalActive);
+
   const team = [
     {
       name: 'Egor',
@@ -66,6 +72,7 @@ export const Welcome = () => {
           ))}
         </div>
       </div>
+      {isModalActive && <Modal />}
     </main>
   );
 };
