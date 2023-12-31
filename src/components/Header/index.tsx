@@ -11,6 +11,7 @@ import SignInIcon from '../../assets/svg/signInIcon.svg?react';
 import LogoutIcon from '../../assets/svg/logout.svg?react';
 import GraphQLIcon from '../../assets/svg/graphql_svg.svg?react';
 import styles from './Header.module.scss';
+import { RouteLinks } from '../../utils/types';
 
 export const Header = () => {
   const { isAuth, email } = useAuth();
@@ -27,7 +28,7 @@ export const Header = () => {
             <p>Welcome</p>
           </Link>
           {isAuth && (
-            <Link to="/main" className={styles.iconBlock}>
+            <Link to={RouteLinks.Main} className={styles.iconBlock}>
               <GraphQLIcon className={styles.icon} />
               <p>Main page</p>
             </Link>
@@ -35,7 +36,7 @@ export const Header = () => {
         </div>
         <div className={styles.navBlock}>
           {!isAuth && (
-            <Link to="/signup" className={styles.iconBlock}>
+            <Link to={RouteLinks.SignUp} className={styles.iconBlock}>
               <SignUpIcon className={styles.authIcon} />
               <p>Sign Up</p>
             </Link>

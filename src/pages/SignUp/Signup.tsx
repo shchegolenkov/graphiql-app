@@ -29,8 +29,6 @@ export const SignUp = () => {
       if (signupResult) {
         navigate(RouteLinks.Main);
         dispatch(openModal());
-      } else {
-        return;
       }
     } catch (error) {
       console.error(error);

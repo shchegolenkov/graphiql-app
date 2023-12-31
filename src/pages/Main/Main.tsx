@@ -5,11 +5,11 @@ import { Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hook';
 
 import {
-  headersState,
-  inputState,
-  loadingState,
-  outputState,
-  variablesState,
+  selectHeaders,
+  selectInput,
+  selectLoading,
+  selectOutput,
+  selectVariables,
 } from '../../store/editor/selectors';
 import {
   setGraphQLParams,
@@ -18,7 +18,7 @@ import {
   setIsVariablesActive,
   setOutput,
 } from '../../store/editor/editor.slice';
-import { defaultQuery } from '../../utils/utils';
+import { defaultQuery, getNumericArray } from '../../utils/utils';
 import run from '../../assets/svg/run.svg';
 import docs from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
@@ -29,12 +29,12 @@ import styles from './Main.module.scss';
 export const Main = () => {
   const dispatch = useAppDispatch();
 
-  const [lineNumber, setLineNumber] = useState(Array(13).fill(<span></span>));
-  const output = useAppSelector(outputState);
-  const isHeadersActive = useAppSelector(headersState);
-  const isVariablesActive = useAppSelector(variablesState);
-  const isLoading = useAppSelector(loadingState);
-  const graphQLParams = useAppSelector(inputState);
+  const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(13));
+  const output = useAppSelector(selectOutput);
+  const isHeadersActive = useAppSelector(selectHeaders);
+  const isVariablesActive = useAppSelector(selectVariables);
+  const isLoading = useAppSelector(selectLoading);
+  const graphQLParams = useAppSelector(selectInput);
 
   const handleHeadersClick = useCallback(() => {
     dispatch(setIsHeadersActive());
@@ -53,7 +53,7 @@ export const Main = () => {
 
     dispatch(setGraphQLParams(textarea.value));
     console.log(graphQLParams);
-    setLineNumber(Array(lines).fill(<span></span>));
+    setLineNumber(getNumericArray(lines));
   };
 
   const graphQLFetch = (
@@ -98,8 +98,8 @@ export const Main = () => {
         <div className={styles.editor}>
           <div className={styles.inputWrapper}>
             <div className={styles.lines}>
-              {lineNumber.map((item, index) => (
-                <span key={`${index}${item.type}`}></span>
+              {lineNumber.map((item) => (
+                <span key={item} />
               ))}
             </div>
             <textarea
@@ -161,8 +161,7 @@ export const Main = () => {
                 </button>
                 <textarea
                   disabled={isVariablesActive}
-                  name=""
-                  id=""
+                  name="variables"
                   cols={30}
                   rows={10}
                 />
@@ -183,7 +182,6 @@ export const Main = () => {
             value={output}
             className={styles.inputViewer}
             name="viewer"
-            id=""
             cols={30}
             rows={10}
             disabled
