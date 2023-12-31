@@ -29,8 +29,6 @@ export const SignIn = () => {
       if (loginResult) {
         navigate(RouteLinks.Main);
         dispatch(openModal());
-      } else {
-        return;
       }
     } catch (error) {
       console.error('Login error:', error);

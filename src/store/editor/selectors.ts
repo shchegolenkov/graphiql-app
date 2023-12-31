@@ -1,11 +1,10 @@
 import { RootState } from '../store';
 
-export const headersState = (state: RootState) => state.editor.isHeaderActive;
-export const variablesState = (state: RootState) =>
+export const selectHeaders = (state: RootState) => state.editor.isHeaderActive;
+export const selectVariables = (state: RootState) =>
   state.editor.isVariablesActive;
-export const loadingState = (state: RootState) => state.editor.isLoading;
-export const inputState = (state: RootState) => state.editor.graphQLParams;
-export const outputState = (state: RootState) => state.editor.output;
-
-export const endpointState = (state: RootState) => state.editor.endpoint;
-export const modalState = (state: RootState) => state.editor.isEndpointOpen;
+export const selectLoading = (state: RootState) => state.editor.isLoading;
+export const selectInput = (state: RootState) => state.editor.graphQLParams;
+export const selectOutput = (state: RootState) => state.editor.output;
+export const selectEndpoint = (state: RootState) => state.editor.endpoint;
+export const selectModal = (state: RootState) => state.editor.isEndpointOpen;

@@ -8,3 +8,6 @@ export const defaultQuery = `query {
     }
   }
 }`;
+
+export const getNumericArray = (length: number) =>
+  [...Array(length).keys()].map((i) => i + 1);
