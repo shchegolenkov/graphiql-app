@@ -133,8 +133,7 @@ export const Main = () => {
                 </button>
                 <textarea
                   disabled={isHeadersActive}
-                  name=""
-                  id=""
+                  name="headers"
                   cols={30}
                   rows={10}
                 />
