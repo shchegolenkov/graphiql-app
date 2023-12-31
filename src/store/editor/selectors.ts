@@ -1,0 +1,8 @@
+import { RootState } from '../store';
+
+export const selectHeaders = (state: RootState) => state.editor.isHeaderActive;
+export const selectVariables = (state: RootState) =>
+  state.editor.isVariablesActive;
+export const selectLoading = (state: RootState) => state.editor.isLoading;
+export const selectInput = (state: RootState) => state.editor.graphQLParams;
+export const selectOutput = (state: RootState) => state.editor.output;

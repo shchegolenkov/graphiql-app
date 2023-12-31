@@ -28,7 +28,10 @@
 .button {
   width: 220px;
   height: 60px;
-  font-size: 42px;
+
+  * {
+    font-size: 42px;
+  }
 }
 
 @media (max-width: 680px) {

@@ -47,3 +47,23 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
   box-shadow: none;
 }
+
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: $color-element-active;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: $color-bg-secondary;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $color-icon;
+  border-radius: 10px;
+}
