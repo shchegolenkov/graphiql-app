@@ -7,7 +7,7 @@ import {
   setEndpoint,
   setIsEndpointOpen,
 } from '../../store/editor/editor.slice';
-import { modalState } from '../../store/editor/selectors';
+import { selectModal } from '../../store/editor/selectors';
 import { endpointSchema } from '../../utils/validation';
 import close from '../../assets/svg/close.svg';
 
@@ -24,7 +24,7 @@ export const EndpointEditor = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(endpointSchema), mode: 'all' });
 
-  const endpointModal = useAppSelector(modalState);
+  const endpointModal = useAppSelector(selectModal);
   const dispatch = useAppDispatch();
 
   const onSubmitHandler = (formData: IEndpointData) => {

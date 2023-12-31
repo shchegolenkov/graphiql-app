@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { selectModalActive } from '../store/modal/selectors';
-import { useAppSelector } from '../hooks/redux-hook';
 import { useAuth } from '../hooks/useAuth';
 import { fetchUser } from '../firebase';
 
@@ -12,11 +10,9 @@ import { ProtectedRoute } from '../components/ProtectedRoute/ProtectedRoute';
 import { Welcome, SignIn, SignUp, Main, NotFound } from '../pages';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
-import Modal from '../components/Modal/Modal';
 
 function App() {
   const { isAuth } = useAuth();
-  const { isModalActive } = useAppSelector(selectModalActive);
 
   useEffect(() => {
     fetchUser();
@@ -53,7 +49,6 @@ function App() {
         />
         <Route path={RouteLinks.NotFound} element={<NotFound />} />
       </Routes>
-      {isModalActive && <Modal />}
       <Footer />
     </>
   );

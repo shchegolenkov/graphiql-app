@@ -5,13 +5,13 @@ import { Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hook';
 
 import {
-  endpointState,
-  isFoldedHeadersState,
-  inputState,
-  loadingState,
-  outputState,
-  isFoldedVariablesState,
-  headersState,
+  selectHeaders,
+  selectInput,
+  selectLoading,
+  selectOutput,
+  selectVariables,
+  selectEndpoint,
+  selectHeader,
 } from '../../store/editor/selectors';
 
 import {
@@ -23,9 +23,8 @@ import {
   setOutput,
   setHeaders,
 } from '../../store/editor/editor.slice';
-
+import { defaultQuery, getNumericArray } from '../../utils/utils';
 import { EndpointEditor } from '../../components/EndpointEditor';
-import { defaultQuery } from '../../utils/utils';
 import run from '../../assets/svg/run.svg';
 import docs from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
@@ -36,15 +35,15 @@ import styles from './Main.module.scss';
 export const Main = () => {
   const dispatch = useAppDispatch();
 
-  const [lineNumber, setLineNumber] = useState(Array(11).fill(<span></span>));
+  const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(11));
   const [isUpdated, setIsUpdated] = useState(false);
-  const output = useAppSelector(outputState);
-  const isHeadersActive = useAppSelector(isFoldedHeadersState);
-  const isVariablesActive = useAppSelector(isFoldedVariablesState);
-  const isLoading = useAppSelector(loadingState);
-  const graphQLParams = useAppSelector(inputState);
-  const endpoint = useAppSelector(endpointState);
-  const header = useAppSelector(headersState);
+  const output = useAppSelector(selectOutput);
+  const isHeadersActive = useAppSelector(selectHeaders);
+  const isVariablesActive = useAppSelector(selectVariables);
+  const isLoading = useAppSelector(selectLoading);
+  const graphQLParams = useAppSelector(selectInput);
+  const endpoint = useAppSelector(selectEndpoint);
+  const header = useAppSelector(selectHeader);
 
   const handleHeadersClick = useCallback(() => {
     dispatch(setIsHeadersActive());
@@ -62,7 +61,8 @@ export const Main = () => {
     const lines = textarea.value.split('\n').length;
 
     dispatch(setGraphQLParams(textarea.value));
-    setLineNumber(Array(lines).fill(<span></span>));
+    console.log(graphQLParams);
+    setLineNumber(getNumericArray(lines));
   };
 
   const graphQLFetch = (graphQLParams: string) => {
@@ -124,8 +124,8 @@ export const Main = () => {
         <div className={styles.editor}>
           <div className={styles.inputWrapper}>
             <div className={styles.lines}>
-              {lineNumber.map((item, index) => (
-                <span key={`${index}${item.type}`}></span>
+              {lineNumber.map((item) => (
+                <span key={item} />
               ))}
             </div>
             <textarea
@@ -169,8 +169,7 @@ export const Main = () => {
                   onChange={handleHeadersChange}
                   defaultValue={JSON.stringify(header, null, 2)}
                   disabled={isHeadersActive}
-                  name=""
-                  id=""
+                  name="headers"
                   cols={30}
                   rows={10}
                 />
@@ -197,8 +196,7 @@ export const Main = () => {
                 </button>
                 <textarea
                   disabled={isVariablesActive}
-                  name=""
-                  id=""
+                  name="variables"
                   cols={30}
                   rows={10}
                 />
@@ -219,7 +217,6 @@ export const Main = () => {
             value={output}
             className={styles.inputViewer}
             name="viewer"
-            id=""
             cols={30}
             rows={10}
             disabled

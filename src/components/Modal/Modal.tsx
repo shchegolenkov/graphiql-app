@@ -6,6 +6,7 @@ import { closeModal } from '../../store/modal/modal.slice';
 import { useAppDispatch } from '../../hooks/redux-hook';
 
 import styles from './Modal.module.scss';
+import { RouteLinks } from '../../utils/types';
 
 const Modal: FC = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ const Modal: FC = () => {
     <div className={styles.modal__wrapper} onClick={closeModalHandler}>
       <div className={styles.welcome__container}>
         <h2 className={styles.welcome__title}>You`re logged in!</h2>
-        <Link to="/main">
+        <Link to={RouteLinks.Main}>
           <Button
             type="button"
             className={styles.welcome__button}
