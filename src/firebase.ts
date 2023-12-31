@@ -46,7 +46,6 @@ export const fetchUser = () => {
 const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    alert('Logged in!');
     return true;
   } catch (err) {
     alert(err);

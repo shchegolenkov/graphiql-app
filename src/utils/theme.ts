@@ -51,6 +51,14 @@ export const themeOptions: ThemeOptions = {
         },
       },
     },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          background: '#150f0f',
+          borderRadius: '20px',
+        },
+      },
+    },
   },
   palette: {
     mode: 'light',

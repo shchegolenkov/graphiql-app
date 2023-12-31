@@ -7,14 +7,20 @@ interface UserState {
   graphQLParams: string;
   output: string;
   isLoading: boolean;
+  isUpdated: boolean;
+  isEndpointOpen: boolean;
+  endpoint: string;
 }
 
 const initialState: UserState = {
   isHeaderActive: false,
   isVariablesActive: false,
+  isLoading: false,
+  isUpdated: false,
+  isEndpointOpen: false,
+  endpoint: 'https://rickandmortyapi.com/graphql',
   graphQLParams: defaultQuery,
   output: '{ \n  message: {  \n    Output goes here \n  } \n}',
-  isLoading: false,
 };
 
 const editorSlice = createSlice({
@@ -26,6 +32,12 @@ const editorSlice = createSlice({
     },
     setIsVariablesActive(state) {
       state.isVariablesActive = !state.isVariablesActive;
+    },
+    setIsEndpointOpen(state) {
+      state.isEndpointOpen = !state.isEndpointOpen;
+    },
+    setEndpoint(state, action) {
+      state.endpoint = action.payload;
     },
     setGraphQLParams(state, action) {
       state.graphQLParams = action.payload;
@@ -43,6 +55,8 @@ export const {
   setIsHeadersActive,
   setIsVariablesActive,
   setIsLoading,
+  setIsEndpointOpen,
+  setEndpoint,
   setOutput,
   setGraphQLParams,
 } = editorSlice.actions;

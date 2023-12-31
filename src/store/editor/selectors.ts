@@ -6,3 +6,5 @@ export const selectVariables = (state: RootState) =>
 export const selectLoading = (state: RootState) => state.editor.isLoading;
 export const selectInput = (state: RootState) => state.editor.graphQLParams;
 export const selectOutput = (state: RootState) => state.editor.output;
+export const selectEndpoint = (state: RootState) => state.editor.endpoint;
+export const selectModal = (state: RootState) => state.editor.isEndpointOpen;

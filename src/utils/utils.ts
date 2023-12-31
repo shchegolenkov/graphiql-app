@@ -1,12 +1,9 @@
-export const defaultQuery = `query GetCountry {
-  country(code: "BR") {
-    name
-    native
-    capital
-    emoji
-    currency
-    languages {
-      code
+export const defaultQuery = `query {
+  characters(page: 2, filter: { name: "rick" }) {
+    info {
+      count
+    }
+    results {
       name
     }
   }

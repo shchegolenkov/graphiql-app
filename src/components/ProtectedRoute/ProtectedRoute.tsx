@@ -8,20 +8,14 @@ interface ProtectedRouteProps {
   route: 'welcome' | 'main';
 }
 
+const getRedirectPath = (route: string) => {
+  return route === RouteLinks.Main ? RouteLinks.Main : RouteLinks.Welcome;
+};
+
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({
   children,
   user,
   route,
 }) => {
-  const getRedirectPath = () => {
-    switch (route) {
-      case 'main':
-        return RouteLinks.Main;
-      case 'welcome':
-        return RouteLinks.Welcome;
-      default:
-        return RouteLinks.Welcome;
-    }
-  };
-  return user ? children : <Navigate to={getRedirectPath()} />;
+  return user ? children : <Navigate to={getRedirectPath(route)} />;
 };

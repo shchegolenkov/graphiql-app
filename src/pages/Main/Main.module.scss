@@ -211,6 +211,12 @@ textarea {
     overflow: auto;
     border-radius: 10px;
     background-color: $color-endpoint-bg;
+
+    transition: all 0.5s cubic-bezier(0.255, 0.95, 0.58, 0.73);
+
+    &.updated {
+      background-color: $color-element-bg !important;
+    }
   }
 }
 
@@ -457,6 +463,13 @@ textarea {
 }
 
 @media (max-width: 470px) {
+  .editor {
+    .editorInput,
+    .lines {
+      font-size: 14px;
+    }
+  }
+
   .utilitiesWrapper {
     flex-direction: column;
     gap: 0px;
@@ -519,6 +532,10 @@ textarea {
   .run {
     width: 120px;
     height: 70px;
+  }
+
+  .inputViewer {
+    font-size: 14px;
   }
 }
 

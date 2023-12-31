@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useCallback, useState } from 'react';
+import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import { Button } from '@mui/material';
@@ -10,15 +10,19 @@ import {
   selectLoading,
   selectOutput,
   selectVariables,
+  selectEndpoint,
 } from '../../store/editor/selectors';
+
 import {
   setGraphQLParams,
   setIsHeadersActive,
   setIsLoading,
   setIsVariablesActive,
+  setIsEndpointOpen,
   setOutput,
 } from '../../store/editor/editor.slice';
 import { defaultQuery, getNumericArray } from '../../utils/utils';
+import { EndpointEditor } from '../../components/EndpointEditor';
 import run from '../../assets/svg/run.svg';
 import docs from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
@@ -29,12 +33,14 @@ import styles from './Main.module.scss';
 export const Main = () => {
   const dispatch = useAppDispatch();
 
-  const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(13));
+  const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(11));
+  const [isUpdated, setIsUpdated] = useState(false);
   const output = useAppSelector(selectOutput);
   const isHeadersActive = useAppSelector(selectHeaders);
   const isVariablesActive = useAppSelector(selectVariables);
   const isLoading = useAppSelector(selectLoading);
   const graphQLParams = useAppSelector(selectInput);
+  const endpoint = useAppSelector(selectEndpoint);
 
   const handleHeadersClick = useCallback(() => {
     dispatch(setIsHeadersActive());
@@ -58,7 +64,7 @@ export const Main = () => {
 
   const graphQLFetch = (
     graphQLParams: string,
-    endpoint = 'https://countries.trevorblades.com/',
+    endpoint = graphQLParams,
     headers = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -92,8 +98,20 @@ export const Main = () => {
     graphQLFetch(graphQLParams);
   };
 
+  const handleEndpointOpen = () => {
+    dispatch(setIsEndpointOpen());
+  };
+
+  useEffect(() => {
+    setIsUpdated(true);
+    setTimeout(() => {
+      setIsUpdated(false);
+    }, 1000);
+  }, [endpoint]);
+
   return (
     <main className={styles.wrapper}>
+      <EndpointEditor />
       <div className={styles.editorWrapper}>
         <div className={styles.editor}>
           <div className={styles.inputWrapper}>
@@ -115,10 +133,18 @@ export const Main = () => {
           <div className={styles.utilitiesWrapper}>
             <div className={styles.headersWrapper}>
               <div className={styles.endpointWrapper}>
-                <div className={styles.endpoint}>
-                  https://countries.trevorblades.com/
+                <div
+                  className={clsx(styles.endpoint, {
+                    [styles.updated]: isUpdated,
+                  })}
+                >
+                  {endpoint}
                 </div>
-                <Button variant="contained" className={styles.endpointChange}>
+                <Button
+                  onClick={handleEndpointOpen}
+                  variant="contained"
+                  className={styles.endpointChange}
+                >
                   <img src={edit} alt="" />
                 </Button>
               </div>
