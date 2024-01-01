@@ -8,9 +8,29 @@ import {
 
 import clsx from 'clsx';
 import { Button } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hook';
 
+import {
+  selectHeaders,
+  selectInput,
+  selectLoading,
+  selectOutput,
+  selectVariables,
+  selectEndpoint,
+  selectHeader,
+} from '../../store/editor/selectors';
+
+import {
+  setGraphQLParams,
+  setIsHeadersActive,
+  setIsLoading,
+  setIsVariablesActive,
+  setIsEndpointOpen,
+  setOutput,
+  setHeaders,
+} from '../../store/editor/editor.slice';
+import { defaultQuery, getNumericArray } from '../../utils/utils';
 import { EndpointEditor } from '../../components/EndpointEditor';
-import { defaultQuery } from '../../utils/utils';
 import run from '../../assets/svg/run.svg';
 import docs from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
@@ -19,28 +39,27 @@ import fold from '../../assets/svg/fold.svg';
 import styles from './Main.module.scss';
 
 export const Main = () => {
-  const inputRef = useRef(null);
-  const [isHeadersActive, setIsHeadersActive] = useState(false);
-  const [isVariablesActive, setIsVariablesActive] = useState(false);
-  const [lineNumber, setLineNumber] = useState(Array(11).fill(<span></span>));
-  const [graphQLParams, setGraphQLParams] = useState(defaultQuery);
-  const [output, setOutput] = useState(
-    '{ \n  message: {  \n    Output goes here \n  } \n}'
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  const [isEndpointOpen, setIsEndpointOpen] = useState(false);
-  const [endpointState, setEndpointState] = useState(
-    'https://rickandmortyapi.com/graphql'
-  );
+  const headersRef = useRef(null);
+  const dispatch = useAppDispatch();
+
+  const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(11));
   const [isUpdated, setIsUpdated] = useState(false);
 
+  const output = useAppSelector(selectOutput);
+  const isHeadersActive = useAppSelector(selectHeaders);
+  const isVariablesActive = useAppSelector(selectVariables);
+  const isLoading = useAppSelector(selectLoading);
+  const graphQLParams = useAppSelector(selectInput);
+  const endpoint = useAppSelector(selectEndpoint);
+  const header = useAppSelector(selectHeader);
+
   const handleHeadersClick = useCallback(() => {
-    setIsHeadersActive(!isHeadersActive);
-  }, [isHeadersActive]);
+    dispatch(setIsHeadersActive());
+  }, [dispatch]);
 
   const handleVariablesClick = useCallback(() => {
-    setIsVariablesActive(!isVariablesActive);
-  }, [isVariablesActive]);
+    dispatch(setIsVariablesActive());
+  }, [dispatch]);
 
   const handleEditorChange: ChangeEventHandler<HTMLTextAreaElement> = (
     event
@@ -49,22 +68,16 @@ export const Main = () => {
     const textarea = event.target as HTMLTextAreaElement;
     const lines = textarea.value.split('\n').length;
 
-    setGraphQLParams(textarea.value);
-    setLineNumber(Array(lines).fill(<span></span>));
+    dispatch(setGraphQLParams(textarea.value));
+    console.log(graphQLParams);
+    setLineNumber(getNumericArray(lines));
   };
 
-  const graphQLFetch = (
-    graphQLParams: string,
-    endpoint = endpointState,
-    headers = {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    }
-  ) => {
-    setIsLoading(true);
+  const graphQLFetch = (graphQLParams: string) => {
+    dispatch(setIsLoading());
     fetch(endpoint, {
       method: 'POST',
-      headers,
+      headers: header,
       body: JSON.stringify({
         query: graphQLParams,
         // variables: variables
@@ -72,14 +85,17 @@ export const Main = () => {
     })
       .then(async (res) => {
         const response = (await res.json()) as Response;
-        setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''));
+
+        dispatch(
+          setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''))
+        );
       })
       .catch((err) => {
-        // error toast goes here,
+        // error toast goes here
         console.error(err);
       })
       .finally(() => {
-        setIsLoading(false);
+        dispatch(setIsLoading());
       });
   };
 
@@ -88,7 +104,18 @@ export const Main = () => {
   };
 
   const handleEndpointOpen = () => {
-    setIsEndpointOpen(true);
+    dispatch(setIsEndpointOpen());
+  };
+
+  const handleHeadersChange: ChangeEventHandler<HTMLTextAreaElement> = (
+    event
+  ) => {
+    const textarea = event.target as HTMLTextAreaElement;
+    try {
+      dispatch(setHeaders(JSON.parse(textarea.value)));
+    } catch {
+      return;
+    }
   };
 
   const prettify = () => {
@@ -110,7 +137,7 @@ export const Main = () => {
       return item;
     });
     const formatted = lines.join('\n');
-    const editor = inputRef.current as unknown as HTMLTextAreaElement;
+    const editor = headersRef.current as unknown as HTMLTextAreaElement;
     if (editor) {
       editor.value = formatted;
     }
@@ -121,25 +148,21 @@ export const Main = () => {
     setTimeout(() => {
       setIsUpdated(false);
     }, 1000);
-  }, [endpointState]);
+  }, [endpoint]);
 
   return (
     <main className={styles.wrapper}>
-      <EndpointEditor
-        open={isEndpointOpen}
-        setOpen={setIsEndpointOpen}
-        setEndpoint={setEndpointState}
-      />
+      <EndpointEditor />
       <div className={styles.editorWrapper}>
         <div className={styles.editor}>
           <div className={styles.inputWrapper}>
             <div className={styles.lines}>
-              {lineNumber.map((item, index) => (
-                <span key={`${index}${item.type}`}></span>
+              {lineNumber.map((item) => (
+                <span key={item} />
               ))}
             </div>
             <textarea
-              ref={inputRef}
+              ref={headersRef}
               defaultValue={defaultQuery}
               onChange={handleEditorChange}
               className={styles.editorInput}
@@ -157,7 +180,7 @@ export const Main = () => {
                     [styles.updated]: isUpdated,
                   })}
                 >
-                  {endpointState}
+                  {endpoint}
                 </div>
                 <Button
                   onClick={handleEndpointOpen}
@@ -177,9 +200,10 @@ export const Main = () => {
                   <img src={fold} alt="" />
                 </button>
                 <textarea
+                  onChange={handleHeadersChange}
+                  defaultValue={JSON.stringify(header, null, 2)}
                   disabled={isHeadersActive}
-                  name=""
-                  id=""
+                  name="headers"
                   cols={30}
                   rows={10}
                 />
@@ -210,8 +234,7 @@ export const Main = () => {
                 </button>
                 <textarea
                   disabled={isVariablesActive}
-                  name=""
-                  id=""
+                  name="variables"
                   cols={30}
                   rows={10}
                 />
@@ -232,7 +255,6 @@ export const Main = () => {
             value={output}
             className={styles.inputViewer}
             name="viewer"
-            id=""
             cols={30}
             rows={10}
             disabled

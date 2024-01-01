@@ -1,25 +1,38 @@
 import { Button, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { signupSchema } from '../../utils/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { registerWithEmailAndPassword } from '../../firebase';
+import { useAppDispatch } from '../../hooks/redux-hook';
+import { openModal } from '../../store/modal/modal.slice';
 
+import { signupSchema } from '../../utils/validation';
+import { registerWithEmailAndPassword } from '../../firebase';
 import { IFormData, RouteLinks } from '../../utils/types';
 
 import styles from './SignUp.module.scss';
 
 export const SignUp = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(signupSchema), mode: 'all' });
 
-  const onSubmitHandler = (formData: IFormData) => {
-    const { email, password } = formData;
-    registerWithEmailAndPassword(email, password);
+  const onSubmitHandler = async (formData: IFormData) => {
+    try {
+      const { email, password } = formData;
+      const signupResult = await registerWithEmailAndPassword(email, password);
+      if (signupResult) {
+        navigate(RouteLinks.Main);
+        dispatch(openModal());
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

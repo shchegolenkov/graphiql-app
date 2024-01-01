@@ -1,26 +1,38 @@
 import { Button, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { useAppDispatch } from '../../hooks/redux-hook';
+import { openModal } from '../../store/modal/modal.slice';
+
 import { signinSchema } from '../../utils/validation';
-
 import { IFormData, RouteLinks } from '../../utils/types';
-
 import { logInWithEmailAndPassword } from '../../firebase';
 
 import styles from './SignIn.module.scss';
 
 export const SignIn = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(signinSchema), mode: 'all' });
 
-  const onSubmitHandler = (formData: IFormData) => {
+  const onSubmitHandler = async (formData: IFormData) => {
     const { email, password } = formData;
-    logInWithEmailAndPassword(email, password);
+    try {
+      const loginResult = await logInWithEmailAndPassword(email, password);
+      if (loginResult) {
+        navigate(RouteLinks.Main);
+        dispatch(openModal());
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
   };
 
   return (
