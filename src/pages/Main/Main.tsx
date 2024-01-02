@@ -23,7 +23,11 @@ import {
   setOutput,
   setHeaders,
 } from '../../store/editor/editor.slice';
-import { defaultQuery, getNumericArray } from '../../utils/utils';
+import {
+  defaultHeaders,
+  defaultQuery,
+  getNumericArray,
+} from '../../utils/utils';
 import { EndpointEditor } from '../../components/EndpointEditor';
 import run from '../../assets/svg/run.svg';
 import docs from '../../assets/svg/docs.svg';
@@ -68,7 +72,7 @@ export const Main = () => {
     dispatch(setIsLoading());
     fetch(endpoint, {
       method: 'POST',
-      headers: header,
+      headers: header || defaultHeaders,
       body: JSON.stringify({
         query: graphQLParams,
         // variables: variables
@@ -102,11 +106,7 @@ export const Main = () => {
     event
   ) => {
     const textarea = event.target as HTMLTextAreaElement;
-    try {
-      dispatch(setHeaders(JSON.parse(textarea.value)));
-    } catch {
-      return;
-    }
+    dispatch(setHeaders(textarea.value));
   };
 
   useEffect(() => {
