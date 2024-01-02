@@ -27,6 +27,7 @@ import run from '../../assets/svg/run.svg';
 import docs from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
 import fold from '../../assets/svg/fold.svg';
+import ErrorToast from '../../components/CustomToast/ErrorToast';
 
 import styles from './Main.module.scss';
 
@@ -87,6 +88,7 @@ export const Main = () => {
       })
       .catch((err) => {
         // error toast goes here,
+        ErrorToast(`${err}`);
         console.error(err);
       })
       .finally(() => {

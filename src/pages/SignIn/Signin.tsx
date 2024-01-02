@@ -9,6 +9,7 @@ import { openModal } from '../../store/modal/modal.slice';
 import { signinSchema } from '../../utils/validation';
 import { IFormData, RouteLinks } from '../../utils/types';
 import { logInWithEmailAndPassword } from '../../firebase';
+import ErrorToast from '../../components/CustomToast/ErrorToast';
 
 import styles from './SignIn.module.scss';
 
@@ -31,6 +32,7 @@ export const SignIn = () => {
         dispatch(openModal());
       }
     } catch (error) {
+      ErrorToast(`${error}`);
       console.error('Login error:', error);
     }
   };
