@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { defaultQuery } from '../../utils/utils';
+import { defaultHeaders, defaultQuery } from '../../utils/utils';
 
 interface UserState {
   isHeaderActive: boolean;
@@ -22,10 +22,7 @@ const initialState: UserState = {
   endpoint: 'https://rickandmortyapi.com/graphql',
   graphQLParams: defaultQuery,
   output: '{ \n  message: {  \n    Output goes here \n  } \n}',
-  headers: {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-  },
+  headers: defaultHeaders,
 };
 
 const editorSlice = createSlice({
