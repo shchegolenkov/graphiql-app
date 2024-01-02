@@ -105,7 +105,7 @@ export const Main = () => {
   const handleHeadersChange: ChangeEventHandler<HTMLTextAreaElement> = (
     event
   ) => {
-    const textarea = event.target as HTMLTextAreaElement;
+    const textarea = event.target;
     dispatch(setHeaders(textarea.value));
   };
 
