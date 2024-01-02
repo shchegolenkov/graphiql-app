@@ -1,8 +1,12 @@
-import { Tooltip } from '@mui/material';
+import { useEffect, useState } from 'react';
+
 import { Link } from 'react-router-dom';
+import { Tooltip } from '@mui/material';
+import clsx from 'clsx';
 
 import { useAuth } from '../../hooks/useAuth';
 import { logout } from '../../firebase';
+import { RouteLinks } from '../../utils/types';
 
 import TranslateIcon from '../../assets/svg/translateIcon.svg?react';
 import WelcomeIcon from '../../assets/svg/welcomeIcon.svg?react';
@@ -10,13 +14,28 @@ import SignUpIcon from '../../assets/svg/signUpIcon.svg?react';
 import SignInIcon from '../../assets/svg/signInIcon.svg?react';
 import LogoutIcon from '../../assets/svg/logout.svg?react';
 import GraphQLIcon from '../../assets/svg/graphql_svg.svg?react';
+
 import styles from './Header.module.scss';
-import { RouteLinks } from '../../utils/types';
 
 export const Header = () => {
   const { isAuth, email } = useAuth();
+  const [ isScrolled, setIsScrolled ] = useState(false);
+
+  const handleScroll = () => {
+    setIsScrolled(window.scrollY > 0);
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  
   return (
-    <header className={styles.header}>
+    <header className={clsx(styles.header, {
+      [styles.headerScrolled]: isScrolled,
+    })} >
       <nav className={styles.nav}>
         <div className={styles.navBlock}>
           <button className={styles.iconBlock}>
