@@ -1,5 +1,5 @@
 export const defaultQuery = `query {
-  characters(page: 2, filter: { name: "rick" }) {
+  characters (page: 5) {
     info {
       count
     }

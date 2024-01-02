@@ -46,7 +46,7 @@ export const Main = () => {
   const headersRef = useRef(null);
   const dispatch = useAppDispatch();
 
-  const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(11));
+  const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(10));
   const [isUpdated, setIsUpdated] = useState(false);
 
   const output = useAppSelector(selectOutput);
