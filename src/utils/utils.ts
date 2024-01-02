@@ -23,22 +23,25 @@ export const prettify = (
   graphQLParams: string,
   headersRef: MutableRefObject<null>
 ) => {
+  const START_CURLY_BRACKETS = /{/g;
+  const END_CURLY_BRACKETS = /}/g;
+
   let lines = graphQLParams
-    .replace(/{/g, '{\n')
-    .replace(/}/, '\n}\n')
+    .replace(START_CURLY_BRACKETS, '{\n')
+    .replace(END_CURLY_BRACKETS, '\n}\n')
     .split(/[\n]/g);
   let indent = 0;
   lines = lines.map((item) => {
     item = item.trim();
 
-    if (item.match(/}/g) && indent > 0) {
-      indent = indent - item.match(/}/g)!.length;
+    if (item.match(END_CURLY_BRACKETS) && indent > 0) {
+      indent = indent - item.match(END_CURLY_BRACKETS)!.length;
     }
 
     item = '  '.repeat(indent) + item;
 
-    if (item.match(/{/g)) {
-      indent = indent + item.match(/{/g)!.length;
+    if (item.match(START_CURLY_BRACKETS)) {
+      indent = indent + item.match(START_CURLY_BRACKETS)!.length;
     }
 
     return item;
