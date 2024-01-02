@@ -27,7 +27,6 @@ export const prettify = (
     .replace(/{/g, '{\n')
     .replace(/}/, '\n}\n')
     .split(/[\n]/g);
-  console.log(lines);
   let indent = 0;
   lines = lines.map((item) => {
     item = item.trim();
