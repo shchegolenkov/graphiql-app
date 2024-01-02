@@ -46,9 +46,10 @@ export const prettify = (
 
     return item;
   });
-  const formatted = lines.filter((item) => item.trim().length !== 0).join('\n');
+  const formatted = lines.filter((item) => item.trim().length !== 0);
   const editor = headersRef.current as unknown as HTMLTextAreaElement;
   if (editor) {
-    editor.value = formatted;
+    editor.value = formatted.join('\n');
   }
+  return formatted.length;
 };

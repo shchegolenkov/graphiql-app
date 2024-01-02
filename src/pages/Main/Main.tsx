@@ -119,7 +119,8 @@ export const Main = () => {
   };
 
   const handlePrettify = () => {
-    prettify(graphQLParams, headersRef);
+    const prettified = prettify(graphQLParams, headersRef);
+    setLineNumber(getNumericArray(prettified));
   };
 
   useEffect(() => {
