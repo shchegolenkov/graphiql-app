@@ -1,3 +1,5 @@
+import { MutableRefObject } from 'react';
+
 export const defaultQuery = `query {
   characters (page: 5) {
     info {
@@ -16,3 +18,35 @@ export const defaultHeaders = {
 
 export const getNumericArray = (length: number) =>
   [...Array(length).keys()].map((i) => i + 1);
+
+export const prettify = (
+  graphQLParams: string,
+  headersRef: MutableRefObject<null>
+) => {
+  let lines = graphQLParams
+    .replace(/{/g, '{\n')
+    .replace(/}/, '\n}\n')
+    .split(/[\n]/g);
+  console.log(lines);
+  let indent = 0;
+  lines = lines.map((item) => {
+    item = item.trim();
+
+    if (item.match(/}/g) && indent > 0) {
+      indent = indent - item.match(/}/g)!.length;
+    }
+
+    item = '  '.repeat(indent) + item;
+
+    if (item.match(/{/g)) {
+      indent = indent + item.match(/{/g)!.length;
+    }
+
+    return item;
+  });
+  const formatted = lines.filter((item) => item.trim().length !== 0).join('\n');
+  const editor = headersRef.current as unknown as HTMLTextAreaElement;
+  if (editor) {
+    editor.value = formatted;
+  }
+};

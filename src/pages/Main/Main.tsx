@@ -33,6 +33,7 @@ import {
   defaultHeaders,
   defaultQuery,
   getNumericArray,
+  prettify,
 } from '../../utils/utils';
 import { EndpointEditor } from '../../components/EndpointEditor';
 import run from '../../assets/svg/run.svg';
@@ -117,29 +118,8 @@ export const Main = () => {
     dispatch(setHeaders(textarea.value));
   };
 
-  const prettify = () => {
-    let lines = graphQLParams.split(/[\n]/g);
-    let indent = 0;
-    lines = lines.map((item) => {
-      item = item.trim();
-
-      if (item.match(/}/g)) {
-        indent = indent - item.match(/}/g)!.length;
-      }
-
-      item = '  '.repeat(indent) + item;
-
-      if (item.match(/{/g)) {
-        indent = indent + item.match(/{/g)!.length;
-      }
-
-      return item;
-    });
-    const formatted = lines.join('\n');
-    const editor = headersRef.current as unknown as HTMLTextAreaElement;
-    if (editor) {
-      editor.value = formatted;
-    }
+  const handlePrettify = () => {
+    prettify(graphQLParams, headersRef);
   };
 
   useEffect(() => {
@@ -215,7 +195,7 @@ export const Main = () => {
                   <img src={docs} alt="" />
                 </Button>
                 <Button
-                  onClick={prettify}
+                  onClick={handlePrettify}
                   variant="contained"
                   className={styles.prettify}
                 >
