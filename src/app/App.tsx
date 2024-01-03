@@ -54,7 +54,7 @@ function App() {
       </Routes>
       <Footer />
       <ToastContainer
-        position="bottom-left"
+        position="bottom-right"
         autoClose={3000}
         draggable={false}
       />
