@@ -59,7 +59,6 @@ export const Main = () => {
     const lines = textarea.value.split('\n').length;
 
     dispatch(setGraphQLParams(textarea.value));
-    console.log(graphQLParams);
     setLineNumber(getNumericArray(lines));
   };
 
