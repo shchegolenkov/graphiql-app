@@ -1,4 +1,10 @@
-import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
+import {
+  ChangeEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import clsx from 'clsx';
 import { Button } from '@mui/material';
@@ -27,6 +33,7 @@ import {
   defaultHeaders,
   defaultQuery,
   getNumericArray,
+  prettify,
 } from '../../utils/utils';
 import { EndpointEditor } from '../../components/EndpointEditor';
 import run from '../../assets/svg/run.svg';
@@ -37,10 +44,12 @@ import fold from '../../assets/svg/fold.svg';
 import styles from './Main.module.scss';
 
 export const Main = () => {
+  const headersRef = useRef(null);
   const dispatch = useAppDispatch();
 
-  const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(11));
+  const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(10));
   const [isUpdated, setIsUpdated] = useState(false);
+
   const output = useAppSelector(selectOutput);
   const isHeadersActive = useAppSelector(selectHeaders);
   const isVariablesActive = useAppSelector(selectVariables);
@@ -113,6 +122,11 @@ export const Main = () => {
     dispatch(setHeaders(textarea.value));
   };
 
+  const handlePrettify = () => {
+    const prettified = prettify(graphQLParams, headersRef);
+    setLineNumber(getNumericArray(prettified));
+  };
+
   useEffect(() => {
     setIsUpdated(true);
     setTimeout(() => {
@@ -132,6 +146,7 @@ export const Main = () => {
               ))}
             </div>
             <textarea
+              ref={headersRef}
               defaultValue={defaultQuery}
               onChange={handleEditorChange}
               className={styles.editorInput}
@@ -184,7 +199,11 @@ export const Main = () => {
                 <Button disabled variant="contained" className={styles.docs}>
                   <img src={docs} alt="" />
                 </Button>
-                <Button variant="contained" className={styles.prettify}>
+                <Button
+                  onClick={handlePrettify}
+                  variant="contained"
+                  className={styles.prettify}
+                >
                   Prettify!
                 </Button>
               </div>
