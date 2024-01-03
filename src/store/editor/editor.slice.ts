@@ -10,6 +10,7 @@ interface UserState {
   isUpdated: boolean;
   isEndpointOpen: boolean;
   endpoint: string;
+  headers: string;
 }
 
 const initialState: UserState = {
@@ -21,6 +22,7 @@ const initialState: UserState = {
   endpoint: 'https://rickandmortyapi.com/graphql',
   graphQLParams: defaultQuery,
   output: '{ \n  message: {  \n    Output goes here \n  } \n}',
+  headers: '',
 };
 
 const editorSlice = createSlice({
@@ -48,11 +50,15 @@ const editorSlice = createSlice({
     setIsLoading(state) {
       state.isLoading = !state.isLoading;
     },
+    setHeaders(state, action) {
+      state.headers = action.payload;
+    },
   },
 });
 
 export const {
   setIsHeadersActive,
+  setHeaders,
   setIsVariablesActive,
   setIsLoading,
   setIsEndpointOpen,

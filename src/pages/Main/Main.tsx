@@ -11,6 +11,7 @@ import {
   selectOutput,
   selectVariables,
   selectEndpoint,
+  selectHeader,
 } from '../../store/editor/selectors';
 
 import {
@@ -20,8 +21,13 @@ import {
   setIsVariablesActive,
   setIsEndpointOpen,
   setOutput,
+  setHeaders,
 } from '../../store/editor/editor.slice';
-import { defaultQuery, getNumericArray } from '../../utils/utils';
+import {
+  defaultHeaders,
+  defaultQuery,
+  getNumericArray,
+} from '../../utils/utils';
 import { EndpointEditor } from '../../components/EndpointEditor';
 import run from '../../assets/svg/run.svg';
 import docs from '../../assets/svg/docs.svg';
@@ -41,6 +47,7 @@ export const Main = () => {
   const isLoading = useAppSelector(selectLoading);
   const graphQLParams = useAppSelector(selectInput);
   const endpoint = useAppSelector(selectEndpoint);
+  const headers = useAppSelector(selectHeader);
 
   const handleHeadersClick = useCallback(() => {
     dispatch(setIsHeadersActive());
@@ -58,22 +65,18 @@ export const Main = () => {
     const lines = textarea.value.split('\n').length;
 
     dispatch(setGraphQLParams(textarea.value));
-    console.log(graphQLParams);
     setLineNumber(getNumericArray(lines));
   };
 
-  const graphQLFetch = (
-    graphQLParams: string,
-    endpoint = graphQLParams,
-    headers = {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
+  const graphQLFetch = (graphQLParams: string) => {
+    let parsedHeaders = null;
+    if (headers) {
+      parsedHeaders = JSON.parse(headers);
     }
-  ) => {
     dispatch(setIsLoading());
     fetch(endpoint, {
       method: 'POST',
-      headers,
+      headers: parsedHeaders ?? defaultHeaders,
       body: JSON.stringify({
         query: graphQLParams,
         // variables: variables
@@ -81,12 +84,13 @@ export const Main = () => {
     })
       .then(async (res) => {
         const response = (await res.json()) as Response;
+
         dispatch(
           setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''))
         );
       })
       .catch((err) => {
-        // error toast goes here,
+        // error toast goes here
         console.error(err);
       })
       .finally(() => {
@@ -100,6 +104,13 @@ export const Main = () => {
 
   const handleEndpointOpen = () => {
     dispatch(setIsEndpointOpen());
+  };
+
+  const handleHeadersChange: ChangeEventHandler<HTMLTextAreaElement> = (
+    event
+  ) => {
+    const textarea = event.target;
+    dispatch(setHeaders(textarea.value));
   };
 
   useEffect(() => {
@@ -158,6 +169,8 @@ export const Main = () => {
                   <img src={fold} alt="" />
                 </button>
                 <textarea
+                  onChange={handleHeadersChange}
+                  defaultValue={JSON.stringify(defaultHeaders, null, 2)}
                   disabled={isHeadersActive}
                   name="headers"
                   cols={30}

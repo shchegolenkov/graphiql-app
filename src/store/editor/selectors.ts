@@ -8,3 +8,4 @@ export const selectInput = (state: RootState) => state.editor.graphQLParams;
 export const selectOutput = (state: RootState) => state.editor.output;
 export const selectEndpoint = (state: RootState) => state.editor.endpoint;
 export const selectModal = (state: RootState) => state.editor.isEndpointOpen;
+export const selectHeader = (state: RootState) => state.editor.headers;
