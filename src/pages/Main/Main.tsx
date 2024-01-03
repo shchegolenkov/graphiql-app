@@ -87,7 +87,6 @@ export const Main = () => {
         );
       })
       .catch((err) => {
-        // error toast goes here,
         ErrorToast(`${err}`);
         console.error(err);
       })
