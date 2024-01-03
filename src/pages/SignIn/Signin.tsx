@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Button, TextField, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import clsx from 'clsx';
 
 import { useAppDispatch } from '../../hooks/redux-hook';
 import { openModal } from '../../store/modal/modal.slice';
@@ -22,8 +24,11 @@ export const SignIn = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(signinSchema), mode: 'all' });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmitHandler = async (formData: IFormData) => {
     const { email, password } = formData;
+    setIsLoading(true);
     try {
       const loginResult = await logInWithEmailAndPassword(email, password);
       if (loginResult) {
@@ -32,6 +37,8 @@ export const SignIn = () => {
       }
     } catch (error) {
       console.error('Login error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -61,8 +68,13 @@ export const SignIn = () => {
             type="password"
             autoComplete="current-password"
           />
-          <Button type="submit" className={styles.button} variant="contained">
-            <Typography>Sign in</Typography>
+          <Button
+            type="submit"
+            className={clsx(styles.button, { [styles.loader]: isLoading })}
+            variant="contained"
+            disabled={isLoading}
+          >
+            <p>Sign in</p>
           </Button>
         </form>
         <Typography>Don&apos;t have an account?</Typography>

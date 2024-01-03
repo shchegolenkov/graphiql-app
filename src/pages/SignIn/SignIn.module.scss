@@ -30,8 +30,27 @@
   height: 60px;
 
   * {
-    font-size: 42px;
+    font-size: 24px;
   }
+}
+
+.loader {
+  &::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    display: block;
+
+    border-radius: 50%;
+    border: 8px dotted $color-text;
+
+    animation: loader 4s linear infinite;
+  }
+
+  p {
+    display: none;
+  }
+
 }
 
 @media (max-width: 680px) {
@@ -56,5 +75,15 @@
     width: 120px;
     height: 40px;
     font-size: 14px;
+  }
+}
+
+@keyframes loader {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }

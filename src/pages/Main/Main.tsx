@@ -211,6 +211,7 @@ export const Main = () => {
         <Button
           onClick={handleRun}
           className={clsx(styles.run, { [styles.loader]: isLoading })}
+          disabled={isLoading}
         >
           <img src={run} alt="Run" />
         </Button>
