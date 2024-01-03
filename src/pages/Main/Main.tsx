@@ -47,7 +47,7 @@ export const Main = () => {
   const isLoading = useAppSelector(selectLoading);
   const graphQLParams = useAppSelector(selectInput);
   const endpoint = useAppSelector(selectEndpoint);
-  const header = useAppSelector(selectHeader);
+  const headers = useAppSelector(selectHeader);
 
   const handleHeadersClick = useCallback(() => {
     dispatch(setIsHeadersActive());
@@ -69,10 +69,14 @@ export const Main = () => {
   };
 
   const graphQLFetch = (graphQLParams: string) => {
+    let parsedHeaders = null;
+    if (headers) {
+      parsedHeaders = JSON.parse(headers);
+    }
     dispatch(setIsLoading());
     fetch(endpoint, {
       method: 'POST',
-      headers: header || defaultHeaders,
+      headers: parsedHeaders ?? defaultHeaders,
       body: JSON.stringify({
         query: graphQLParams,
         // variables: variables
@@ -166,7 +170,7 @@ export const Main = () => {
                 </button>
                 <textarea
                   onChange={handleHeadersChange}
-                  defaultValue={JSON.stringify(header, null, 2)}
+                  defaultValue={JSON.stringify(defaultHeaders, null, 2)}
                   disabled={isHeadersActive}
                   name="headers"
                   cols={30}
