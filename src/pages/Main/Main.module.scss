@@ -6,6 +6,28 @@
   gap: 20px;
 }
 
+.activeDocs {
+  display: flex;
+  gap: 20px;
+
+  .editorWrapper {
+    flex-direction: column;
+    width: 60%;
+    height: auto;
+  }
+
+  .editor {
+    min-height: 382px;
+    height: 40dvh;
+    width: 100%;
+  }
+
+  .viewerWrapper {
+    width: 100%;
+  }
+
+}
+
 .editor {
   display: flex;
   flex-direction: column;

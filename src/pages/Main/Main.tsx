@@ -35,6 +35,7 @@ import edit from '../../assets/svg/edit.svg';
 import fold from '../../assets/svg/fold.svg';
 
 import styles from './Main.module.scss';
+import { Docs } from '../../components/Docs';
 
 export const Main = () => {
   const dispatch = useAppDispatch();
@@ -121,7 +122,8 @@ export const Main = () => {
   }, [endpoint]);
 
   return (
-    <main className={styles.wrapper}>
+    <main className={clsx(styles.wrapper, styles.activeDocs)}>
+      <Docs />
       <EndpointEditor />
       <div className={styles.editorWrapper}>
         <div className={styles.editor}>
