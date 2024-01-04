@@ -105,6 +105,9 @@ textarea {
   textarea {
     width: 100%;
     height: 20dvh;
+
+    font-size: 16px;
+
     border-radius: 0 0 10px 10px;
     transition: $transition;
   }
@@ -341,7 +344,7 @@ textarea {
 
   .utilitiesWrapper {
     textarea {
-      height: 7dvh;
+      height: 10dvh;
     }
   }
 
@@ -422,6 +425,7 @@ textarea {
 
     textarea {
       width: 100%;
+      font-size: 14px;
       border-radius: 0 0 10px 10px;
       transition: $transition;
     }

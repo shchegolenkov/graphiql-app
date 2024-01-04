@@ -1,4 +1,10 @@
-import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
+import {
+  ChangeEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import clsx from 'clsx';
 import { Button } from '@mui/material';
@@ -11,6 +17,7 @@ import {
   selectOutput,
   selectVariables,
   selectEndpoint,
+  selectHeader,
 } from '../../store/editor/selectors';
 
 import {
@@ -20,8 +27,14 @@ import {
   setIsVariablesActive,
   setIsEndpointOpen,
   setOutput,
+  setHeaders,
 } from '../../store/editor/editor.slice';
-import { defaultQuery, getNumericArray } from '../../utils/utils';
+import {
+  defaultHeaders,
+  defaultQuery,
+  getNumericArray,
+  prettify,
+} from '../../utils/utils';
 import { EndpointEditor } from '../../components/EndpointEditor';
 import run from '../../assets/svg/run.svg';
 import docs from '../../assets/svg/docs.svg';
@@ -32,16 +45,19 @@ import ErrorToast from '../../components/CustomToast/ErrorToast';
 import styles from './Main.module.scss';
 
 export const Main = () => {
+  const headersRef = useRef(null);
   const dispatch = useAppDispatch();
 
-  const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(11));
+  const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(10));
   const [isUpdated, setIsUpdated] = useState(false);
+
   const output = useAppSelector(selectOutput);
   const isHeadersActive = useAppSelector(selectHeaders);
   const isVariablesActive = useAppSelector(selectVariables);
   const isLoading = useAppSelector(selectLoading);
   const graphQLParams = useAppSelector(selectInput);
   const endpoint = useAppSelector(selectEndpoint);
+  const headers = useAppSelector(selectHeader);
 
   const handleHeadersClick = useCallback(() => {
     dispatch(setIsHeadersActive());
@@ -59,22 +75,18 @@ export const Main = () => {
     const lines = textarea.value.split('\n').length;
 
     dispatch(setGraphQLParams(textarea.value));
-    console.log(graphQLParams);
     setLineNumber(getNumericArray(lines));
   };
 
-  const graphQLFetch = (
-    graphQLParams: string,
-    endpoint = graphQLParams,
-    headers = {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
+  const graphQLFetch = (graphQLParams: string) => {
+    let parsedHeaders = null;
+    if (headers) {
+      parsedHeaders = JSON.parse(headers);
     }
-  ) => {
     dispatch(setIsLoading());
     fetch(endpoint, {
       method: 'POST',
-      headers,
+      headers: parsedHeaders ?? defaultHeaders,
       body: JSON.stringify({
         query: graphQLParams,
         // variables: variables
@@ -82,6 +94,7 @@ export const Main = () => {
     })
       .then(async (res) => {
         const response = (await res.json()) as Response;
+
         dispatch(
           setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''))
         );
@@ -103,6 +116,18 @@ export const Main = () => {
     dispatch(setIsEndpointOpen());
   };
 
+  const handleHeadersChange: ChangeEventHandler<HTMLTextAreaElement> = (
+    event
+  ) => {
+    const textarea = event.target;
+    dispatch(setHeaders(textarea.value));
+  };
+
+  const handlePrettify = () => {
+    const prettified = prettify(graphQLParams, headersRef);
+    setLineNumber(getNumericArray(prettified));
+  };
+
   useEffect(() => {
     setIsUpdated(true);
     setTimeout(() => {
@@ -122,6 +147,7 @@ export const Main = () => {
               ))}
             </div>
             <textarea
+              ref={headersRef}
               defaultValue={defaultQuery}
               onChange={handleEditorChange}
               className={styles.editorInput}
@@ -159,6 +185,8 @@ export const Main = () => {
                   <img src={fold} alt="" />
                 </button>
                 <textarea
+                  onChange={handleHeadersChange}
+                  defaultValue={JSON.stringify(defaultHeaders, null, 2)}
                   disabled={isHeadersActive}
                   name="headers"
                   cols={30}
@@ -172,7 +200,11 @@ export const Main = () => {
                 <Button disabled variant="contained" className={styles.docs}>
                   <img src={docs} alt="" />
                 </Button>
-                <Button variant="contained" className={styles.prettify}>
+                <Button
+                  onClick={handlePrettify}
+                  variant="contained"
+                  className={styles.prettify}
+                >
                   Prettify!
                 </Button>
               </div>
