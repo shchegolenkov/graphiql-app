@@ -10,6 +10,10 @@ import {
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import store from './store/store';
 import { setUser, removeUser } from './store/user/user.slice';
+import ErrorToast from './components/CustomToast/ErrorToast';
+import SuccessToast from './components/CustomToast/SuccessToast';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const {
   VITE_API_KEY,
@@ -46,9 +50,10 @@ export const fetchUser = () => {
 const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    SuccessToast('Login successfully!');
     return true;
   } catch (err) {
-    alert(err);
+    ErrorToast(`${err}`);
     return false;
   }
 };
@@ -65,10 +70,10 @@ const registerWithEmailAndPassword = async (
       authProvider: 'local',
       email,
     });
-    alert('Registered successfully!');
+    SuccessToast('Registered successfully!');
     return true;
   } catch (err) {
-    alert(err);
+    ErrorToast(`${err}`);
     return false;
   }
 };
