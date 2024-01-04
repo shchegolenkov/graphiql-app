@@ -1,12 +1,12 @@
 .wrapper {
-  display: block;
   position: absolute;
   top: 50%;
   left: 50%;
+  display: block;
   width: 80dvw;
   max-width: 600px;
-  padding: 20px;
   min-width: 300px;
+  padding: 20px;
 
   border-radius: 20px;
   background: $color-bg-gradient;
