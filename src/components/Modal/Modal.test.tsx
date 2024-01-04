@@ -19,7 +19,7 @@ describe('Modal component', () => {
     );
 
     const startButton = component.getByRole('button', {
-      name: /Start GraphQL`ing!/g,
+      name: /Start GraphQL`ing!/,
     });
 
     fireEvent.click(startButton);
