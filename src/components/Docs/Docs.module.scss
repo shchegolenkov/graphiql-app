@@ -1,11 +1,22 @@
 .docs {
-  width: 40%;
-  height: 100%;
+  width: 0;
+  height: 0;
 
   div {
     position: relative;
     width: 100%;
     height: 100%;
     background-color: $color-bg-editor;
+    align-items: flex-end;
   }
+}
+
+.docsOpened {
+  width: 40%;
+  height: 100%;
+}
+
+.close {
+  width: 50px;
+  height: 50px;
 }

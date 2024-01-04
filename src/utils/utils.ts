@@ -9,6 +9,14 @@ export const defaultQuery = `query {
   }
 }`;
 
+export const introspectionQuery = `{
+  __schema {
+    types {
+      name
+    }
+  }
+}`;
+
 export const defaultHeaders = {
   'Content-Type': 'application/json',
   Accept: 'application/json',

@@ -12,6 +12,8 @@ import {
   selectVariables,
   selectEndpoint,
   selectHeader,
+  selectIsDocsActive,
+  selectisDocsOpened,
 } from '../../store/editor/selectors';
 
 import {
@@ -22,20 +24,24 @@ import {
   setIsEndpointOpen,
   setOutput,
   setHeaders,
+  setIsDocsActive,
+  setDocs,
+  setIsDocsOpened,
 } from '../../store/editor/editor.slice';
 import {
   defaultHeaders,
   defaultQuery,
   getNumericArray,
+  introspectionQuery,
 } from '../../utils/utils';
 import { EndpointEditor } from '../../components/EndpointEditor';
 import run from '../../assets/svg/run.svg';
-import docs from '../../assets/svg/docs.svg';
+import docsIcon from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
 import fold from '../../assets/svg/fold.svg';
+import { Docs } from '../../components/Docs';
 
 import styles from './Main.module.scss';
-import { Docs } from '../../components/Docs';
 
 export const Main = () => {
   const dispatch = useAppDispatch();
@@ -49,6 +55,8 @@ export const Main = () => {
   const graphQLParams = useAppSelector(selectInput);
   const endpoint = useAppSelector(selectEndpoint);
   const headers = useAppSelector(selectHeader);
+  const isDocsActive = useAppSelector(selectIsDocsActive);
+  const isDocsOpened = useAppSelector(selectisDocsOpened);
 
   const handleHeadersClick = useCallback(() => {
     dispatch(setIsHeadersActive());
@@ -69,12 +77,14 @@ export const Main = () => {
     setLineNumber(getNumericArray(lines));
   };
 
-  const graphQLFetch = (graphQLParams: string) => {
+  const graphQLFetch = (graphQLParams: string, isIntrospection = false) => {
     let parsedHeaders = null;
     if (headers) {
       parsedHeaders = JSON.parse(headers);
     }
-    dispatch(setIsLoading());
+    if (!isIntrospection) {
+      dispatch(setIsLoading());
+    }
     fetch(endpoint, {
       method: 'POST',
       headers: parsedHeaders ?? defaultHeaders,
@@ -85,21 +95,28 @@ export const Main = () => {
     })
       .then(async (res) => {
         const response = (await res.json()) as Response;
+        const output = JSON.stringify(response, null, 2).replace(/"/g, '');
 
-        dispatch(
-          setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''))
-        );
+        if (!isIntrospection) {
+          dispatch(setOutput(output));
+        } else {
+          dispatch(setIsDocsActive());
+          dispatch(setDocs(output));
+        }
       })
       .catch((err) => {
         // error toast goes here
         console.error(err);
       })
       .finally(() => {
-        dispatch(setIsLoading());
+        if (isIntrospection) {
+          dispatch(setIsLoading());
+        }
       });
   };
 
   const handleRun = () => {
+    graphQLFetch(introspectionQuery, true);
     graphQLFetch(graphQLParams);
   };
 
@@ -114,6 +131,10 @@ export const Main = () => {
     dispatch(setHeaders(textarea.value));
   };
 
+  const handleDocsClick = () => {
+    dispatch(setIsDocsOpened());
+  };
+
   useEffect(() => {
     setIsUpdated(true);
     setTimeout(() => {
@@ -122,7 +143,9 @@ export const Main = () => {
   }, [endpoint]);
 
   return (
-    <main className={clsx(styles.wrapper, styles.activeDocs)}>
+    <main
+      className={clsx(styles.wrapper, { [styles.activeDocs]: isDocsOpened })}
+    >
       <Docs />
       <EndpointEditor />
       <div className={styles.editorWrapper}>
@@ -183,8 +206,15 @@ export const Main = () => {
 
             <div className={styles.variablesWrapper}>
               <div className={styles.otherUtilsWrapper}>
-                <Button disabled variant="contained" className={styles.docs}>
-                  <img src={docs} alt="" />
+                <Button
+                  disabled={!isDocsActive}
+                  variant="contained"
+                  className={clsx(styles.docs, {
+                    [styles.bookActive]: isDocsOpened,
+                  })}
+                  onClick={handleDocsClick}
+                >
+                  <img src={docsIcon} alt="" />
                 </Button>
                 <Button variant="contained" className={styles.prettify}>
                   Prettify!
