@@ -51,7 +51,7 @@ import { Docs } from '../../components/Docs';
 import styles from './Main.module.scss';
 
 export const Main = () => {
-  const headersRef = useRef(null);
+  const editorRef = useRef(null);
   const dispatch = useAppDispatch();
 
   const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(10));
@@ -145,7 +145,7 @@ export const Main = () => {
   };
 
   const handlePrettify = () => {
-    const prettified = prettify(graphQLParams, headersRef);
+    const prettified = prettify(graphQLParams, editorRef);
     setLineNumber(getNumericArray(prettified));
   };
 
@@ -171,7 +171,7 @@ export const Main = () => {
               ))}
             </div>
             <textarea
-              ref={headersRef}
+              ref={editorRef}
               defaultValue={defaultQuery}
               onChange={handleEditorChange}
               className={styles.editorInput}

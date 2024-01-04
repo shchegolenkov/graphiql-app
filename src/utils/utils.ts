@@ -29,7 +29,7 @@ export const getNumericArray = (length: number) =>
 
 export const prettify = (
   graphQLParams: string,
-  headersRef: MutableRefObject<null>
+  ref: MutableRefObject<null>
 ) => {
   const START_CURLY_BRACKETS = /{/g;
   const END_CURLY_BRACKETS = /}/g;
@@ -55,7 +55,7 @@ export const prettify = (
     return item;
   });
   const formatted = lines.filter((item) => item.trim().length !== 0);
-  const editor = headersRef.current as unknown as HTMLTextAreaElement;
+  const editor = ref.current as unknown as HTMLTextAreaElement;
   if (editor) {
     editor.value = formatted.join('\n');
   }
