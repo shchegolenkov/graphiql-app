@@ -486,6 +486,10 @@ textarea {
     flex-direction: column;
     gap: 0px;
 
+    textarea:not(:disabled) {
+      height: 7dvh;
+    }
+
     .headersWrapper,
     .variablesWrapper {
       width: 100%;
