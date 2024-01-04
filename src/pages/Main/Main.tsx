@@ -84,8 +84,13 @@ export const Main = () => {
 
   const graphQLFetch = (graphQLParams: string) => {
     let parsedHeaders = null;
-    if (headers) {
-      parsedHeaders = JSON.parse(headers);
+    try {
+      if (headers) {
+        parsedHeaders = JSON.parse(headers);
+      }
+    } catch (error) {
+      ErrorToast(`Headers error ${error}`);
+      return;
     }
 
     const requestBody: { query: string; variables?: string } = {
@@ -93,8 +98,13 @@ export const Main = () => {
     };
 
     let parsedVariables = null;
-    if (variables) {
-      parsedVariables = JSON.parse(variables);
+    try {
+      if (variables) {
+        parsedVariables = JSON.parse(variables);
+      }
+    } catch (error) {
+      ErrorToast(`Variables error ${error}`);
+      return;
     }
 
     if (parsedVariables) {
