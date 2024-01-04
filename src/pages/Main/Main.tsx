@@ -41,6 +41,7 @@ import docs from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
 import fold from '../../assets/svg/fold.svg';
 import ErrorToast from '../../components/CustomToast/ErrorToast';
+import QueryEditor from '../../components/QueryEditor';
 
 import styles from './Main.module.scss';
 
@@ -146,8 +147,8 @@ export const Main = () => {
                 <span key={item} />
               ))}
             </div>
-            <textarea
-              ref={headersRef}
+            <QueryEditor
+              refObject={headersRef}
               defaultValue={defaultQuery}
               onChange={handleEditorChange}
               className={styles.editorInput}
@@ -236,7 +237,7 @@ export const Main = () => {
         </Button>
 
         <div className={styles.viewerWrapper}>
-          <textarea
+          <QueryEditor
             value={output}
             className={styles.inputViewer}
             name="viewer"
