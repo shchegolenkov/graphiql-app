@@ -20,7 +20,7 @@ it('renders SignIn component correctly', () => {
   expect(container.innerHTML).toBeTruthy();
 });
 
-it('submits form with valid data and redirects to Welcome', async () => {
+it('submits form with valid data and redirects to Main', async () => {
   const { getByLabelText, getByText } = render(
     <BrowserRouter>
       <Provider store={store}>
