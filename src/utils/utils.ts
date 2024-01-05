@@ -1,5 +1,3 @@
-import { MutableRefObject } from 'react';
-
 export const defaultQuery = `query {
   characters (page: 5) {
     info {
@@ -27,16 +25,13 @@ export const defaultHeaders = {
 export const getNumericArray = (length: number) =>
   [...Array(length).keys()].map((i) => i + 1);
 
-export const prettify = (
-  graphQLParams: string,
-  ref: MutableRefObject<null>
-) => {
+export const prettify = (graphQLParams: string) => {
   const START_CURLY_BRACKETS = /{/g;
   const END_CURLY_BRACKETS = /}/g;
 
   let lines = graphQLParams
     .replace(START_CURLY_BRACKETS, '{\n')
-    .replace(END_CURLY_BRACKETS, '\n}\n')
+    .replace(/(},)|}/g, '\n}\n')
     .split(/[\n]/g);
   let indent = 0;
   lines = lines.map((item) => {
@@ -55,9 +50,6 @@ export const prettify = (
     return item;
   });
   const formatted = lines.filter((item) => item.trim().length !== 0);
-  const editor = ref.current as unknown as HTMLTextAreaElement;
-  if (editor) {
-    editor.value = formatted.join('\n');
-  }
-  return formatted.length;
+
+  return { output: formatted.join('\n'), outputLines: formatted.length };
 };

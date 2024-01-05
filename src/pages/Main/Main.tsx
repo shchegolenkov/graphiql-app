@@ -145,8 +145,10 @@ export const Main = () => {
   };
 
   const handlePrettify = () => {
-    const prettified = prettify(graphQLParams, editorRef);
-    setLineNumber(getNumericArray(prettified));
+    const prettified = prettify(graphQLParams);
+    const editor = editorRef.current as unknown as HTMLTextAreaElement;
+    editor.value = prettified.output;
+    setLineNumber(getNumericArray(prettified.outputLines));
   };
 
   useEffect(() => {
