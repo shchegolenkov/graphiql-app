@@ -153,8 +153,6 @@ export const Main = () => {
               onChange={handleEditorChange}
               className={styles.editorInput}
               name="editor"
-              cols={30}
-              rows={10}
             />
           </div>
 
@@ -190,8 +188,6 @@ export const Main = () => {
                   defaultValue={JSON.stringify(defaultHeaders, null, 2)}
                   disabled={isHeadersActive}
                   name="headers"
-                  cols={30}
-                  rows={10}
                 />
               </div>
             </div>
@@ -241,8 +237,6 @@ export const Main = () => {
             value={output}
             className={styles.inputViewer}
             name="viewer"
-            cols={30}
-            rows={10}
             disabled
           />
         </div>

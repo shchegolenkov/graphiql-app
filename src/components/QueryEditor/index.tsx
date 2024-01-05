@@ -7,21 +7,21 @@ interface QueryEditorProps {
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
   className?: string;
   name: string;
-  cols: number;
-  rows: number;
+  cols?: number;
+  rows?: number;
   disabled?: boolean;
 }
 
 const QueryEditor: FC<QueryEditorProps> = ({
   refObject,
   value,
-  defaultValue,
+  defaultValue = '',
   onChange,
-  className,
+  className = '',
   name,
-  cols,
-  rows,
-  disabled,
+  cols = 30,
+  rows = 10,
+  disabled = false,
 }) => (
   <textarea
     ref={refObject}
