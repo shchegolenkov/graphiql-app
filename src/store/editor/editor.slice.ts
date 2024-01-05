@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { defaultQuery } from '../../utils/utils';
+import { IQueryField } from '../../utils/types';
 
 interface UserState {
   isHeaderActive: boolean;
@@ -11,7 +12,7 @@ interface UserState {
   isEndpointOpen: boolean;
   endpoint: string;
   headers: string;
-  docs: string;
+  docs: IQueryField[] | null;
   isDocsActive: boolean;
   isDocsOpened: boolean;
 }
@@ -26,7 +27,7 @@ const initialState: UserState = {
   graphQLParams: defaultQuery,
   output: '{ \n  message: {  \n    Output goes here \n  } \n}',
   headers: '',
-  docs: 'Nothing here at the moment..',
+  docs: null,
   isDocsActive: false,
   isDocsOpened: false,
 };
@@ -62,8 +63,8 @@ const editorSlice = createSlice({
     setDocs(state, action) {
       state.docs = action.payload;
     },
-    setIsDocsActive(state) {
-      state.isDocsActive = !state.isDocsActive;
+    setIsDocsActive(state, action) {
+      state.isDocsActive = action.payload;
     },
     setIsDocsOpened(state) {
       state.isDocsOpened = !state.isDocsOpened;

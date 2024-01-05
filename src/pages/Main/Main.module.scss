@@ -8,11 +8,12 @@
 
 .activeDocs {
   display: flex;
+  align-items: start;
   gap: 20px;
 
   .editorWrapper {
     flex-direction: column;
-    width: 60%;
+    width: 70%;
     height: auto;
   }
 

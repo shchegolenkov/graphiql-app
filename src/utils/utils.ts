@@ -11,11 +11,15 @@ export const defaultQuery = `query {
 
 export const introspectionQuery = `{
   __schema {
-    types {
-      name
+    queryType {
+      fields {
+        name
+        description
+      }
     }
   }
-}`;
+}
+`;
 
 export const defaultHeaders = {
   'Content-Type': 'application/json',

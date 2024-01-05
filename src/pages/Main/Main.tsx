@@ -41,6 +41,7 @@ import {
   introspectionQuery,
   prettify,
 } from '../../utils/utils';
+import { IQueryResponse } from '../../utils/types';
 import { EndpointEditor } from '../../components/EndpointEditor';
 import run from '../../assets/svg/run.svg';
 import docsIcon from '../../assets/svg/docs.svg';
@@ -103,14 +104,15 @@ export const Main = () => {
       }),
     })
       .then(async (res) => {
-        const response = (await res.json()) as Response;
+        const response = (await res.json()) as IQueryResponse;
         const output = JSON.stringify(response, null, 2).replace(/"/g, '');
 
         if (!isIntrospection) {
           dispatch(setOutput(output));
         } else {
-          dispatch(setIsDocsActive());
-          dispatch(setDocs(output));
+          dispatch(setIsDocsActive(true));
+          console.log(response);
+          dispatch(setDocs(response?.data?.__schema?.queryType?.fields));
         }
       })
       .catch((err) => {

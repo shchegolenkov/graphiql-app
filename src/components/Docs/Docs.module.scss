@@ -2,6 +2,8 @@
   width: 0;
   height: 0;
 
+  z-index: 0;
+
   div {
     position: relative;
     width: 100%;
@@ -9,14 +11,51 @@
     background-color: $color-bg-editor;
     align-items: flex-end;
   }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 10px 10px 50px;
+
+    background-color: $color-element-bg;
+  }
 }
 
 .docsOpened {
-  width: 40%;
-  height: 100%;
+  width: 33%;
+  min-height: 382px;
+  height: calc(100dvh - 100px);
 }
 
 .close {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  min-width: 30px !important; 
+  height: 40px;
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.fieldList {
+  list-style-type: none;
+}
+
+.fields {
+  padding: 10px 20px;
+  text-align: left;
+}
+
+.fieldName {
+  font-size: 18px;
+  font-weight: 600;
+  color: $color-element-active;
+  text-transform: capitalize;
+
+}
+
+.fieldDesc {
+
 }

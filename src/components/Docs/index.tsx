@@ -27,14 +27,31 @@ export const Docs = () => {
       }}
       className={clsx(styles.docs, { [styles.docsOpened]: isOpened })}
     >
-      <Button
-        onClick={handleClose}
-        className={styles.close}
-        variant="contained"
-      >
-        <img src={close} alt="" />
-      </Button>
-      <div className={styles.wrapper}>{docs}</div>
+      <header>
+        <h2>Docs</h2>
+        <Button
+          onClick={handleClose}
+          className={styles.close}
+          variant="contained"
+        >
+          <img src={close} alt="" />
+        </Button>
+      </header>
+
+      <div className={styles.wrapper}>
+        <ul className={styles.fieldList}>
+          {docs?.map((item, index) => (
+            <div className={styles.fields} key={`${item.name}-${index}`}>
+              <li>
+                <p className={styles.fieldName}>{item.name}</p>
+                <p className={styles.fieldDesc}>
+                  {item.description || 'No description..'}
+                </p>
+              </li>
+            </div>
+          ))}
+        </ul>
+      </div>
     </Drawer>
   );
 };
