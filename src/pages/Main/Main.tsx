@@ -15,10 +15,10 @@ import {
   selectInput,
   selectLoading,
   selectOutput,
-  selectVariables,
+  selectVariablesActive,
   selectEndpoint,
   selectHeader,
-  selectVariable,
+  selectVariables,
 } from '../../store/editor/selectors';
 
 import {
@@ -56,12 +56,12 @@ export const Main = () => {
 
   const output = useAppSelector(selectOutput);
   const isHeadersActive = useAppSelector(selectHeaders);
-  const isVariablesActive = useAppSelector(selectVariables);
+  const isVariablesActive = useAppSelector(selectVariablesActive);
   const isLoading = useAppSelector(selectLoading);
   const graphQLParams = useAppSelector(selectInput);
   const endpoint = useAppSelector(selectEndpoint);
   const headers = useAppSelector(selectHeader);
-  const variables = useAppSelector(selectVariable);
+  const variables = useAppSelector(selectVariables);
 
   const handleHeadersClick = useCallback(() => {
     dispatch(setIsHeadersActive());
