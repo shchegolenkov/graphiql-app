@@ -41,6 +41,7 @@ import docs from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
 import fold from '../../assets/svg/fold.svg';
 import ErrorToast from '../../components/CustomToast/ErrorToast';
+import QueryEditor from '../../components/QueryEditor';
 
 import styles from './Main.module.scss';
 
@@ -50,6 +51,7 @@ export const Main = () => {
 
   const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(10));
   const [isUpdated, setIsUpdated] = useState(false);
+  const [editorValue, setEditorValue] = useState(defaultQuery);
 
   const output = useAppSelector(selectOutput);
   const isHeadersActive = useAppSelector(selectHeaders);
@@ -74,6 +76,7 @@ export const Main = () => {
     const textarea = event.target as HTMLTextAreaElement;
     const lines = textarea.value.split('\n').length;
 
+    setEditorValue(textarea.value);
     dispatch(setGraphQLParams(textarea.value));
     setLineNumber(getNumericArray(lines));
   };
@@ -124,8 +127,9 @@ export const Main = () => {
   };
 
   const handlePrettify = () => {
-    const prettified = prettify(graphQLParams, headersRef);
-    setLineNumber(getNumericArray(prettified));
+    const { result, length } = prettify(graphQLParams);
+    setLineNumber(getNumericArray(length));
+    setEditorValue(result);
   };
 
   useEffect(() => {
@@ -146,14 +150,12 @@ export const Main = () => {
                 <span key={item} />
               ))}
             </div>
-            <textarea
-              ref={headersRef}
-              defaultValue={defaultQuery}
+            <QueryEditor
+              refObject={headersRef}
+              value={editorValue}
               onChange={handleEditorChange}
               className={styles.editorInput}
               name="editor"
-              cols={30}
-              rows={10}
             />
           </div>
 
@@ -189,8 +191,6 @@ export const Main = () => {
                   defaultValue={JSON.stringify(defaultHeaders, null, 2)}
                   disabled={isHeadersActive}
                   name="headers"
-                  cols={30}
-                  rows={10}
                 />
               </div>
             </div>
@@ -236,12 +236,10 @@ export const Main = () => {
         </Button>
 
         <div className={styles.viewerWrapper}>
-          <textarea
+          <QueryEditor
             value={output}
             className={styles.inputViewer}
             name="viewer"
-            cols={30}
-            rows={10}
             disabled
           />
         </div>
