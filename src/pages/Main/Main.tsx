@@ -127,7 +127,7 @@ export const Main = () => {
   };
 
   const handlePrettify = () => {
-    const { result, length } = prettify(graphQLParams, headersRef);
+    const { result, length } = prettify(graphQLParams);
     setLineNumber(getNumericArray(length));
     setEditorValue(result);
   };
