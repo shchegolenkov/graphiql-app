@@ -111,7 +111,6 @@ export const Main = () => {
           dispatch(setOutput(output));
         } else {
           dispatch(setIsDocsActive(true));
-          console.log(response);
           dispatch(setDocs(response?.data?.__schema?.queryType?.fields));
         }
       })
