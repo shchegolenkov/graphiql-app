@@ -172,7 +172,7 @@ export const Main = () => {
                   variant="contained"
                   className={styles.endpointChange}
                 >
-                  <img src={edit} alt="" />
+                  <img src={edit} alt="Edit" />
                 </Button>
               </div>
               <div
