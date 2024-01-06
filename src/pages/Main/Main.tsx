@@ -18,15 +18,14 @@ import {
   selectVariables,
   selectEndpoint,
   selectHeader,
+  selectError,
 } from '../../store/editor/selectors';
 
 import {
   setGraphQLParams,
   setIsHeadersActive,
-  setIsLoading,
   setIsVariablesActive,
   setIsEndpointOpen,
-  setOutput,
   setHeaders,
 } from '../../store/editor/editor.slice';
 import {
@@ -44,6 +43,7 @@ import ErrorToast from '../../components/CustomToast/ErrorToast';
 import QueryEditor from '../../components/QueryEditor';
 
 import styles from './Main.module.scss';
+import { fetchOutput } from '../../store/editor/actions';
 
 export const Main = () => {
   const headersRef = useRef(null);
@@ -60,6 +60,7 @@ export const Main = () => {
   const graphQLParams = useAppSelector(selectInput);
   const endpoint = useAppSelector(selectEndpoint);
   const headers = useAppSelector(selectHeader);
+  const error = useAppSelector(selectError);
 
   const handleHeadersClick = useCallback(() => {
     dispatch(setIsHeadersActive());
@@ -86,29 +87,16 @@ export const Main = () => {
     if (headers) {
       parsedHeaders = JSON.parse(headers);
     }
-    dispatch(setIsLoading());
-    fetch(endpoint, {
-      method: 'POST',
-      headers: parsedHeaders ?? defaultHeaders,
-      body: JSON.stringify({
-        query: graphQLParams,
-        // variables: variables
-      }),
-    })
-      .then(async (res) => {
-        const response = (await res.json()) as Response;
-
-        dispatch(
-          setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''))
-        );
+    dispatch(
+      fetchOutput({
+        endpoint,
+        headers: parsedHeaders ?? defaultHeaders,
+        body: JSON.stringify({
+          query: graphQLParams,
+          // variables: variables
+        }),
       })
-      .catch((err) => {
-        ErrorToast(`${err}`);
-        console.error(err);
-      })
-      .finally(() => {
-        dispatch(setIsLoading());
-      });
+    );
   };
 
   const handleRun = () => {
@@ -138,6 +126,13 @@ export const Main = () => {
       setIsUpdated(false);
     }, 1000);
   }, [endpoint]);
+
+  useEffect(() => {
+    if (error) {
+      ErrorToast(`${error}`);
+      console.error(error);
+    }
+  }, [error]);
 
   return (
     <main className={styles.wrapper}>
