@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { defaultQuery } from '../../utils/utils';
+import { fetchOutput } from './actions';
+
+const baseEndpoint = 'https://rickandmortyapi.com/graphql';
+const defaultOutput = '{ \n  message: {  \n    Output goes here \n  } \n}';
 
 interface UserState {
   isHeaderActive: boolean;
@@ -11,6 +15,7 @@ interface UserState {
   isEndpointOpen: boolean;
   endpoint: string;
   headers: string;
+  error?: string;
 }
 
 const initialState: UserState = {
@@ -19,10 +24,11 @@ const initialState: UserState = {
   isLoading: false,
   isUpdated: false,
   isEndpointOpen: false,
-  endpoint: 'https://rickandmortyapi.com/graphql',
+  endpoint: baseEndpoint,
   graphQLParams: defaultQuery,
-  output: '{ \n  message: {  \n    Output goes here \n  } \n}',
+  output: defaultOutput,
   headers: '',
+  error: undefined,
 };
 
 const editorSlice = createSlice({
@@ -44,15 +50,24 @@ const editorSlice = createSlice({
     setGraphQLParams(state, action) {
       state.graphQLParams = action.payload;
     },
-    setOutput(state, action) {
-      state.output = action.payload;
-    },
-    setIsLoading(state) {
-      state.isLoading = !state.isLoading;
-    },
     setHeaders(state, action) {
       state.headers = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchOutput.pending, (state) => {
+      state.isLoading = true;
+      state.error = undefined;
+    });
+    builder.addCase(fetchOutput.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.output = JSON.stringify(payload, null, 2).replace(/"/g, '');
+    });
+    builder.addCase(fetchOutput.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload?.message || 'Something went wrong :(';
+      state.output = JSON.stringify({});
+    });
   },
 });
 
@@ -60,10 +75,8 @@ export const {
   setIsHeadersActive,
   setHeaders,
   setIsVariablesActive,
-  setIsLoading,
   setIsEndpointOpen,
   setEndpoint,
-  setOutput,
   setGraphQLParams,
 } = editorSlice.actions;
 export default editorSlice.reducer;

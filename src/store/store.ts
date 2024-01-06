@@ -9,6 +9,10 @@ const store = configureStore({
     modal: modalReducer,
     editor: editorReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
