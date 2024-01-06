@@ -51,5 +51,5 @@ export const prettify = (
   if (editor) {
     editor.value = formatted.join('\n');
   }
-  return formatted.length;
+  return { result: formatted.join('\n'), length: formatted.length };
 };

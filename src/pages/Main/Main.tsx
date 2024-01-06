@@ -51,6 +51,7 @@ export const Main = () => {
 
   const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(10));
   const [isUpdated, setIsUpdated] = useState(false);
+  const [editorValue, setEditorValue] = useState(defaultQuery);
 
   const output = useAppSelector(selectOutput);
   const isHeadersActive = useAppSelector(selectHeaders);
@@ -75,6 +76,7 @@ export const Main = () => {
     const textarea = event.target as HTMLTextAreaElement;
     const lines = textarea.value.split('\n').length;
 
+    setEditorValue(textarea.value);
     dispatch(setGraphQLParams(textarea.value));
     setLineNumber(getNumericArray(lines));
   };
@@ -125,8 +127,9 @@ export const Main = () => {
   };
 
   const handlePrettify = () => {
-    const prettified = prettify(graphQLParams, headersRef);
-    setLineNumber(getNumericArray(prettified));
+    const { result, length } = prettify(graphQLParams, headersRef);
+    setLineNumber(getNumericArray(length));
+    setEditorValue(result);
   };
 
   useEffect(() => {
@@ -149,7 +152,7 @@ export const Main = () => {
             </div>
             <QueryEditor
               refObject={headersRef}
-              defaultValue={defaultQuery}
+              value={editorValue}
               onChange={handleEditorChange}
               className={styles.editorInput}
               name="editor"

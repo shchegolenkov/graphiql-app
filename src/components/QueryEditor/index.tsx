@@ -3,7 +3,6 @@ import { FC, ChangeEvent, RefObject } from 'react';
 interface QueryEditorProps {
   refObject?: RefObject<HTMLTextAreaElement>;
   value?: string;
-  defaultValue?: string;
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
   className?: string;
   name: string;
@@ -14,8 +13,7 @@ interface QueryEditorProps {
 
 const QueryEditor: FC<QueryEditorProps> = ({
   refObject,
-  value,
-  defaultValue = '',
+  value = '',
   onChange,
   className = '',
   name,
@@ -26,7 +24,6 @@ const QueryEditor: FC<QueryEditorProps> = ({
   <textarea
     ref={refObject}
     value={value}
-    defaultValue={defaultValue}
     onChange={onChange}
     className={className}
     name={name}
