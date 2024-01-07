@@ -37,5 +37,8 @@
   "sign_up_header": "Создать учетную запись",
   "sign_up_button": "Создать",
   "sign_up_question": "У вас уже есть аккаунт?",
-  "sign_up_login_link": "Войти"
+  "sign_up_login_link": "Войти",
+
+  "endpoint_input": "Введите endpoint",
+  "endpoint_button": "Сменить endpoint"
 }

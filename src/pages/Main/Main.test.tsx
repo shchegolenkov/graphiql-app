@@ -71,7 +71,7 @@ describe('Main', () => {
     });
 
     // Assert
-    const endpointEditorModal = component.getByText('Change endpoint');
+    const endpointEditorModal = component.getByLabelText('Change endpoint');
     expect(endpointEditorModal).toBeTruthy();
   });
 });

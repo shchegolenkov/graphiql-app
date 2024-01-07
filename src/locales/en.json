@@ -37,5 +37,8 @@
   "sign_up_header": "Sign up",
   "sign_up_button": "Sign up",
   "sign_up_question": "Already have an account?",
-  "sign_up_login_link": "Sign in"
+  "sign_up_login_link": "Sign in",
+
+  "endpoint_input": "Your endpoint here...",
+  "endpoint_button": "Change endpoint"
 }

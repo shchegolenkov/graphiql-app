@@ -3,6 +3,7 @@ import { Button, Dialog, DialogContent, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hook';
+import { useLanguage } from '../../hooks/useLanguage';
 import {
   setEndpoint,
   setIsEndpointOpen,
@@ -18,6 +19,8 @@ interface IEndpointData {
 }
 
 export const EndpointEditor = () => {
+  const lang = useLanguage();
+
   const {
     register,
     handleSubmit,
@@ -61,13 +64,13 @@ export const EndpointEditor = () => {
             {...register('endpoint')}
             autoFocus
             className={styles.input}
-            placeholder="Your endpoint here.."
+            placeholder={lang.endpoint_input}
             type="text"
           />
         </DialogContent>
 
-        <Button type="submit" variant="contained">
-          Change endpoint
+        <Button type="submit" variant="contained" aria-label="Change endpoint">
+          {lang.endpoint_button}
         </Button>
       </form>
     </Dialog>
