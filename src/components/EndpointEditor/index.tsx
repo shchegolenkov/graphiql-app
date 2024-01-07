@@ -7,7 +7,7 @@ import {
   setEndpoint,
   setIsEndpointOpen,
 } from '../../store/editor/editor.slice';
-import { selectModal } from '../../store/editor/selectors';
+import { selectEndpoint, selectModal } from '../../store/editor/selectors';
 import { endpointSchema } from '../../utils/validation';
 import close from '../../assets/svg/close.svg';
 
@@ -25,6 +25,7 @@ export const EndpointEditor = () => {
   } = useForm({ resolver: yupResolver(endpointSchema), mode: 'all' });
 
   const endpointModal = useAppSelector(selectModal);
+  const endpoint = useAppSelector(selectEndpoint);
   const dispatch = useAppDispatch();
 
   const onSubmitHandler = (formData: IEndpointData) => {
@@ -56,6 +57,7 @@ export const EndpointEditor = () => {
       >
         <DialogContent className={styles.wrapper}>
           <TextField
+            defaultValue={endpoint}
             error={!!errors.endpoint}
             helperText={errors.endpoint?.message || ' '}
             {...register('endpoint')}

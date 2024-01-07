@@ -18,16 +18,15 @@ import {
   selectVariablesActive,
   selectEndpoint,
   selectHeader,
+  selectError,
   selectVariables,
 } from '../../store/editor/selectors';
 
 import {
   setGraphQLParams,
   setIsHeadersActive,
-  setIsLoading,
   setIsVariablesActive,
   setIsEndpointOpen,
-  setOutput,
   setHeaders,
   setVariables,
 } from '../../store/editor/editor.slice';
@@ -47,6 +46,7 @@ import ErrorToast from '../../components/CustomToast/ErrorToast';
 import QueryEditor from '../../components/QueryEditor';
 
 import styles from './Main.module.scss';
+import { fetchOutput } from '../../store/editor/actions';
 
 export const Main = () => {
   const headersRef = useRef(null);
@@ -63,6 +63,7 @@ export const Main = () => {
   const graphQLParams = useAppSelector(selectInput);
   const endpoint = useAppSelector(selectEndpoint);
   const headers = useAppSelector(selectHeader);
+  const error = useAppSelector(selectError);
   const variables = useAppSelector(selectVariables);
 
   const handleHeadersClick = useCallback(() => {
@@ -87,19 +88,19 @@ export const Main = () => {
 
   const graphQLFetch = (graphQLParams: string) => {
     let parsedHeaders = null;
-    try {
-      if (headers) {
+    if (headers) {
+      try {
         parsedHeaders = JSON.parse(headers);
+      } catch (err) {
+        ErrorToast(`${err}`);
+        return;
       }
-    } catch (error) {
-      ErrorToast(`Headers error ${error}`);
-      return;
     }
-
+    
     const requestBody: { query: string; variables?: string } = {
       query: graphQLParams,
     };
-
+    
     let parsedVariables = null;
     try {
       if (variables) {
@@ -113,27 +114,14 @@ export const Main = () => {
     if (parsedVariables) {
       requestBody.variables = parsedVariables;
     }
-
-    dispatch(setIsLoading());
-    fetch(endpoint, {
-      method: 'POST',
-      headers: parsedHeaders ?? defaultHeaders,
-      body: JSON.stringify(requestBody),
-    })
-      .then(async (res) => {
-        const response = (await res.json()) as Response;
-
-        dispatch(
-          setOutput(JSON.stringify(response, null, 2).replace(/"/g, ''))
-        );
+    
+    dispatch(
+      fetchOutput({
+        endpoint,
+        headers: parsedHeaders ?? defaultHeaders,
+        body: JSON.stringify(requestBody),
       })
-      .catch((err) => {
-        ErrorToast(`${err}`);
-        console.error(err);
-      })
-      .finally(() => {
-        dispatch(setIsLoading());
-      });
+    );
   };
 
   const handleRun = () => {
@@ -170,6 +158,13 @@ export const Main = () => {
       setIsUpdated(false);
     }, 1000);
   }, [endpoint]);
+
+  useEffect(() => {
+    if (error) {
+      ErrorToast(`${error}`);
+      console.error(error);
+    }
+  }, [error]);
 
   return (
     <main className={styles.wrapper}>
