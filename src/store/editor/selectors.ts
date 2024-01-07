@@ -14,3 +14,4 @@ export const selectIsDocsActive = (state: RootState) =>
   state.editor.isDocsActive;
 export const selectisDocsOpened = (state: RootState) =>
   state.editor.isDocsOpened;
+export const selectError = (state: RootState) => state.editor.error;

@@ -55,5 +55,5 @@ export const prettify = (graphQLParams: string) => {
   });
   const formatted = lines.filter((item) => item.trim().length !== 0);
 
-  return { output: formatted.join('\n'), outputLines: formatted.length };
+  return { result: formatted.join('\n'), length: formatted.length };
 };

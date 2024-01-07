@@ -22,18 +22,15 @@ import {
   selectHeader,
   selectIsDocsActive,
   selectisDocsOpened,
+  selectError,
 } from '../../store/editor/selectors';
 
 import {
   setGraphQLParams,
   setIsHeadersActive,
-  setIsLoading,
   setIsVariablesActive,
   setIsEndpointOpen,
-  setOutput,
   setHeaders,
-  setIsDocsActive,
-  setDocs,
   setIsDocsOpened,
 } from '../../store/editor/editor.slice';
 import {
@@ -43,15 +40,17 @@ import {
   introspectionQuery,
   prettify,
 } from '../../utils/utils';
-import { IQueryResponse } from '../../utils/types';
 import { EndpointEditor } from '../../components/EndpointEditor';
 import run from '../../assets/svg/run.svg';
 import docsIcon from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
 import fold from '../../assets/svg/fold.svg';
 const Docs = lazy(() => import('../../components/Docs'));
+import ErrorToast from '../../components/CustomToast/ErrorToast';
+import QueryEditor from '../../components/QueryEditor';
 
 import styles from './Main.module.scss';
+import { fetchOutput } from '../../store/editor/actions';
 
 export const Main = () => {
   const editorRef = useRef(null);
@@ -59,6 +58,7 @@ export const Main = () => {
 
   const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(10));
   const [isUpdated, setIsUpdated] = useState(false);
+  const [editorValue, setEditorValue] = useState(defaultQuery);
 
   const output = useAppSelector(selectOutput);
   const isHeadersActive = useAppSelector(selectHeaders);
@@ -69,6 +69,7 @@ export const Main = () => {
   const headers = useAppSelector(selectHeader);
   const isDocsActive = useAppSelector(selectIsDocsActive);
   const isDocsOpened = useAppSelector(selectisDocsOpened);
+  const error = useAppSelector(selectError);
 
   const handleHeadersClick = useCallback(() => {
     dispatch(setIsHeadersActive());
@@ -85,46 +86,33 @@ export const Main = () => {
     const textarea = event.target as HTMLTextAreaElement;
     const lines = textarea.value.split('\n').length;
 
+    setEditorValue(textarea.value);
     dispatch(setGraphQLParams(textarea.value));
     setLineNumber(getNumericArray(lines));
   };
 
   const graphQLFetch = (graphQLParams: string, isIntrospection = false) => {
     let parsedHeaders = null;
-    if (headers) {
-      parsedHeaders = JSON.parse(headers);
+    if (headers && !isIntrospection) {
+      try {
+        parsedHeaders = JSON.parse(headers);
+      } catch (err) {
+        ErrorToast(`${err}`);
+        return;
+      }
     }
-    if (!isIntrospection) {
-      dispatch(setIsLoading());
-    }
-    fetch(endpoint, {
-      method: 'POST',
-      headers: parsedHeaders ?? defaultHeaders,
-      body: JSON.stringify({
-        query: graphQLParams,
-        // variables: variables
-      }),
-    })
-      .then(async (res) => {
-        const response = (await res.json()) as IQueryResponse;
-        const output = JSON.stringify(response, null, 2).replace(/"/g, '');
 
-        if (!isIntrospection) {
-          dispatch(setOutput(output));
-        } else {
-          dispatch(setIsDocsActive(true));
-          dispatch(setDocs(response?.data?.__schema?.queryType?.fields));
-        }
+    dispatch(
+      fetchOutput({
+        endpoint,
+        headers: parsedHeaders ?? defaultHeaders,
+        body: JSON.stringify({
+          query: graphQLParams,
+          // variables: variables
+        }),
+        isIntrospection,
       })
-      .catch((err) => {
-        // error toast goes here
-        console.error(err);
-      })
-      .finally(() => {
-        if (isIntrospection) {
-          dispatch(setIsLoading());
-        }
-      });
+    );
   };
 
   const handleRun = () => {
@@ -148,10 +136,9 @@ export const Main = () => {
   };
 
   const handlePrettify = () => {
-    const prettified = prettify(graphQLParams);
-    const editor = editorRef.current as unknown as HTMLTextAreaElement;
-    editor.value = prettified.output;
-    setLineNumber(getNumericArray(prettified.outputLines));
+    const { result, length } = prettify(graphQLParams);
+    setLineNumber(getNumericArray(length));
+    setEditorValue(result);
   };
 
   useEffect(() => {
@@ -161,12 +148,19 @@ export const Main = () => {
     }, 1000);
   }, [endpoint]);
 
+  useEffect(() => {
+    if (error) {
+      ErrorToast(`${error}`);
+      console.error(error);
+    }
+  }, [error]);
+
   return (
     <main
       className={clsx(styles.wrapper, { [styles.activeDocs]: isDocsOpened })}
     >
       {isDocsActive && (
-        <Suspense fallback={<div>Doc is loading...</div>}>
+        <Suspense fallback={<div />}>
           <Docs />
         </Suspense>
       )}
@@ -179,14 +173,12 @@ export const Main = () => {
                 <span key={item} />
               ))}
             </div>
-            <textarea
-              ref={editorRef}
-              defaultValue={defaultQuery}
+            <QueryEditor
+              refObject={editorRef}
+              value={editorValue}
               onChange={handleEditorChange}
               className={styles.editorInput}
               name="editor"
-              cols={30}
-              rows={10}
             />
           </div>
 
@@ -205,7 +197,7 @@ export const Main = () => {
                   variant="contained"
                   className={styles.endpointChange}
                 >
-                  <img src={edit} alt="" />
+                  <img src={edit} alt="Edit" />
                 </Button>
               </div>
               <div
@@ -222,8 +214,6 @@ export const Main = () => {
                   defaultValue={JSON.stringify(defaultHeaders, null, 2)}
                   disabled={isHeadersActive}
                   name="headers"
-                  cols={30}
-                  rows={10}
                 />
               </div>
             </div>
@@ -277,12 +267,10 @@ export const Main = () => {
         </Button>
 
         <div className={styles.viewerWrapper}>
-          <textarea
+          <QueryEditor
             value={output}
             className={styles.inputViewer}
             name="viewer"
-            cols={30}
-            rows={10}
             disabled
           />
         </div>

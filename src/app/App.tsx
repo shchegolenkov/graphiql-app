@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import { useAuth } from '../hooks/useAuth';
 import { fetchUser } from '../firebase';
@@ -10,6 +11,8 @@ import { ProtectedRoute } from '../components/ProtectedRoute/ProtectedRoute';
 import { Welcome, SignIn, SignUp, Main, NotFound } from '../pages';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const { isAuth } = useAuth();
@@ -50,6 +53,11 @@ function App() {
         <Route path={RouteLinks.NotFound} element={<NotFound />} />
       </Routes>
       <Footer />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        draggable={false}
+      />
     </>
   );
 }

@@ -4,7 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hook';
 import {
+  setDocs,
   setEndpoint,
+  setIsDocsActive,
   setIsEndpointOpen,
 } from '../../store/editor/editor.slice';
 import { selectEndpoint, selectModal } from '../../store/editor/selectors';
@@ -32,6 +34,8 @@ export const EndpointEditor = () => {
     const { endpoint } = formData;
     if (endpoint) {
       dispatch(setEndpoint(endpoint));
+      dispatch(setIsDocsActive(false));
+      dispatch(setDocs(null));
     }
     handleClose();
   };
@@ -57,11 +61,11 @@ export const EndpointEditor = () => {
       >
         <DialogContent className={styles.wrapper}>
           <TextField
+            defaultValue={endpoint}
             error={!!errors.endpoint}
             helperText={errors.endpoint?.message || ' '}
             {...register('endpoint')}
             autoFocus
-            defaultValue={endpoint}
             className={styles.input}
             placeholder="Your endpoint here.."
             type="text"

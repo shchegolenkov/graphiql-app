@@ -11,6 +11,7 @@ import { openModal } from '../../store/modal/modal.slice';
 import { signupSchema } from '../../utils/validation';
 import { registerWithEmailAndPassword } from '../../firebase';
 import { IFormData, RouteLinks } from '../../utils/types';
+import ErrorToast from '../../components/CustomToast/ErrorToast';
 
 import styles from './SignUp.module.scss';
 
@@ -36,6 +37,7 @@ export const SignUp = () => {
         dispatch(openModal());
       }
     } catch (error) {
+      ErrorToast(`${error}`);
       console.error(error);
     } finally {
       setIsLoading(false);
