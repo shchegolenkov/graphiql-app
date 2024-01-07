@@ -11,6 +11,7 @@ interface UserState {
   isEndpointOpen: boolean;
   endpoint: string;
   headers: string;
+  variables: string;
 }
 
 const initialState: UserState = {
@@ -23,6 +24,7 @@ const initialState: UserState = {
   graphQLParams: defaultQuery,
   output: '{ \n  message: {  \n    Output goes here \n  } \n}',
   headers: '',
+  variables: '',
 };
 
 const editorSlice = createSlice({
@@ -53,6 +55,9 @@ const editorSlice = createSlice({
     setHeaders(state, action) {
       state.headers = action.payload;
     },
+    setVariables(state, action) {
+      state.variables = action.payload;
+    },
   },
 });
 
@@ -60,6 +65,7 @@ export const {
   setIsHeadersActive,
   setHeaders,
   setIsVariablesActive,
+  setVariables,
   setIsLoading,
   setIsEndpointOpen,
   setEndpoint,
