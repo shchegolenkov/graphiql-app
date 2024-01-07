@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../../store/store';
 import { RouteLinks } from '../../utils/types';
+import { LangContext } from '../../context/langContext';
 import { SignUp } from './Signup';
 
 beforeEach(cleanup);
@@ -12,7 +13,11 @@ it('renders SignUp component correctly', () => {
   const { container } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <SignUp />
+        <LangContext.Provider
+          value={{ language: 'en', switchLanguage: () => {} }}
+        >
+          <SignUp />
+        </LangContext.Provider>
       </Provider>
     </BrowserRouter>
   );
@@ -21,25 +26,34 @@ it('renders SignUp component correctly', () => {
 });
 
 it('submits form with valid data and redirects to Main', async () => {
-  const { getByLabelText, getByText } = render(
+  const { getByLabelText } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <SignUp />
+        <LangContext.Provider
+          value={{ language: 'en', switchLanguage: () => {} }}
+        >
+          <SignUp />
+        </LangContext.Provider>
       </Provider>
     </BrowserRouter>
   );
 
-  fireEvent.input(getByLabelText('Email'), {
+  const inputEmail = getByLabelText('Email').querySelector('input');
+  const inputPassword = getByLabelText('Password').querySelector('input');
+  const inputConfirmPassword =
+    getByLabelText('Confirm password').querySelector('input');
+
+  fireEvent.input(inputEmail!, {
     target: { value: 'example@mail.com' },
   });
-  fireEvent.input(getByLabelText('Password'), {
+  fireEvent.input(inputPassword!, {
     target: { value: 'Qwert12!' },
   });
-  fireEvent.input(getByLabelText('Confirm Password'), {
+  fireEvent.input(inputConfirmPassword!, {
     target: { value: 'Qwert12!' },
   });
 
-  fireEvent.submit(getByText('Sign up'));
+  fireEvent.submit(getByLabelText('Sign up'));
 
   vi.waitFor(() => {
     expect(window.location.pathname).toBe(RouteLinks.Main);
@@ -50,18 +64,27 @@ it('shows error message when passwords do not match', async () => {
   const { getByLabelText, getByText } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <SignUp />
+        <LangContext.Provider
+          value={{ language: 'en', switchLanguage: () => {} }}
+        >
+          <SignUp />
+        </LangContext.Provider>
       </Provider>
     </BrowserRouter>
   );
 
-  fireEvent.input(getByLabelText('Email'), {
+  const inputEmail = getByLabelText('Email').querySelector('input');
+  const inputPassword = getByLabelText('Password').querySelector('input');
+  const inputConfirmPassword =
+    getByLabelText('Confirm password').querySelector('input');
+
+  fireEvent.input(inputEmail!, {
     target: { value: 'example@mail.com' },
   });
-  fireEvent.input(getByLabelText('Password'), {
+  fireEvent.input(inputPassword!, {
     target: { value: 'Qwert12!' },
   });
-  fireEvent.input(getByLabelText('Confirm Password'), {
+  fireEvent.input(inputConfirmPassword!, {
     target: { value: 'Qwert123!' },
   });
 

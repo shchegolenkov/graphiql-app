@@ -32,5 +32,10 @@
   "sign_in_header": "Sign in",
   "sign_in_button": "Sign in",
   "sign_in_question": "Don't have an account?",
-  "sign_in_register_link": "Sign up"
+  "sign_in_register_link": "Sign up",
+
+  "sign_up_header": "Sign up",
+  "sign_up_button": "Sign up",
+  "sign_up_question": "Already have an account?",
+  "sign_up_login_link": "Sign in"
 }
