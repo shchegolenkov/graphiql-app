@@ -166,7 +166,7 @@ export const Main = () => {
       className={clsx(styles.wrapper, { [styles.activeDocs]: isDocsOpened })}
     >
       {isDocsActive && (
-        <Suspense fallback={<div></div>}>
+        <Suspense fallback={<div>Doc is loading...</div>}>
           <Docs />
         </Suspense>
       )}
