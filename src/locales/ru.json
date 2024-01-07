@@ -40,5 +40,8 @@
   "sign_up_login_link": "Войти",
 
   "endpoint_input": "Введите endpoint",
-  "endpoint_button": "Сменить endpoint"
+  "endpoint_button": "Сменить endpoint",
+
+  "modal_start_header": "Вы успешно вошли в аккаунт",
+  "modal_start_button": "Открыть редактор!"
 }

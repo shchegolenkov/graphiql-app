@@ -40,5 +40,8 @@
   "sign_up_login_link": "Sign in",
 
   "endpoint_input": "Your endpoint here...",
-  "endpoint_button": "Change endpoint"
+  "endpoint_button": "Change endpoint",
+
+  "modal_start_header": "You`re logged in",
+  "modal_start_button": "Start GraphQL`ing!"
 }
