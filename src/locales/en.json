@@ -23,5 +23,14 @@
   "welcome_team_member_2_name": "Denis",
   "welcome_team_member_2_about": "Learning Frontend from 2022. Passionate about building web apps from scratch and enhancing existing ones. Always looking for opportunities to sharpen my skills.",
   "welcome_team_member_3_name": "Pavel",
-  "welcome_team_member_3_about": "I love solving problems and keeping up with the latest tech trends. When I am not coding, I explore the tech community for inspiration and to fuel my creative solutions."
+  "welcome_team_member_3_about": "I love solving problems and keeping up with the latest tech trends. When I am not coding, I explore the tech community for inspiration and to fuel my creative solutions.",
+
+  "form_input_email": "Email",
+  "form_input_password": "Password",
+  "form_input_confirm_password": "Confirm password",
+
+  "sign_in_header": "Sign in",
+  "sign_in_button": "Sign in",
+  "sign_in_question": "Don't have an account?",
+  "sign_in_register_link": "Sign up"
 }

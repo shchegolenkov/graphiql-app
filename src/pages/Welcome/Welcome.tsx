@@ -57,7 +57,7 @@ export const Welcome = () => {
         <div className={styles.teamBlock}>
           {team.map((member) => (
             <div
-              key={member.name}
+              key={member.github}
               className={clsx(styles.block, styles.memberBlock)}
             >
               <Link to={member.github} target="_blank" className={styles.link}>

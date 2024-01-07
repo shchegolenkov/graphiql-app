@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useAppDispatch } from '../../hooks/redux-hook';
+import { useLanguage } from '../../hooks/useLanguage';
 import { openModal } from '../../store/modal/modal.slice';
 
 import { signinSchema } from '../../utils/validation';
@@ -16,6 +17,7 @@ import styles from './SignIn.module.scss';
 export const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const lang = useLanguage();
 
   const {
     register,
@@ -40,7 +42,7 @@ export const SignIn = () => {
   return (
     <main>
       <div className={styles.wrapper}>
-        <h2>Sign In</h2>
+        <h2>{lang.sign_in_header}</h2>
         <form
           onSubmit={handleSubmit(onSubmitHandler)}
           className={styles.formWrapper}
@@ -50,7 +52,8 @@ export const SignIn = () => {
             {...register('email')}
             helperText={errors.email?.message || ' '}
             className={styles.input}
-            label="Email"
+            label={lang.form_input_email}
+            aria-label="Email"
             type="email"
             autoComplete="email"
           />
@@ -59,16 +62,22 @@ export const SignIn = () => {
             {...register('password')}
             helperText={errors.password?.message || ' '}
             className={styles.input}
-            label="Password"
+            label={lang.form_input_password}
+            aria-label="Password"
             type="password"
             autoComplete="current-password"
           />
-          <Button type="submit" className={styles.button} variant="contained">
-            <Typography>Sign in</Typography>
+          <Button
+            type="submit"
+            className={styles.button}
+            variant="contained"
+            aria-label="Sign in"
+          >
+            <Typography>{lang.sign_in_button}</Typography>
           </Button>
         </form>
-        <Typography>Don&apos;t have an account?</Typography>
-        <Link to={RouteLinks.SignUp}>Sign up</Link>
+        <Typography>{lang.sign_in_question}</Typography>
+        <Link to={RouteLinks.SignUp}>{lang.sign_in_register_link}</Link>
       </div>
     </main>
   );

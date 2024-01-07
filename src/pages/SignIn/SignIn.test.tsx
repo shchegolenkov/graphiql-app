@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../../store/store';
 import { RouteLinks } from '../../utils/types';
+import { LangContext } from '../../context/langContext';
 import { SignIn } from './Signin';
 
 beforeEach(cleanup);
@@ -12,7 +13,11 @@ it('renders SignIn component correctly', () => {
   const { container } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <SignIn />
+        <LangContext.Provider
+          value={{ language: 'en', switchLanguage: () => {} }}
+        >
+          <SignIn />
+        </LangContext.Provider>
       </Provider>
     </BrowserRouter>
   );
@@ -21,22 +26,34 @@ it('renders SignIn component correctly', () => {
 });
 
 it('submits form with valid data and redirects to Main', async () => {
-  const { getByLabelText, getByText } = render(
+  const { getByLabelText } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <SignIn />
+        <LangContext.Provider
+          value={{ language: 'en', switchLanguage: () => {} }}
+        >
+          <SignIn />
+        </LangContext.Provider>
       </Provider>
     </BrowserRouter>
   );
 
-  fireEvent.input(getByLabelText('Email'), {
-    target: { value: 'be@tester.ru' },
-  });
-  fireEvent.input(getByLabelText('Password'), {
-    target: { value: 'Qwert12!' },
-  });
+  const inputEmail = getByLabelText('Email').querySelector('input');
+  const inputPassword = getByLabelText('Password').querySelector('input');
 
-  fireEvent.submit(getByText('Sign in'));
+  if (inputEmail) {
+    fireEvent.change(inputEmail, {
+      target: { value: 'be@tester.ru' },
+    });
+  }
+
+  if (inputPassword) {
+    fireEvent.change(inputPassword!, {
+      target: { value: 'Qwert12!' },
+    });
+  }
+
+  fireEvent.submit(getByLabelText('Sign in'));
 
   vi.waitFor(() => {
     expect(window.location.pathname).toBe(RouteLinks.Main);
