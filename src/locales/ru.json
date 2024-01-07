@@ -43,5 +43,7 @@
   "endpoint_button": "Сменить endpoint",
 
   "modal_start_header": "Вы успешно вошли в аккаунт",
-  "modal_start_button": "Открыть редактор!"
+  "modal_start_button": "Открыть редактор!",
+
+  "docs_heading": "Дока"
 }

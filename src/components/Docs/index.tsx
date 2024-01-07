@@ -1,16 +1,18 @@
+import { useCallback } from 'react';
 import { Button, Drawer } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hook';
 import clsx from 'clsx';
 
-import close from '../../assets/svg/close.svg';
-
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hook';
+import { useLanguage } from '../../hooks/useLanguage';
 import { selectDocs, selectisDocsOpened } from '../../store/editor/selectors';
 import { setIsDocsOpened } from '../../store/editor/editor.slice';
 
+import close from '../../assets/svg/close.svg';
+
 import styles from './Docs.module.scss';
-import { useCallback } from 'react';
 
 const Docs = () => {
+  const lang = useLanguage();
   const docs = useAppSelector(selectDocs);
   const dispatch = useAppDispatch();
   const isOpened = useAppSelector(selectisDocsOpened);
@@ -29,7 +31,7 @@ const Docs = () => {
       className={clsx(styles.docs, { [styles.docsOpened]: isOpened })}
     >
       <header>
-        <h2>Docs</h2>
+        <h2>{lang.docs_heading}</h2>
         <Button
           onClick={handleClose}
           className={styles.close}

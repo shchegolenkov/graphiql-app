@@ -43,5 +43,7 @@
   "endpoint_button": "Change endpoint",
 
   "modal_start_header": "You`re logged in",
-  "modal_start_button": "Start GraphQL`ing!"
+  "modal_start_button": "Start GraphQL`ing!",
+
+  "docs_heading": "Docs"
 }
