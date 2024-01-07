@@ -5,10 +5,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hook';
 import { useLanguage } from '../../hooks/useLanguage';
 import {
+  setDocs,
   setEndpoint,
+  setIsDocsActive,
   setIsEndpointOpen,
 } from '../../store/editor/editor.slice';
-import { selectModal } from '../../store/editor/selectors';
+import { selectEndpoint, selectModal } from '../../store/editor/selectors';
 import { endpointSchema } from '../../utils/validation';
 import close from '../../assets/svg/close.svg';
 
@@ -28,12 +30,15 @@ export const EndpointEditor = () => {
   } = useForm({ resolver: yupResolver(endpointSchema), mode: 'all' });
 
   const endpointModal = useAppSelector(selectModal);
+  const endpoint = useAppSelector(selectEndpoint);
   const dispatch = useAppDispatch();
 
   const onSubmitHandler = (formData: IEndpointData) => {
     const { endpoint } = formData;
     if (endpoint) {
       dispatch(setEndpoint(endpoint));
+      dispatch(setIsDocsActive(false));
+      dispatch(setDocs(null));
     }
     handleClose();
   };
@@ -59,6 +64,7 @@ export const EndpointEditor = () => {
       >
         <DialogContent className={styles.wrapper}>
           <TextField
+            defaultValue={endpoint}
             error={!!errors.endpoint}
             helperText={errors.endpoint?.message || ' '}
             {...register('endpoint')}

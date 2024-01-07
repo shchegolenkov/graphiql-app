@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Button, TextField, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import clsx from 'clsx';
 
 import { useAppDispatch } from '../../hooks/redux-hook';
 import { useLanguage } from '../../hooks/useLanguage';
@@ -25,7 +27,10 @@ export const SignUp = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(signupSchema), mode: 'all' });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmitHandler = async (formData: IFormData) => {
+    setIsLoading(true);
     try {
       const { email, password } = formData;
       const signupResult = await registerWithEmailAndPassword(email, password);
@@ -36,6 +41,8 @@ export const SignUp = () => {
     } catch (error) {
       ErrorToast(`${error}`);
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -79,9 +86,10 @@ export const SignUp = () => {
           />
           <Button
             type="submit"
-            className={styles.button}
+            className={clsx(styles.button, { [styles.loader]: isLoading })}
             variant="contained"
             aria-label="Sign up"
+            disabled={isLoading}
           >
             <Typography>{lang.sign_up_button}</Typography>
           </Button>
