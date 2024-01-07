@@ -15,10 +15,11 @@ import {
   selectInput,
   selectLoading,
   selectOutput,
-  selectVariables,
+  selectVariablesActive,
   selectEndpoint,
   selectHeader,
   selectError,
+  selectVariables,
 } from '../../store/editor/selectors';
 
 import {
@@ -27,9 +28,11 @@ import {
   setIsVariablesActive,
   setIsEndpointOpen,
   setHeaders,
+  setVariables,
 } from '../../store/editor/editor.slice';
 import {
   defaultHeaders,
+  exampleVariables,
   defaultQuery,
   getNumericArray,
   prettify,
@@ -55,12 +58,13 @@ export const Main = () => {
 
   const output = useAppSelector(selectOutput);
   const isHeadersActive = useAppSelector(selectHeaders);
-  const isVariablesActive = useAppSelector(selectVariables);
+  const isVariablesActive = useAppSelector(selectVariablesActive);
   const isLoading = useAppSelector(selectLoading);
   const graphQLParams = useAppSelector(selectInput);
   const endpoint = useAppSelector(selectEndpoint);
   const headers = useAppSelector(selectHeader);
   const error = useAppSelector(selectError);
+  const variables = useAppSelector(selectVariables);
 
   const handleHeadersClick = useCallback(() => {
     dispatch(setIsHeadersActive());
@@ -92,14 +96,30 @@ export const Main = () => {
         return;
       }
     }
+    
+    const requestBody: { query: string; variables?: string } = {
+      query: graphQLParams,
+    };
+    
+    let parsedVariables = null;
+    try {
+      if (variables) {
+        parsedVariables = JSON.parse(variables);
+      }
+    } catch (error) {
+      ErrorToast(`Variables error ${error}`);
+      return;
+    }
+
+    if (parsedVariables) {
+      requestBody.variables = parsedVariables;
+    }
+    
     dispatch(
       fetchOutput({
         endpoint,
         headers: parsedHeaders ?? defaultHeaders,
-        body: JSON.stringify({
-          query: graphQLParams,
-          // variables: variables
-        }),
+        body: JSON.stringify(requestBody),
       })
     );
   };
@@ -117,6 +137,13 @@ export const Main = () => {
   ) => {
     const textarea = event.target;
     dispatch(setHeaders(textarea.value));
+  };
+
+  const handleVariablesChange: ChangeEventHandler<HTMLTextAreaElement> = (
+    event
+  ) => {
+    const textarea = event.target;
+    dispatch(setVariables(textarea.value));
   };
 
   const handlePrettify = () => {
@@ -218,6 +245,8 @@ export const Main = () => {
                   <img src={fold} alt="" />
                 </button>
                 <textarea
+                  onChange={handleVariablesChange}
+                  placeholder={JSON.stringify(exampleVariables, null, 2)}
                   disabled={isVariablesActive}
                   name="variables"
                   cols={30}

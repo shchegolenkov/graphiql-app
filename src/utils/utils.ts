@@ -14,6 +14,11 @@ export const defaultHeaders = {
   Accept: 'application/json',
 };
 
+export const exampleVariables = {
+  userId: 123,
+  userStatus: 'active',
+};
+
 export const getNumericArray = (length: number) =>
   [...Array(length).keys()].map((i) => i + 1);
 

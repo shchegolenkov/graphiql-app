@@ -16,6 +16,7 @@ interface UserState {
   endpoint: string;
   headers: string;
   error?: string;
+  variables: string;
 }
 
 const initialState: UserState = {
@@ -28,6 +29,7 @@ const initialState: UserState = {
   graphQLParams: defaultQuery,
   output: defaultOutput,
   headers: '',
+  variables: '',
 };
 
 const editorSlice = createSlice({
@@ -58,6 +60,9 @@ const editorSlice = createSlice({
     setHeaders(state, action) {
       state.headers = action.payload;
     },
+    setVariables(state, action) {
+      state.variables = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchOutput.pending, (state) => {
@@ -80,6 +85,7 @@ export const {
   setIsHeadersActive,
   setHeaders,
   setIsVariablesActive,
+  setVariables,
   setIsLoading,
   setIsEndpointOpen,
   setEndpoint,
