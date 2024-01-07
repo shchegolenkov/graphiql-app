@@ -5,6 +5,12 @@ import { fetchOutput } from './actions';
 
 const defaultEndpoint = 'https://rickandmortyapi.com/graphql';
 const defaultOutput = '{ \n  message: {  \n    Output goes here \n  } \n}';
+const docNotFound = [
+  {
+    name: 'Whoops!',
+    description: "Seems like we can't get this api's schema..",
+  },
+];
 
 interface UserState {
   isHeaderActive: boolean;
@@ -93,7 +99,7 @@ const editorSlice = createSlice({
       state.isLoading = false;
       if (isIntrospection) {
         state.isDocsActive = true;
-        state.docs = result?.data?.__schema?.queryType?.fields;
+        state.docs = result?.data?.__schema?.queryType?.fields || docNotFound;
       } else {
         state.output = JSON.stringify(result, null, 2).replace(/"/g, '');
       }

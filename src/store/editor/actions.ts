@@ -1,5 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+interface ResponseData {
+  result: Record<string, string>;
+  isIntrospection: boolean;
+}
 interface RequestData {
   endpoint: string;
   headers: Record<string, string>;
@@ -8,7 +12,7 @@ interface RequestData {
 }
 
 export const fetchOutput = createAsyncThunk<
-  Record<string, boolean>,
+  ResponseData,
   RequestData,
   {
     rejectValue: Error;
