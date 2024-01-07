@@ -1,0 +1,74 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  height: 60px;
+  background-color: $color-bg-secondary;
+  box-shadow: 0 -6px 10px 5px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.4s;
+
+  &Scrolled {
+    background-color: $color-element-bg;
+  }
+}
+
+.nav {
+  width: 80%;
+  max-width: 1550px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  p {
+    @media (max-width: 576px) {
+      display: none;
+    }
+  }
+}
+
+.navBlock {
+  display: flex;
+  gap: 20px;
+
+  @media (max-width: 640px) {
+    gap: 0;
+  }
+}
+
+.iconBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 115px;
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover .icon * {
+    fill: $color-element-active;
+  }
+
+  &:hover .authIcon * {
+    stroke: $color-element-active;
+  }
+
+  @media (max-width: 576px) {
+    min-width: 60px;
+  }
+}
+
+.icon * {
+  transition: fill 0.2s;
+}
+
+.authIcon * {
+  transition: stroke 0.2s;
+}

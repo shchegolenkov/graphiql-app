@@ -1,0 +1,32 @@
+$color-bg: #150f0f;
+$color-bg-editor: #261818;
+$color-bg-secondary: #3c2222;
+$color-disabled: #331f23;
+$color-text-disabled: #ab9090;
+$color-lines: #7a6161;
+
+$color-endpoint-bg: #440914;
+$color-element-bg: #6d0f20;
+$color-element-hover: #d01c3c;
+$color-element-active: #df6379;
+$color-link: #ffb3b3;
+
+$color-validation: #ffaed1;
+$color-text: #f9c9d2;
+$color-icon: #d4adad;
+$color-text-editor: #edc6c6;
+
+$color-bg-success: #0f6d5c;
+$color-success: #1eac92;
+
+$color-white: #fff;
+
+$color-bg-gradient: linear-gradient(
+  320deg,
+  rgba(109, 15, 32, 0.5) 0%,
+  rgba(60, 34, 34, 0.5) 100%
+);
+
+$color-bg-gradient-alt: linear-gradient(100deg, #6d0f3c, #d01c3c);
+
+$transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);

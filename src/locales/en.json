@@ -1,0 +1,49 @@
+{
+  "header_translate_button": "Language",
+  "header_welcome_page_button": "Welcome",
+  "header_main_page_button": "Main page",
+  "header_sign_in_button": "Sign in",
+  "header_sign_up_button": "Sign up",
+  "header_logout_button": "Logout",
+
+  "not_found_text": "Page not found...",
+  "not_found_button": "Go back",
+
+  "main_headers": "Headers",
+  "main_variables": "Variables",
+  "main_prettify": "Prettify!",
+
+  "welcome_header_text": "Welcome to GraphQL online IDE",
+  "welcome_subheader_text": "A perfect tool for writing, validating and testing GraphQL queries.",
+  "welcome_action_text": "Please sign in or create an account and start using it!",
+  "welcome_made_text": "The app was made on the RS School React 2023Q4 course.",
+  "welcome_team_header": "Our team",
+  "welcome_team_member_1_name": "Egor",
+  "welcome_team_member_1_about": "I participated in various coding online courses to further enhance my skills. I have a passion for frontend and strive to stay updated with the latest industry trends and best practices.",
+  "welcome_team_member_2_name": "Denis",
+  "welcome_team_member_2_about": "Learning Frontend from 2022. Passionate about building web apps from scratch and enhancing existing ones. Always looking for opportunities to sharpen my skills.",
+  "welcome_team_member_3_name": "Pavel",
+  "welcome_team_member_3_about": "I love solving problems and keeping up with the latest tech trends. When I am not coding, I explore the tech community for inspiration and to fuel my creative solutions.",
+
+  "form_input_email": "Email",
+  "form_input_password": "Password",
+  "form_input_confirm_password": "Confirm password",
+
+  "sign_in_header": "Sign in",
+  "sign_in_button": "Sign in",
+  "sign_in_question": "Don't have an account?",
+  "sign_in_register_link": "Sign up",
+
+  "sign_up_header": "Sign up",
+  "sign_up_button": "Sign up",
+  "sign_up_question": "Already have an account?",
+  "sign_up_login_link": "Sign in",
+
+  "endpoint_input": "Your endpoint here...",
+  "endpoint_button": "Change endpoint",
+
+  "modal_start_header": "You`re logged in",
+  "modal_start_button": "Start GraphQL`ing!",
+
+  "docs_heading": "Docs"
+}

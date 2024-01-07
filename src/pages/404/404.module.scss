@@ -1,0 +1,29 @@
+.wrapper {
+  h1 {
+    position: absolute;
+    left: 50%;
+
+    font-size: 124px;
+    color: #6d0f2088;
+
+    z-index: -5;
+    transform: translate(-50%, -45%);
+  }
+
+  h2 {
+    position: relative;
+  }
+
+  .button {
+    margin-top: 60px;
+
+    width: 150px;
+    font-size: 20px;
+
+    background-color: $color-bg-gradient;
+
+    a {
+      text-decoration: none;
+    }
+  }
+}

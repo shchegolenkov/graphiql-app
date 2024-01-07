@@ -1,0 +1,613 @@
+.editorWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80dvh;
+  gap: 20px;
+}
+
+.activeDocs {
+  display: flex;
+  align-items: start;
+  gap: 20px;
+
+  .editorWrapper {
+    flex-direction: column;
+    width: 70%;
+    max-width: 800px;
+    height: auto;
+  }
+
+  .editor {
+    min-height: 382px;
+    height: 40dvh;
+    width: 100%;
+  }
+
+  .viewerWrapper {
+    width: 100%;
+  }
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 30dvw;
+
+  .inputWrapper {
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    max-height: 100%;
+
+    overflow: auto;
+
+    &::-webkit-scrollbar-track {
+      background: $color-bg-editor;
+    }
+
+    .editorInput {
+      height: 9999px;
+      overflow: hidden;
+      border-radius: 0;
+    }
+  }
+
+  * {
+    font-family: 'Source Code Pro', monospace;
+  }
+
+  .lines {
+    width: 50px;
+    height: 9999px;
+    padding: 10px;
+
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.1;
+    text-align: right;
+
+    border-radius: 10px 0 0 10px;
+    border-right: 2px solid $color-lines;
+    background-color: $color-bg-editor;
+
+    span {
+      counter-increment: linenumber;
+      color: $color-lines;
+
+      &::before {
+        content: counter(linenumber);
+        display: block;
+        color: $color-lines;
+      }
+    }
+  }
+
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #3c2222 #ffffff;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #3c2222;
+    border-radius: 10px;
+    border: 0px solid #ffffff;
+  }
+}
+
+textarea {
+  padding: 10px;
+  width: 100%;
+
+  font-size: 18px;
+  line-height: 1.1;
+  color: $color-text-editor;
+
+  border-radius: 10px;
+  background-color: $color-bg-editor;
+  resize: none;
+  outline: none;
+  border: none;
+  overflow: auto;
+
+  &::placeholder {
+    color: $color-lines;
+  }
+}
+
+.utilitiesWrapper {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+
+  textarea {
+    width: 100%;
+    height: 20dvh;
+
+    font-size: 16px;
+
+    border-radius: 0 0 10px 10px;
+    transition: $transition;
+  }
+
+  .endpointWrapper > button,
+  .otherUtilsWrapper > button {
+    height: 60px;
+    width: 60px;
+  }
+}
+
+.headersWrapper {
+  width: 50%;
+}
+
+.variabledWrapper {
+  width: 50%;
+}
+
+.headers {
+  margin-bottom: -4px;
+}
+
+.variables {
+  margin-bottom: -4px;
+}
+
+.fold {
+  width: 100%;
+  padding: 5px 5px 5px 50px;
+
+  font-size: 18px;
+  text-align: left;
+
+  border-radius: 10px 10px 0 0;
+  background-color: $color-bg-editor;
+  border: none;
+
+  img {
+    opacity: 0.3;
+    transform: rotate(180deg);
+    transition: $transition;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    img {
+      opacity: 1;
+    }
+  }
+}
+
+.folded {
+  button {
+    transition: $transition;
+  }
+
+  img {
+    transform: rotate(0deg);
+  }
+
+  textarea {
+    height: 23px;
+    color: transparent;
+    overflow: hidden;
+
+    &::placeholder {
+      color: transparent;
+    }
+  }
+}
+
+.endpointWrapper {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin: 10px 0;
+  gap: 10px;
+
+  text-align: center;
+
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: $color-element-active;
+  }
+
+  *::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: $color-element-bg;
+    border-radius: 10px;
+  }
+
+  .endpoint {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+
+    overflow: auto;
+    border-radius: 10px;
+    background-color: $color-endpoint-bg;
+
+    transition: all 0.5s cubic-bezier(0.255, 0.95, 0.58, 0.73);
+
+    &.updated {
+      background-color: $color-element-bg !important;
+    }
+  }
+}
+
+.otherUtilsWrapper {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin: 10px 0;
+  gap: 10px;
+
+  .bookActive {
+    background-color: $color-element-active;
+  }
+
+  .docs {
+    &:disabled {
+      img {
+        filter: brightness(50%);
+      }
+    }
+  }
+
+  button.prettify {
+    width: 100%;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 20px;
+    letter-spacing: -1px;
+  }
+}
+
+.run {
+  height: 80px;
+  width: 80px;
+  background: $color-bg-gradient-alt;
+
+  img {
+    width: 40px;
+    height: 40px;
+    transition: $transition;
+  }
+
+  &:hover {
+    img {
+      filter: contrast(200%);
+      transform: scale(1.12);
+    }
+  }
+}
+
+.viewerWrapper {
+  width: 30dvw;
+  height: 100% !important;
+
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: $color-element-active;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: $color-element-bg;
+    border-radius: 10px;
+  }
+}
+
+.inputViewer {
+  height: 100%;
+
+  line-height: 1.3;
+  font-family: 'Source Code Pro', monospace;
+
+  background: $color-bg-gradient;
+}
+
+.loader {
+  &::after {
+    content: '';
+    width: 40px;
+    height: 40px;
+    display: block;
+
+    border-radius: 50%;
+    border: 8px dotted $color-text;
+
+    animation: loader 4s linear infinite;
+  }
+
+  img {
+    display: none;
+  }
+}
+
+@media (max-width: 1550px) {
+  .editor {
+    width: 40dvw;
+  }
+
+  .viewerWrapper {
+    width: 40dvw;
+  }
+}
+
+@media (max-width: 1200px) {
+  .editorWrapper {
+    flex-direction: column;
+    width: 70dvw;
+    height: auto;
+
+    .editor {
+      min-height: 382px;
+      height: 40dvh;
+      width: 100%;
+    }
+
+    .viewerWrapper {
+      width: 100%;
+    }
+  }
+
+  .utilitiesWrapper {
+    textarea {
+      height: 10dvh;
+    }
+  }
+
+  .otherUtilsWrapper {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 10px 0;
+    gap: 10px;
+
+    .docs {
+      &:disabled {
+        img {
+          filter: brightness(50%);
+        }
+      }
+    }
+
+    button.prettify {
+      width: 100%;
+      font-size: 18px;
+    }
+  }
+
+  .run {
+    height: 80px;
+    width: 150px;
+    background: $color-bg-gradient-alt;
+
+    img {
+      width: 40px;
+      height: 40px;
+      transition: $transition;
+    }
+
+    &:hover {
+      img {
+        filter: contrast(200%);
+        transform: scale(1.12);
+      }
+    }
+  }
+
+  .folded {
+    button {
+      transition: $transition;
+    }
+
+    img {
+      transform: rotate(0deg);
+    }
+
+    textarea {
+      height: 23px;
+      color: transparent;
+      overflow: hidden;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .editorWrapper {
+    width: 80dvw;
+  }
+
+  .activeDocs {
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+
+    .editorWrapper {
+      width: 100%;
+    }
+
+    .editor {
+      min-height: 382px;
+      height: 40dvh;
+      width: 100%;
+    }
+
+    .viewerWrapper {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .editorWrapper {
+    width: 100%;
+  }
+}
+
+@media (max-width: 550px) {
+  .utilitiesWrapper {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+
+    textarea {
+      width: 100%;
+      font-size: 14px;
+      border-radius: 0 0 10px 10px;
+      transition: $transition;
+    }
+
+    .endpointWrapper > button,
+    .otherUtilsWrapper > button {
+      height: 40px;
+      min-width: 40px;
+      width: 40px;
+
+      img {
+        width: 30px;
+        height: 20px;
+      }
+    }
+  }
+
+  .endpointWrapper {
+    .endpoint {
+      height: 40px;
+    }
+  }
+
+  .otherUtilsWrapper {
+    button.prettify {
+      width: 100%;
+      font-size: 16px;
+    }
+  }
+
+  .run {
+    width: 120px;
+    height: 70px;
+  }
+
+  .fold {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 470px) {
+  .editor {
+    .editorInput,
+    .lines {
+      font-size: 14px;
+    }
+  }
+
+  .utilitiesWrapper {
+    flex-direction: column;
+    gap: 0px;
+
+    textarea:not(:disabled) {
+      height: 7dvh;
+    }
+
+    .headersWrapper,
+    .variablesWrapper {
+      width: 100%;
+    }
+
+    .otherUtilsWrapper {
+      flex-direction: row-reverse;
+    }
+
+    .endpointWrapper > button,
+    .otherUtilsWrapper > button {
+      height: 40px;
+      min-width: 40px;
+      width: 40px;
+
+      img {
+        width: 30px;
+        height: 20px;
+      }
+    }
+  }
+
+  .endpointWrapper {
+    .endpoint {
+      height: 40px;
+      font-size: 14px;
+    }
+  }
+
+  .otherUtilsWrapper {
+    button.prettify {
+      width: 100%;
+      font-size: 14px;
+    }
+  }
+
+  .folded {
+    button {
+      transition: $transition;
+    }
+
+    img {
+      transform: rotate(0deg);
+    }
+
+    textarea {
+      color: transparent;
+      overflow: hidden;
+    }
+  }
+
+  .fold {
+    font-size: 14px;
+  }
+
+  .run {
+    width: 120px;
+    height: 70px;
+  }
+
+  .inputViewer {
+    font-size: 14px;
+  }
+}
+
+@keyframes loader {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
