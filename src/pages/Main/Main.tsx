@@ -85,7 +85,12 @@ export const Main = () => {
   const graphQLFetch = (graphQLParams: string) => {
     let parsedHeaders = null;
     if (headers) {
-      parsedHeaders = JSON.parse(headers);
+      try {
+        parsedHeaders = JSON.parse(headers);
+      } catch (err) {
+        ErrorToast(`${err}`);
+        return;
+      }
     }
     dispatch(
       fetchOutput({
