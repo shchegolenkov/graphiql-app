@@ -1,5 +1,7 @@
 import {
   ChangeEventHandler,
+  Suspense,
+  lazy,
   useCallback,
   useEffect,
   useRef,
@@ -18,6 +20,8 @@ import {
   selectVariablesActive,
   selectEndpoint,
   selectHeader,
+  selectIsDocsActive,
+  selectisDocsOpened,
   selectError,
   selectVariables,
 } from '../../store/editor/selectors';
@@ -28,6 +32,7 @@ import {
   setIsVariablesActive,
   setIsEndpointOpen,
   setHeaders,
+  setIsDocsOpened,
   setVariables,
 } from '../../store/editor/editor.slice';
 import {
@@ -35,13 +40,15 @@ import {
   exampleVariables,
   defaultQuery,
   getNumericArray,
+  introspectionQuery,
   prettify,
 } from '../../utils/utils';
 import { EndpointEditor } from '../../components/EndpointEditor';
 import run from '../../assets/svg/run.svg';
-import docs from '../../assets/svg/docs.svg';
+import docsIcon from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
 import fold from '../../assets/svg/fold.svg';
+const Docs = lazy(() => import('../../components/Docs'));
 import ErrorToast from '../../components/CustomToast/ErrorToast';
 import QueryEditor from '../../components/QueryEditor';
 
@@ -49,7 +56,7 @@ import styles from './Main.module.scss';
 import { fetchOutput } from '../../store/editor/actions';
 
 export const Main = () => {
-  const headersRef = useRef(null);
+  const editorRef = useRef(null);
   const dispatch = useAppDispatch();
 
   const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(10));
@@ -63,6 +70,8 @@ export const Main = () => {
   const graphQLParams = useAppSelector(selectInput);
   const endpoint = useAppSelector(selectEndpoint);
   const headers = useAppSelector(selectHeader);
+  const isDocsActive = useAppSelector(selectIsDocsActive);
+  const isDocsOpened = useAppSelector(selectisDocsOpened);
   const error = useAppSelector(selectError);
   const variables = useAppSelector(selectVariables);
 
@@ -86,9 +95,13 @@ export const Main = () => {
     setLineNumber(getNumericArray(lines));
   };
 
-  const graphQLFetch = (graphQLParams: string) => {
+  const graphQLFetch = (graphQLParams: string, isIntrospection = false) => {
+    const requestBody: { query: string; variables?: string } = {
+      query: graphQLParams,
+    };
+
     let parsedHeaders = null;
-    if (headers) {
+    if (headers && !isIntrospection) {
       try {
         parsedHeaders = JSON.parse(headers);
       } catch (err) {
@@ -96,35 +109,33 @@ export const Main = () => {
         return;
       }
     }
-    
-    const requestBody: { query: string; variables?: string } = {
-      query: graphQLParams,
-    };
-    
+
     let parsedVariables = null;
-    try {
-      if (variables) {
+    if (variables && !isIntrospection) {
+      try {
         parsedVariables = JSON.parse(variables);
+      } catch (error) {
+        ErrorToast(`${error}`);
+        return;
       }
-    } catch (error) {
-      ErrorToast(`Variables error ${error}`);
-      return;
     }
 
     if (parsedVariables) {
       requestBody.variables = parsedVariables;
     }
-    
+
     dispatch(
       fetchOutput({
         endpoint,
         headers: parsedHeaders ?? defaultHeaders,
         body: JSON.stringify(requestBody),
+        isIntrospection,
       })
     );
   };
 
   const handleRun = () => {
+    graphQLFetch(introspectionQuery, true);
     graphQLFetch(graphQLParams);
   };
 
@@ -137,6 +148,10 @@ export const Main = () => {
   ) => {
     const textarea = event.target;
     dispatch(setHeaders(textarea.value));
+  };
+
+  const handleDocsClick = () => {
+    dispatch(setIsDocsOpened());
   };
 
   const handleVariablesChange: ChangeEventHandler<HTMLTextAreaElement> = (
@@ -167,7 +182,14 @@ export const Main = () => {
   }, [error]);
 
   return (
-    <main className={styles.wrapper}>
+    <main
+      className={clsx(styles.wrapper, { [styles.activeDocs]: isDocsOpened })}
+    >
+      {isDocsActive && (
+        <Suspense fallback={<div />}>
+          <Docs />
+        </Suspense>
+      )}
       <EndpointEditor />
       <div className={styles.editorWrapper}>
         <div className={styles.editor}>
@@ -178,7 +200,7 @@ export const Main = () => {
               ))}
             </div>
             <QueryEditor
-              refObject={headersRef}
+              refObject={editorRef}
               value={editorValue}
               onChange={handleEditorChange}
               className={styles.editorInput}
@@ -224,8 +246,15 @@ export const Main = () => {
 
             <div className={styles.variablesWrapper}>
               <div className={styles.otherUtilsWrapper}>
-                <Button disabled variant="contained" className={styles.docs}>
-                  <img src={docs} alt="" />
+                <Button
+                  disabled={!isDocsActive}
+                  variant="contained"
+                  className={clsx(styles.docs, {
+                    [styles.bookActive]: isDocsOpened,
+                  })}
+                  onClick={handleDocsClick}
+                >
+                  <img src={docsIcon} alt="" />
                 </Button>
                 <Button
                   onClick={handlePrettify}
@@ -260,6 +289,7 @@ export const Main = () => {
         <Button
           onClick={handleRun}
           className={clsx(styles.run, { [styles.loader]: isLoading })}
+          disabled={isLoading}
         >
           <img src={run} alt="Run" />
         </Button>

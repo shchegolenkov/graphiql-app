@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Button, TextField, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import clsx from 'clsx';
 
 import { useAppDispatch } from '../../hooks/redux-hook';
 import { openModal } from '../../store/modal/modal.slice';
@@ -23,7 +25,10 @@ export const SignUp = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(signupSchema), mode: 'all' });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmitHandler = async (formData: IFormData) => {
+    setIsLoading(true);
     try {
       const { email, password } = formData;
       const signupResult = await registerWithEmailAndPassword(email, password);
@@ -34,6 +39,8 @@ export const SignUp = () => {
     } catch (error) {
       ErrorToast(`${error}`);
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -72,8 +79,13 @@ export const SignUp = () => {
             type="password"
             autoComplete="new-password"
           />
-          <Button type="submit" className={styles.button} variant="contained">
-            <Typography>Sign up</Typography>
+          <Button
+            type="submit"
+            className={clsx(styles.button, { [styles.loader]: isLoading })}
+            variant="contained"
+            disabled={isLoading}
+          >
+            <p>Sign up</p>
           </Button>
         </form>
         <Typography>Already have an account?</Typography>

@@ -9,6 +9,18 @@ export const defaultQuery = `query {
   }
 }`;
 
+export const introspectionQuery = `{
+  __schema {
+    queryType {
+      fields {
+        name
+        description
+      }
+    }
+  }
+}
+`;
+
 export const defaultHeaders = {
   'Content-Type': 'application/json',
   Accept: 'application/json',
@@ -28,7 +40,7 @@ export const prettify = (graphQLParams: string) => {
 
   let lines = graphQLParams
     .replace(START_CURLY_BRACKETS, '{\n')
-    .replace(END_CURLY_BRACKETS, '\n}\n')
+    .replace(/(},)|}/g, '\n}\n')
     .split(/[\n]/g);
   let indent = 0;
   lines = lines.map((item) => {

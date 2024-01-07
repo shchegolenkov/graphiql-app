@@ -1,9 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { defaultQuery } from '../../utils/utils';
+import { IQueryField, IQueryResponse } from '../../utils/types';
 import { fetchOutput } from './actions';
 
 const defaultEndpoint = 'https://rickandmortyapi.com/graphql';
 const defaultOutput = '{ \n  message: {  \n    Output goes here \n  } \n}';
+const docNotFound = [
+  {
+    name: 'Whoops!',
+    description: "Seems like we can't get this api's schema..",
+  },
+];
 
 interface UserState {
   isHeaderActive: boolean;
@@ -15,6 +22,9 @@ interface UserState {
   isEndpointOpen: boolean;
   endpoint: string;
   headers: string;
+  docs: IQueryField[] | null;
+  isDocsActive: boolean;
+  isDocsOpened: boolean;
   error?: string;
   variables: string;
 }
@@ -29,6 +39,9 @@ const initialState: UserState = {
   graphQLParams: defaultQuery,
   output: defaultOutput,
   headers: '',
+  docs: null,
+  isDocsActive: false,
+  isDocsOpened: false,
   variables: '',
 };
 
@@ -63,6 +76,15 @@ const editorSlice = createSlice({
     setVariables(state, action) {
       state.variables = action.payload;
     },
+    setDocs(state, action) {
+      state.docs = action.payload;
+    },
+    setIsDocsActive(state, action) {
+      state.isDocsActive = action.payload;
+    },
+    setIsDocsOpened(state) {
+      state.isDocsOpened = !state.isDocsOpened;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchOutput.pending, (state) => {
@@ -70,13 +92,22 @@ const editorSlice = createSlice({
       state.error = undefined;
     });
     builder.addCase(fetchOutput.fulfilled, (state, { payload }) => {
+      const { result, isIntrospection } = payload as unknown as {
+        result: IQueryResponse;
+        isIntrospection: boolean;
+      };
       state.isLoading = false;
-      state.output = JSON.stringify(payload, null, 2).replace(/"/g, '');
+      if (isIntrospection) {
+        state.isDocsActive = true;
+        state.docs = result?.data?.__schema?.queryType?.fields || docNotFound;
+      } else {
+        state.output = JSON.stringify(result, null, 2).replace(/"/g, '');
+      }
     });
     builder.addCase(fetchOutput.rejected, (state, { payload }) => {
       state.isLoading = false;
       state.error = payload?.message || 'Something went wrong :(';
-      state.output = `${payload?.message}}`;
+      state.output = `${payload?.message}`;
     });
   },
 });
@@ -91,5 +122,8 @@ export const {
   setEndpoint,
   setOutput,
   setGraphQLParams,
+  setDocs,
+  setIsDocsActive,
+  setIsDocsOpened,
 } = editorSlice.actions;
 export default editorSlice.reducer;
