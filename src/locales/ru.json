@@ -11,7 +11,7 @@
 
   "main_headers": "Заголовки",
   "main_variables": "Переменные",
-  "main_prettify": "Украсить!",
+  "main_prettify": "Выровнять!",
 
   "welcome_header_text": "Добро пожаловать в GraphQL online IDE",
   "welcome_subheader_text": "Это идеальный инструмент для написания, проверки и тестирования запросов GraphQL.",
