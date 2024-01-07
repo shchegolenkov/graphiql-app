@@ -6,6 +6,7 @@ import store from '../../store/store';
 import * as useAuthModule from '../../hooks/useAuth';
 import * as firebaseModule from '../../firebase';
 import { Header } from './index';
+import { LangContext } from '../../context/langContext';
 
 beforeEach(cleanup);
 
@@ -13,7 +14,11 @@ it('renders Header component correctly', () => {
   const { container } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <Header />
+        <LangContext.Provider
+          value={{ language: 'en', switchLanguage: () => {} }}
+        >
+          <Header />
+        </LangContext.Provider>
       </Provider>
     </BrowserRouter>
   );
@@ -31,15 +36,19 @@ it('logs out user when Logout button is clicked', async () => {
     id: '123',
   });
 
-  const { getByText } = render(
+  const { getByLabelText } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <Header />
+        <LangContext.Provider
+          value={{ language: 'en', switchLanguage: () => {} }}
+        >
+          <Header />
+        </LangContext.Provider>
       </Provider>
     </BrowserRouter>
   );
 
-  fireEvent.click(getByText('Logout'));
+  fireEvent.click(getByLabelText('Logout'));
 
   expect(logoutMock).toHaveBeenCalled();
 });
@@ -52,15 +61,19 @@ it('renders Sign In link correctly when user is not authenticated', () => {
     id: '',
   });
 
-  const { getByText } = render(
+  const { getByLabelText } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <Header />
+        <LangContext.Provider
+          value={{ language: 'en', switchLanguage: () => {} }}
+        >
+          <Header />
+        </LangContext.Provider>
       </Provider>
     </BrowserRouter>
   );
 
-  const signInLink = getByText(/Sign In/);
+  const signInLink = getByLabelText(/Sign In/);
 
   expect(signInLink).toBeTruthy();
 });
@@ -73,15 +86,19 @@ it('renders Logout link correctly when user is authenticated', () => {
     id: '123',
   });
 
-  const { getByText } = render(
+  const { getByLabelText } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <Header />
+        <LangContext.Provider
+          value={{ language: 'en', switchLanguage: () => {} }}
+        >
+          <Header />
+        </LangContext.Provider>
       </Provider>
     </BrowserRouter>
   );
 
-  const logoutLink = getByText(/Logout/);
+  const logoutLink = getByLabelText(/Logout/);
 
   expect(logoutLink).toBeTruthy();
 });
