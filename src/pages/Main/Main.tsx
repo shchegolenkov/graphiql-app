@@ -1,5 +1,7 @@
 import {
   ChangeEventHandler,
+  Suspense,
+  lazy,
   useCallback,
   useEffect,
   useRef,
@@ -47,7 +49,7 @@ import run from '../../assets/svg/run.svg';
 import docsIcon from '../../assets/svg/docs.svg';
 import edit from '../../assets/svg/edit.svg';
 import fold from '../../assets/svg/fold.svg';
-import { Docs } from '../../components/Docs';
+const Docs = lazy(() => import('../../components/Docs'));
 
 import styles from './Main.module.scss';
 
@@ -163,7 +165,11 @@ export const Main = () => {
     <main
       className={clsx(styles.wrapper, { [styles.activeDocs]: isDocsOpened })}
     >
-      <Docs />
+      {isDocsActive && (
+        <Suspense fallback={<div></div>}>
+          <Docs />
+        </Suspense>
+      )}
       <EndpointEditor />
       <div className={styles.editorWrapper}>
         <div className={styles.editor}>

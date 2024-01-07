@@ -9,7 +9,7 @@ import { setIsDocsOpened } from '../../store/editor/editor.slice';
 
 import styles from './Docs.module.scss';
 
-export const Docs = () => {
+const Docs = () => {
   const docs = useAppSelector(selectDocs);
   const dispatch = useAppDispatch();
   const isOpened = useAppSelector(selectisDocsOpened);
@@ -55,3 +55,5 @@ export const Docs = () => {
     </Drawer>
   );
 };
+
+export default Docs;
