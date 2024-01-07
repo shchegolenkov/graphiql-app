@@ -76,7 +76,7 @@ const editorSlice = createSlice({
     builder.addCase(fetchOutput.rejected, (state, { payload }) => {
       state.isLoading = false;
       state.error = payload?.message || 'Something went wrong :(';
-      state.output = `${payload?.message}}`;
+      state.output = `${payload?.message}`;
     });
   },
 });
