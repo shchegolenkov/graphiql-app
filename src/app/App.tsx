@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { useAuth } from '../hooks/useAuth';
 import { fetchUser } from '../firebase';
-import { LangContext } from '../context/langContext';
+import { LanguageProvider } from '../context/langContext';
 import { RouteLinks } from '../utils/types';
 
 import { ProtectedRoute } from '../components/ProtectedRoute/ProtectedRoute';
@@ -15,24 +15,15 @@ import { Header } from '../components/Header';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const [lang, setLang] = useState('en');
-
   const { isAuth } = useAuth();
 
   useEffect(() => {
     fetchUser();
   }, []);
 
-  const switchLang = () => {
-    const newLang = lang === 'en' ? 'ru' : 'en';
-    setLang(newLang);
-  };
-
   return (
     <>
-      <LangContext.Provider
-        value={{ language: lang, switchLanguage: switchLang }}
-      >
+      <LanguageProvider>
         <Header />
         <Routes>
           <Route path={RouteLinks.Welcome} element={<Welcome />} />
@@ -68,7 +59,7 @@ function App() {
           autoClose={3000}
           draggable={false}
         />
-      </LangContext.Provider>
+      </LanguageProvider>
     </>
   );
 }

@@ -6,7 +6,7 @@ import store from '../../store/store';
 import * as useAuthModule from '../../hooks/useAuth';
 import * as firebaseModule from '../../firebase';
 import { Header } from './index';
-import { LangContext } from '../../context/langContext';
+import { LanguageProvider } from '../../context/langContext';
 
 beforeEach(cleanup);
 
@@ -14,11 +14,9 @@ it('renders Header component correctly', () => {
   const { container } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <LangContext.Provider
-          value={{ language: 'en', switchLanguage: () => {} }}
-        >
+        <LanguageProvider>
           <Header />
-        </LangContext.Provider>
+        </LanguageProvider>
       </Provider>
     </BrowserRouter>
   );
@@ -39,11 +37,9 @@ it('logs out user when Logout button is clicked', async () => {
   const { getByLabelText } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <LangContext.Provider
-          value={{ language: 'en', switchLanguage: () => {} }}
-        >
+        <LanguageProvider>
           <Header />
-        </LangContext.Provider>
+        </LanguageProvider>
       </Provider>
     </BrowserRouter>
   );
@@ -64,11 +60,9 @@ it('renders Sign In link correctly when user is not authenticated', () => {
   const { getByLabelText } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <LangContext.Provider
-          value={{ language: 'en', switchLanguage: () => {} }}
-        >
+        <LanguageProvider>
           <Header />
-        </LangContext.Provider>
+        </LanguageProvider>
       </Provider>
     </BrowserRouter>
   );
@@ -89,11 +83,9 @@ it('renders Logout link correctly when user is authenticated', () => {
   const { getByLabelText } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <LangContext.Provider
-          value={{ language: 'en', switchLanguage: () => {} }}
-        >
+        <LanguageProvider>
           <Header />
-        </LangContext.Provider>
+        </LanguageProvider>
       </Provider>
     </BrowserRouter>
   );

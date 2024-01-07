@@ -23,7 +23,7 @@
 
   p {
     @media (max-width: 576px) {
-        display: none;
+      display: none;
     }
   }
 }
@@ -59,7 +59,7 @@
   &:hover .authIcon * {
     stroke: $color-element-active;
   }
-  
+
   @media (max-width: 576px) {
     min-width: 60px;
   }

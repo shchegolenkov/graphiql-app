@@ -4,18 +4,16 @@ import { Provider } from 'react-redux';
 import store from '../../store/store';
 import { Main } from './Main';
 import { defaultHeaders } from '../../utils/utils';
-import { LangContext } from '../../context/langContext';
+import { LanguageProvider } from '../../context/langContext';
 
 describe('Main', () => {
   it('renders without errors', () => {
     // Arrange
     const component = render(
       <Provider store={store}>
-        <LangContext.Provider
-          value={{ language: 'en', switchLanguage: () => {} }}
-        >
+        <LanguageProvider>
           <Main />
-        </LangContext.Provider>
+        </LanguageProvider>
       </Provider>
     );
 
@@ -27,11 +25,9 @@ describe('Main', () => {
     // Arrange
     const component = render(
       <Provider store={store}>
-        <LangContext.Provider
-          value={{ language: 'en', switchLanguage: () => {} }}
-        >
+        <LanguageProvider>
           <Main />
-        </LangContext.Provider>
+        </LanguageProvider>
       </Provider>
     );
 
@@ -55,11 +51,9 @@ describe('Main', () => {
     // Arrange
     const component = render(
       <Provider store={store}>
-        <LangContext.Provider
-          value={{ language: 'en', switchLanguage: () => {} }}
-        >
+        <LanguageProvider>
           <Main />
-        </LangContext.Provider>
+        </LanguageProvider>
       </Provider>
     );
 

@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../../store/store';
 import { RouteLinks } from '../../utils/types';
-import { LangContext } from '../../context/langContext';
+import { LanguageProvider } from '../../context/langContext';
 import { SignIn } from './Signin';
 
 beforeEach(cleanup);
@@ -13,11 +13,9 @@ it('renders SignIn component correctly', () => {
   const { container } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <LangContext.Provider
-          value={{ language: 'en', switchLanguage: () => {} }}
-        >
+        <LanguageProvider>
           <SignIn />
-        </LangContext.Provider>
+        </LanguageProvider>
       </Provider>
     </BrowserRouter>
   );
@@ -29,11 +27,9 @@ it('submits form with valid data and redirects to Main', async () => {
   const { getByLabelText } = render(
     <BrowserRouter>
       <Provider store={store}>
-        <LangContext.Provider
-          value={{ language: 'en', switchLanguage: () => {} }}
-        >
+        <LanguageProvider>
           <SignIn />
-        </LangContext.Provider>
+        </LanguageProvider>
       </Provider>
     </BrowserRouter>
   );
