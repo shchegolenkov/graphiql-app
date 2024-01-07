@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+import { LanguageProvider } from './context/langContext';
 import { themeOptions } from './utils/theme';
 import store from './store/store';
 import App from './app/App';
@@ -19,9 +21,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <ErrorBoundary>
-            <App />
-          </ErrorBoundary>
+          <LanguageProvider>
+            <ErrorBoundary>
+              <App />
+            </ErrorBoundary>
+          </LanguageProvider>
         </ThemeProvider>
       </Provider>
     </BrowserRouter>

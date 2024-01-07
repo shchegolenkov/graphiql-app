@@ -4,7 +4,6 @@ import { ToastContainer } from 'react-toastify';
 
 import { useAuth } from '../hooks/useAuth';
 import { fetchUser } from '../firebase';
-import { LanguageProvider } from '../context/langContext';
 import { RouteLinks } from '../utils/types';
 
 import { ProtectedRoute } from '../components/ProtectedRoute/ProtectedRoute';
@@ -23,43 +22,41 @@ function App() {
 
   return (
     <>
-      <LanguageProvider>
-        <Header />
-        <Routes>
-          <Route path={RouteLinks.Welcome} element={<Welcome />} />
-          <Route
-            path={RouteLinks.SignIn}
-            element={
-              <ProtectedRoute user={!isAuth} route="main">
-                <SignIn />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={RouteLinks.SignUp}
-            element={
-              <ProtectedRoute user={!isAuth} route="main">
-                <SignUp />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={RouteLinks.Main}
-            element={
-              <ProtectedRoute user={isAuth} route="welcome">
-                <Main />
-              </ProtectedRoute>
-            }
-          />
-          <Route path={RouteLinks.NotFound} element={<NotFound />} />
-        </Routes>
-        <Footer />
-        <ToastContainer
-          position="bottom-right"
-          autoClose={3000}
-          draggable={false}
+      <Header />
+      <Routes>
+        <Route path={RouteLinks.Welcome} element={<Welcome />} />
+        <Route
+          path={RouteLinks.SignIn}
+          element={
+            <ProtectedRoute user={!isAuth} route="main">
+              <SignIn />
+            </ProtectedRoute>
+          }
         />
-      </LanguageProvider>
+        <Route
+          path={RouteLinks.SignUp}
+          element={
+            <ProtectedRoute user={!isAuth} route="main">
+              <SignUp />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={RouteLinks.Main}
+          element={
+            <ProtectedRoute user={isAuth} route="welcome">
+              <Main />
+            </ProtectedRoute>
+          }
+        />
+        <Route path={RouteLinks.NotFound} element={<NotFound />} />
+      </Routes>
+      <Footer />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        draggable={false}
+      />
     </>
   );
 }
