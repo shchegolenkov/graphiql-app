@@ -20,6 +20,7 @@ interface UserState {
   isDocsActive: boolean;
   isDocsOpened: boolean;
   error?: string;
+  variables: string;
 }
 
 const initialState: UserState = {
@@ -35,6 +36,7 @@ const initialState: UserState = {
   docs: null,
   isDocsActive: false,
   isDocsOpened: false,
+  variables: '',
 };
 
 const editorSlice = createSlice({
@@ -64,6 +66,9 @@ const editorSlice = createSlice({
     },
     setHeaders(state, action) {
       state.headers = action.payload;
+    },
+    setVariables(state, action) {
+      state.variables = action.payload;
     },
     setDocs(state, action) {
       state.docs = action.payload;
@@ -105,6 +110,7 @@ export const {
   setIsHeadersActive,
   setHeaders,
   setIsVariablesActive,
+  setVariables,
   setIsLoading,
   setIsEndpointOpen,
   setEndpoint,

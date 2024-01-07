@@ -118,6 +118,10 @@ textarea {
   outline: none;
   border: none;
   overflow: auto;
+
+  &::placeholder {
+    color: $color-lines;
+  }
 }
 
 .utilitiesWrapper {
@@ -197,6 +201,10 @@ textarea {
     height: 23px;
     color: transparent;
     overflow: hidden;
+
+    &::placeholder {
+      color: transparent;
+    }
   }
 }
 
@@ -524,6 +532,10 @@ textarea {
   .utilitiesWrapper {
     flex-direction: column;
     gap: 0px;
+
+    textarea:not(:disabled) {
+      height: 7dvh;
+    }
 
     .headersWrapper,
     .variablesWrapper {
