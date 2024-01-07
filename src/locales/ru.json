@@ -7,5 +7,9 @@
   "header_logout_button": "Выйти",
 
   "not_found_text": "Страница не найдена...",
-  "not_found_button": "Назад"
+  "not_found_button": "Назад",
+
+  "main_headers": "Заголовки",
+  "main_variables": "Переменные",
+  "main_prettify": "Украсить!"
 }
