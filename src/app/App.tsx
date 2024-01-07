@@ -4,7 +4,6 @@ import { ToastContainer } from 'react-toastify';
 
 import { useAuth } from '../hooks/useAuth';
 import { fetchUser } from '../firebase';
-
 import { RouteLinks } from '../utils/types';
 
 import { ProtectedRoute } from '../components/ProtectedRoute/ProtectedRoute';

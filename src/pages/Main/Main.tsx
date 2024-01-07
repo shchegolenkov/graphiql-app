@@ -11,6 +11,7 @@ import {
 import clsx from 'clsx';
 import { Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hook';
+import { useLanguage } from '../../hooks/useLanguage';
 
 import {
   selectHeaders,
@@ -58,6 +59,8 @@ import { fetchOutput } from '../../store/editor/actions';
 export const Main = () => {
   const editorRef = useRef(null);
   const dispatch = useAppDispatch();
+
+  const lang = useLanguage();
 
   const [lineNumber, setLineNumber] = useState<number[]>(getNumericArray(10));
   const [isUpdated, setIsUpdated] = useState(false);
@@ -232,7 +235,7 @@ export const Main = () => {
                 })}
               >
                 <button onClick={handleHeadersClick} className={styles.fold}>
-                  Headers&nbsp;
+                  {lang.main_headers}&nbsp;
                   <img src={fold} alt="" />
                 </button>
                 <textarea
@@ -261,7 +264,7 @@ export const Main = () => {
                   variant="contained"
                   className={styles.prettify}
                 >
-                  Prettify!
+                  {lang.main_prettify}
                 </Button>
               </div>
               <div
@@ -270,7 +273,7 @@ export const Main = () => {
                 })}
               >
                 <button onClick={handleVariablesClick} className={styles.fold}>
-                  Variables&nbsp;
+                  {lang.main_variables}&nbsp;
                   <img src={fold} alt="" />
                 </button>
                 <textarea

@@ -3,6 +3,7 @@ import { render, fireEvent, cleanup } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../../store/store';
+import { LanguageProvider } from '../../context/langContext';
 import { RouteLinks } from '../../utils/types';
 import Modal from './Modal';
 
@@ -13,7 +14,9 @@ describe('Modal component', () => {
     const component = render(
       <BrowserRouter>
         <Provider store={store}>
-          <Modal />
+          <LanguageProvider>
+            <Modal />
+          </LanguageProvider>
         </Provider>
       </BrowserRouter>
     );

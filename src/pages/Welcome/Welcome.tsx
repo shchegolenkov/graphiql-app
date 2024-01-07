@@ -3,6 +3,7 @@ import clsx from 'clsx';
 
 import { selectModalActive } from '../../store/modal/selectors';
 import { useAppSelector } from '../../hooks/redux-hook';
+import { useLanguage } from '../../hooks/useLanguage';
 
 import EgorImage from '../../assets/images/egorImage.jpg';
 import DenisImage from '../../assets/images/denisImage.jpg';
@@ -13,29 +14,28 @@ import Modal from '../../components/Modal/Modal';
 import styles from './Welcome.module.scss';
 
 export const Welcome = () => {
+  const lang = useLanguage();
+
   const { isModalActive } = useAppSelector(selectModalActive);
 
   const team = [
     {
-      name: 'Egor',
+      name: lang.welcome_team_member_1_name,
       github: 'https://github.com/ygrcore',
       image: EgorImage,
-      description:
-        'I participated in various coding online courses to further enhance my skills. I have a  passion for frontend and strive to stay updated with the latest industry trends and best practices.',
+      description: lang.welcome_team_member_1_about,
     },
     {
-      name: 'Denis',
+      name: lang.welcome_team_member_2_name,
       github: 'https://github.com/shchegolenkov',
       image: DenisImage,
-      description:
-        'Learning Frontend from 2022. Passionate about building web apps from scratch and enhancing existing ones. Always looking for opportunities to sharpen my skills.',
+      description: lang.welcome_team_member_2_about,
     },
     {
-      name: 'Pavel',
+      name: lang.welcome_team_member_3_name,
       github: 'https://github.com/Svygzhryr',
       image: PavelImage,
-      description:
-        'I love solving problems and keeping up with the latest tech trends. When I am not coding, I explore the tech community for inspiration and to fuel my creative solutions.',
+      description: lang.welcome_team_member_3_about,
     },
   ];
 
@@ -43,20 +43,21 @@ export const Welcome = () => {
     <main>
       <div className={styles.wrapper}>
         <div className={clsx(styles.block, styles.headingBlock)}>
-          <h1>Welcome to GraphQL online IDE</h1>
+          <h1>{lang.welcome_header_text}</h1>
           <h3>
-            A perfect tool for writing, validating and testing GraphQL queries.
-            <br /> Please sign in or create an account and start using it!
+            {lang.welcome_subheader_text}
+            <br />
+            {lang.welcome_action_text}
           </h3>
-          <h3>The app was made on the RS School React 2023Q4 course.</h3>
+          <h3>{lang.welcome_made_text}</h3>
         </div>
         <div className={styles.block}>
-          <h2>Our team</h2>
+          <h2>{lang.welcome_team_header}</h2>
         </div>
         <div className={styles.teamBlock}>
           {team.map((member) => (
             <div
-              key={member.name}
+              key={member.github}
               className={clsx(styles.block, styles.memberBlock)}
             >
               <Link to={member.github} target="_blank" className={styles.link}>

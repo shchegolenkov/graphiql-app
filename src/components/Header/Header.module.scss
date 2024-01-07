@@ -20,14 +20,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  p {
+    @media (max-width: 576px) {
+      display: none;
+    }
+  }
 }
 
 .navBlock {
   display: flex;
-  gap: 60px;
+  gap: 20px;
 
-  @media (max-width: 576px) {
-    gap: 15px;
+  @media (max-width: 640px) {
+    gap: 0;
   }
 }
 
@@ -37,6 +43,7 @@
   align-items: center;
   justify-content: center;
   gap: 2px;
+  min-width: 115px;
   background-color: transparent;
   border: none;
   color: inherit;
@@ -51,6 +58,10 @@
 
   &:hover .authIcon * {
     stroke: $color-element-active;
+  }
+
+  @media (max-width: 576px) {
+    min-width: 60px;
   }
 }
 

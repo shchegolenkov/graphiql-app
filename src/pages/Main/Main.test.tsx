@@ -4,13 +4,16 @@ import { Provider } from 'react-redux';
 import store from '../../store/store';
 import { Main } from './Main';
 import { defaultHeaders } from '../../utils/utils';
+import { LanguageProvider } from '../../context/langContext';
 
 describe('Main', () => {
   it('renders without errors', () => {
     // Arrange
     const component = render(
       <Provider store={store}>
-        <Main />
+        <LanguageProvider>
+          <Main />
+        </LanguageProvider>
       </Provider>
     );
 
@@ -22,7 +25,9 @@ describe('Main', () => {
     // Arrange
     const component = render(
       <Provider store={store}>
-        <Main />
+        <LanguageProvider>
+          <Main />
+        </LanguageProvider>
       </Provider>
     );
 
@@ -46,7 +51,9 @@ describe('Main', () => {
     // Arrange
     const component = render(
       <Provider store={store}>
-        <Main />
+        <LanguageProvider>
+          <Main />
+        </LanguageProvider>
       </Provider>
     );
 
@@ -58,7 +65,7 @@ describe('Main', () => {
     });
 
     // Assert
-    const endpointEditorModal = component.getByText('Change endpoint');
+    const endpointEditorModal = component.getByLabelText('Change endpoint');
     expect(endpointEditorModal).toBeTruthy();
   });
 });

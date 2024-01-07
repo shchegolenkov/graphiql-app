@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import clsx from 'clsx';
 
 import { useAppDispatch } from '../../hooks/redux-hook';
+import { useLanguage } from '../../hooks/useLanguage';
 import { openModal } from '../../store/modal/modal.slice';
 
 import { signupSchema } from '../../utils/validation';
@@ -18,6 +19,7 @@ import styles from './SignUp.module.scss';
 export const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const lang = useLanguage();
 
   const {
     register,
@@ -47,7 +49,7 @@ export const SignUp = () => {
   return (
     <main>
       <div className={styles.wrapper}>
-        <h2>Sign Up</h2>
+        <h2>{lang.sign_up_header}</h2>
         <form
           onSubmit={handleSubmit(onSubmitHandler)}
           className={styles.formWrapper}
@@ -57,7 +59,8 @@ export const SignUp = () => {
             {...register('email')}
             helperText={errors.email?.message || ' '}
             className={styles.input}
-            label="Email"
+            label={lang.form_input_email}
+            aria-label="Email"
             type="email"
             autoComplete="email"
           />
@@ -66,7 +69,8 @@ export const SignUp = () => {
             {...register('password')}
             helperText={errors.password?.message || ' '}
             className={styles.input}
-            label="Password"
+            label={lang.form_input_password}
+            aria-label="Password"
             type="password"
             autoComplete="new-password"
           />
@@ -75,7 +79,8 @@ export const SignUp = () => {
             {...register('confirmPassword')}
             helperText={errors.confirmPassword?.message || ' '}
             className={styles.input}
-            label="Confirm Password"
+            label={lang.form_input_confirm_password}
+            aria-label="Confirm password"
             type="password"
             autoComplete="new-password"
           />
@@ -83,13 +88,14 @@ export const SignUp = () => {
             type="submit"
             className={clsx(styles.button, { [styles.loader]: isLoading })}
             variant="contained"
+            aria-label="Sign up"
             disabled={isLoading}
           >
-            <p>Sign up</p>
+            <Typography>{lang.sign_up_button}</Typography>
           </Button>
         </form>
-        <Typography>Already have an account?</Typography>
-        <Link to={RouteLinks.SignIn}>Log in</Link>
+        <Typography>{lang.sign_up_question}</Typography>
+        <Link to={RouteLinks.SignIn}>{lang.sign_up_login_link}</Link>
       </div>
     </main>
   );

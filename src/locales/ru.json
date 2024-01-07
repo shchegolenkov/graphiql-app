@@ -1,0 +1,49 @@
+{
+  "header_translate_button": "Язык",
+  "header_welcome_page_button": "Приветствие",
+  "header_main_page_button": "Главная",
+  "header_sign_in_button": "Войти",
+  "header_sign_up_button": "Присоединиться",
+  "header_logout_button": "Выйти",
+
+  "not_found_text": "Страница не найдена...",
+  "not_found_button": "Назад",
+
+  "main_headers": "Заголовки",
+  "main_variables": "Переменные",
+  "main_prettify": "Выровнять!",
+
+  "welcome_header_text": "Добро пожаловать в GraphQL online IDE",
+  "welcome_subheader_text": "Это идеальный инструмент для написания, проверки и тестирования запросов GraphQL.",
+  "welcome_action_text": "Пожалуйста, войдите или создайте учетную запись и начните пользоваться!",
+  "welcome_made_text": "Приложение сделано на курсе RS School React 2023Q4.",
+  "welcome_team_header": "Наша команда",
+  "welcome_team_member_1_name": "Егор",
+  "welcome_team_member_1_about": "Я проходил обучение на различных онлайн-курсах по программированию, чтобы улучшить свои навыки. Я увлечен фронтендом и стараюсь быть в курсе последних тенденций отрасли и лучших практик.",
+  "welcome_team_member_2_name": "Денис",
+  "welcome_team_member_2_about": "Изучаю Frontend с 2022 года. Увлекаюсь созданием веб-приложений с нуля и улучшением существующих. Всегда ищу возможности отточить свои навыки.",
+  "welcome_team_member_3_name": "Павел",
+  "welcome_team_member_3_about": "Я люблю решать проблемы и быть в курсе последних технологических трендов. Когда я не занимаюсь кодингом, я изучаю фронтенд-сообщество в поисках вдохновения и новых решений.",
+
+  "form_input_email": "Почта",
+  "form_input_password": "Пароль",
+  "form_input_confirm_password": "Подтвердите пароль",
+
+  "sign_in_header": "Войти",
+  "sign_in_button": "Войти",
+  "sign_in_question": "У вас еще нет аккаунта?",
+  "sign_in_register_link": "Создать",
+
+  "sign_up_header": "Создать учетную запись",
+  "sign_up_button": "Создать",
+  "sign_up_question": "У вас уже есть аккаунт?",
+  "sign_up_login_link": "Войти",
+
+  "endpoint_input": "Введите endpoint",
+  "endpoint_button": "Сменить endpoint",
+
+  "modal_start_header": "Вы успешно вошли в аккаунт",
+  "modal_start_button": "Открыть редактор!",
+
+  "docs_heading": "Дока"
+}
